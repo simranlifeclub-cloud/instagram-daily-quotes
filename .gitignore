@@ -1,0 +1,17 @@
+# Secrets and environment files
+.env
+*.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Output images (optional, comment out if you want to commit generated posts)
+# output/*.png
