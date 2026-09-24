@@ -56,6 +56,6 @@ jobs:
         run: |
           git config --global user.name "Instagram Reels Bot"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add history.json session.json output/
+          git add -A history.json session.json output/
           git commit -m "Auto-post reel to Instagram [skip ci]" || echo "No changes to commit"
           git push
