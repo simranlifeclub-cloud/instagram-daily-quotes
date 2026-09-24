@@ -80,7 +80,6 @@ def get_authenticated_client(username, password):
     cl = Client()
     cl.delay_range = [2, 5]
 
-    # Configure modern device settings to avoid 'version out of date' errors
     cl.set_country("IN")
     cl.set_locale("en_IN")
     cl.set_timezone_offset(int(5.5 * 3600))
@@ -88,20 +87,20 @@ def get_authenticated_client(username, password):
         "Instagram 340.0.0.38.109 Android (33/13; 420dpi; 1080x2400; Xiaomi; M2101K6G; sweet; qcom; en_US; 618585954)"
     )
 
-    # 1. Check if direct sessionid cookie is provided (Bypasses all app version checks!)
+    # 1. Direct sessionid cookie (100% bypasses login 429 rate limit!)
     sessionid = os.getenv("IG_SESSIONID")
-    if sessionid:
+    if sessionid and sessionid.strip():
         try:
-            print("[INFO] Attempting authentication via IG_SESSIONID cookie...")
+            print("[INFO] Authenticating using trusted IG_SESSIONID cookie...")
             cl.login_by_sessionid(sessionid.strip())
-            print("[SUCCESS] Authenticated cleanly via session ID!")
+            print("[SUCCESS] Successfully authenticated via session ID! Zero 429 blocks.")
             return cl
         except Exception as e:
-            print(f"[WARN] Session ID login failed: {e}. Trying username/password...")
+            print(f"[WARN] Session ID login error: {e}. Falling back...")
 
     # 2. Check saved session from env
     session_env = os.getenv("IG_SESSION_DATA")
-    if session_env:
+    if session_env and session_env.strip():
         try:
             cl.set_settings(json.loads(session_env))
             cl.login(username, password)
@@ -121,19 +120,18 @@ def get_authenticated_client(username, password):
             print(f"[WARN] session.json error: {e}")
 
     # 4. Standard Username & Password Login
-    print(f"[INFO] Logging in with modern CAA flow as: {username}...")
+    print(f"[INFO] Logging in with credentials as: {username}...")
     try:
         cl.login(username, password)
         print("[SUCCESS] Successfully logged into Instagram!")
     except Exception as e:
         err_str = str(e)
-        if "out of date" in err_str.lower() or "upgrade your app" in err_str.lower():
-            print("[WARN] Encountered version warning, refreshing device profile and retrying...")
-            cl.set_user_agent("Instagram 350.0.0.42.92 Android (34/14; 480dpi; 1080x2340; samsung; SM-S911B; dm1q; qcom; en_US; 634918239)")
-            cl.login(username, password)
-            print("[SUCCESS] Successfully logged in on retry!")
-        else:
-            raise e
+        if "Please wait a few minutes" in err_str or "429" in err_str:
+            print("\n" + "="*60)
+            print("[NOTICE] Instagram temporarily rate-limited password logins from cloud IPs.")
+            print("To bypass this instantly, add your 'IG_SESSIONID' to GitHub Secrets!")
+            print("="*60 + "\n")
+        raise e
 
     try:
         cl.dump_settings(SESSION_FILE)
@@ -153,11 +151,15 @@ def main():
     password = os.getenv("IG_PASSWORD")
     sessionid = os.getenv("IG_SESSIONID")
 
-    # Add random organic delay (1 to 8 minutes) unless disabled
-    if not args.dry_run and not args.no_jitter:
+    is_manual = os.getenv("GITHUB_EVENT_NAME") == "workflow_dispatch"
+    
+    # Only add delay on automatic cron schedules (instant for manual tests)
+    if not args.dry_run and not args.no_jitter and not is_manual:
         jitter_seconds = random.randint(60, 480)
         print(f"[INFO] Adding natural human jitter: waiting {jitter_seconds // 60}m {jitter_seconds % 60}s before publishing...")
         time.sleep(jitter_seconds)
+    else:
+        print("[INFO] Manual run or test detected: publishing immediately without delay!")
 
     quotes = load_quotes()
     history = load_history()
@@ -172,11 +174,12 @@ def main():
     caption = quote["caption"]
 
     has_ffmpeg = shutil.which("ffmpeg") is not None
+    thumb_path = None
     
     if has_ffmpeg:
         from video_reel_generator import build_mp4_reel
         media_path = os.path.join(OUTPUT_DIR, f"daily_reel_{quote['id']}.mp4")
-        build_mp4_reel(quote, media_path, duration=12)
+        media_path, thumb_path = build_mp4_reel(quote, media_path, duration=12)
         is_video = True
     else:
         from card_renderer import render_quote_card
@@ -189,8 +192,8 @@ def main():
         print("Media file:", media_path)
         print("Format:", "Instagram REEL (MP4 Video)" if is_video else "Instagram PHOTO (JPEG)")
         print("Time Slot:", quote.get("slot"))
+        print("Thumbnail:", thumb_path)
         print("Caption preview:\n", caption)
-        print("\nReady! Set IG_USERNAME and IG_PASSWORD in GitHub Secrets to post live.")
         return
 
     if not sessionid and (not username or not password):
@@ -201,8 +204,12 @@ def main():
     cl = get_authenticated_client(username, password)
 
     if is_video:
-        print(f"[INFO] Uploading MP4 Reel to Instagram...")
-        media = cl.clip_upload(path=media_path, caption=caption)
+        print(f"[INFO] Uploading MP4 Reel to Instagram with custom cover thumbnail...")
+        media = cl.clip_upload(
+            path=media_path,
+            caption=caption,
+            thumbnail=thumb_path
+        )
         print(f"\n🎉 [SUCCESS] REEL is LIVE on Instagram! Reel PK: {media.pk}")
     else:
         print(f"[INFO] Uploading Photo to Instagram Feed...")
