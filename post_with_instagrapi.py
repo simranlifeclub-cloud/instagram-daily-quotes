@@ -174,11 +174,12 @@ def main():
     caption = quote["caption"]
 
     has_ffmpeg = shutil.which("ffmpeg") is not None
+    thumb_path = None
     
     if has_ffmpeg:
         from video_reel_generator import build_mp4_reel
         media_path = os.path.join(OUTPUT_DIR, f"daily_reel_{quote['id']}.mp4")
-        build_mp4_reel(quote, media_path, duration=12)
+        media_path, thumb_path = build_mp4_reel(quote, media_path, duration=12)
         is_video = True
     else:
         from card_renderer import render_quote_card
@@ -191,6 +192,7 @@ def main():
         print("Media file:", media_path)
         print("Format:", "Instagram REEL (MP4 Video)" if is_video else "Instagram PHOTO (JPEG)")
         print("Time Slot:", quote.get("slot"))
+        print("Thumbnail:", thumb_path)
         print("Caption preview:\n", caption)
         return
 
@@ -202,8 +204,12 @@ def main():
     cl = get_authenticated_client(username, password)
 
     if is_video:
-        print(f"[INFO] Uploading MP4 Reel to Instagram...")
-        media = cl.clip_upload(path=media_path, caption=caption)
+        print(f"[INFO] Uploading MP4 Reel to Instagram with custom cover thumbnail...")
+        media = cl.clip_upload(
+            path=media_path,
+            caption=caption,
+            thumbnail=thumb_path
+        )
         print(f"\n🎉 [SUCCESS] REEL is LIVE on Instagram! Reel PK: {media.pk}")
     else:
         print(f"[INFO] Uploading Photo to Instagram Feed...")

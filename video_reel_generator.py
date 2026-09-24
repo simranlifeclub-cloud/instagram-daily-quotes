@@ -4,35 +4,22 @@ import subprocess
 import random
 import numpy as np
 import scipy.io.wavfile as wavfile
-from card_renderer import render_quote_card, create_procedural_background
+from card_renderer import render_quote_card
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_BG = os.path.join(BASE_DIR, "assets", "backgrounds", "serene_sunrise.jpg")
 
-# 5 Aesthetic Color Schemes for Visual Variety
-VISUAL_STYLES = [
-    {"name": "golden_sunrise", "base": (20, 16, 28), "glow": (245, 199, 108)},
-    {"name": "midnight_obsidian", "base": (8, 12, 22), "glow": (100, 180, 245)},
-    {"name": "emerald_forest", "base": (10, 22, 18), "glow": (120, 225, 160)},
-    {"name": "crimson_dusk", "base": (24, 12, 18), "glow": (255, 130, 110)},
-    {"name": "celestial_violet", "base": (18, 12, 28), "glow": (200, 140, 255)}
-]
-
-# Musical Chord Palettes for Audio Variety
 CHORD_PALETTES = [
-    # 1. Sunrise Hope (Fmaj7 -> Am9 -> Bbmaj9)
     [
         {"start": 0.0, "end": 4.0, "notes": [53, 57, 60, 64, 67], "root": 41},
         {"start": 4.0, "end": 8.0, "notes": [45, 60, 64, 67, 71], "root": 45},
         {"start": 8.0, "end": 12.0, "notes": [46, 58, 62, 65, 69], "root": 46}
     ],
-    # 2. Stoic Deep Focus (Dm9 -> Gm7 -> Cmaj7)
     [
         {"start": 0.0, "end": 4.0, "notes": [50, 57, 60, 64, 69], "root": 38},
         {"start": 4.0, "end": 8.0, "notes": [55, 58, 62, 65, 69], "root": 43},
         {"start": 8.0, "end": 12.0, "notes": [48, 55, 60, 64, 67], "root": 36}
     ],
-    # 3. Night Peace & Serenity (Dbmaj7 -> Abmaj7 -> Bbm9)
     [
         {"start": 0.0, "end": 4.0, "notes": [49, 56, 60, 65, 68], "root": 37},
         {"start": 4.0, "end": 8.0, "notes": [44, 56, 60, 63, 67], "root": 44},
@@ -101,17 +88,19 @@ def build_mp4_reel(quote_data, output_mp4, duration=12):
     temp_dir = os.path.join(BASE_DIR, "output", "temp")
     os.makedirs(temp_dir, exist_ok=True)
     
-    card_img = os.path.join(temp_dir, f"card_{quote_data['id']}.png")
+    # Save cover card as JPEG for thumbnail compatibility
+    card_img = os.path.join(temp_dir, f"card_{quote_data['id']}.jpg")
     audio_wav = os.path.join(temp_dir, f"audio_{quote_data['id']}.wav")
     
-    # Render with background
+    # 1. Render custom cover card thumbnail
     render_quote_card(quote_data, card_img, DEFAULT_BG)
+    
+    # 2. Synthesize audio
     synthesize_ambient_audio(audio_wav, duration=duration)
     
     fps = 30
     total_frames = int(duration * fps)
     
-    # Randomize zoom direction (slow zoom in OR slow zoom out)
     zoom_expr = "min(zoom+0.0003,1.06)" if random.random() > 0.5 else "max(1.06-0.0003*on,1.0)"
     
     cmd = [
@@ -140,4 +129,4 @@ def build_mp4_reel(quote_data, output_mp4, duration=12):
             raise RuntimeError(f"FFmpeg failed: {fb_res.stderr}")
             
     print(f"[SUCCESS] High-retention Reel ready: {output_mp4}")
-    return output_mp4
+    return output_mp4, card_img
