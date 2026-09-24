@@ -30,15 +30,16 @@ jobs:
 
       - name: Run Daily Instagram Poster
         env:
-          IG_USER_ID: ${{ secrets.IG_USER_ID }}
-          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          IG_USERNAME: ${{ secrets.IG_USERNAME }}
+          IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
+          IG_SESSION_DATA: ${{ secrets.IG_SESSION_DATA }}
         run: |
-          python post_to_instagram.py
+          python post_with_instagrapi.py
 
-      - name: Commit and push posting history
+      - name: Commit and push posting history and session
         run: |
           git config --global user.name "Instagram Automation Bot"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add history.json output/
-          git commit -m "Update daily post history [skip ci]" || echo "No history changes to commit"
+          git add history.json session.json output/
+          git commit -m "Update post history and session [skip ci]" || echo "No changes to commit"
           git push
