@@ -1,122 +1,146 @@
 [
   {
     "id": 1,
-    "category": "DAILY MINDSET • INNER RESILIENCE",
-    "theme": "resilience",
-    "hero_lines": [
-      "The mountain you are carrying,",
-      "you were only meant to climb."
-    ],
+    "slot": "morning",
+    "category": "MORNING MINDSET • RESILIENCE",
+    "hero_lines": ["The mountain you are carrying,", "you were only meant to climb."],
     "subtext": "Trust the quiet season. Your timing is not late — it is preparing you.",
     "footer": "— SAVE & SHARE IF YOU NEEDED THIS —",
-    "caption": "The mountain you are carrying, you were only meant to climb. 🏔️✨\n\nStop rushing what needs time to grow. The silent seasons—the days where nobody claps and nobody notices—are where character is forged and wings are built.\n\nTrust the timing of your life. You are not behind. You are in preparation.\n\n.\n.\n#mindset #motivation #innerpeace #selfgrowth #reels #shorts #discipline #gratitude #dailymotivation"
+    "caption": "The mountain you are carrying, you were only meant to climb. 🏔️✨\n\nStop rushing what needs time to grow. The silent seasons—the days where nobody claps and nobody notices—are where character is forged.\n\nTrust the timing of your life. You are not behind.\n\n.\n.\n#mindset #morningmotivation #innerpeace #selfgrowth #reels #discipline #gratitude #dailymotivation"
   },
   {
     "id": 2,
-    "category": "UNBREAKABLE • COURAGE & GRIT",
-    "theme": "grit",
-    "hero_lines": [
-      "Do not pray for an easy life.",
-      "Build the strength to endure."
-    ],
-    "subtext": "The storm did not come to destroy you; it came to clear your path.",
-    "footer": "— STAND STRONG THROUGH THE STORM —",
-    "caption": "Do not pray for an easy life. Build the strength to endure. ⚡\n\nEvery challenge you face is either breaking you or making you unbreakable. The choice has always been yours.\n\nKeep moving forward, even when the wind blows against you.\n\n.\n.\n#resilience #grit #strength #overcome #keepgoing #hardwork #discipline #motivationquotes #dailywisdom"
+    "slot": "morning",
+    "category": "MORNING FIRE • RELENTLESS FOCUS",
+    "hero_lines": ["Wake up with determination.", "Go to bed with satisfaction."],
+    "subtext": "The price of discipline is always less than the pain of regret.",
+    "footer": "— ATTACK THE DAY WITH PURPOSE —",
+    "caption": "Wake up with determination. Go to bed with satisfaction. ☀️🔥\n\nYou have two choices every morning: stay in bed dreaming, or wake up and build your empire.\n\nMake today count.\n\n.\n.\n#morningmotivation #discipline #relentless #hustle #focus #workethic #dailygrind #entrepreneur"
   },
   {
     "id": 3,
-    "category": "DISCIPLINE • THE LONG GAME",
-    "theme": "discipline",
-    "hero_lines": [
-      "The master has failed more times",
-      "than the beginner has even tried."
-    ],
-    "subtext": "Consistency in the shadows creates brilliance in the spotlight.",
-    "footer": "— EXECUTE SILENTLY EVERY DAY —",
-    "caption": "The master has failed more times than the beginner has even tried. 🎯\n\nBehind every 'overnight success' lies a decade of invisible repetitions. Love the boredom of the fundamentals.\n\nConsistency beats talent when talent forgets to show up.\n\n.\n.\n#consistency #mastery #focus #habits #successmindset #disciplineovermotivation #longgame #mindsetquotes"
+    "slot": "morning",
+    "category": "NEW BEGINNINGS • DAILY COURAGE",
+    "hero_lines": ["Today is not just another day.", "It is another chance to win."],
+    "subtext": "Do not let yesterday take up too much of today. Reset and rise.",
+    "footer": "— STEP INTO YOUR POTENTIAL —",
+    "caption": "Today is a blank page. Write something extraordinary. 🌅\n\nLeave yesterday's mistakes in the past. Your future needs your full presence.\n\n.\n.\n#newday #freshstart #mindset #courage #positivity #riseandgrind #dailymotivation"
   },
   {
     "id": 4,
-    "category": "STRATEGIC FOCUS • INNER PEACE",
-    "theme": "peace",
-    "hero_lines": [
-      "Never announce your moves",
-      "before you make them."
-    ],
-    "subtext": "Work with calm precision, and let your results make the noise.",
-    "footer": "— PROTECT YOUR PEACE AT ALL COSTS —",
-    "caption": "Move in silence. Only speak when it's time to say checkmate. ♟️\n\nThe less you reveal, the more power you retain. Guard your vision, stay focused on the work, and let the outcome speak for itself.\n\n.\n.\n#silentexecution #moveinsilence #focus #strategy #stoic #innerpeace #selfcontrol #calmmind"
+    "slot": "morning",
+    "category": "INNER POWER • CLARITY",
+    "hero_lines": ["Your energy introduces you", "before you even speak."],
+    "subtext": "Guard your peace, elevate your vibration, and radiate calm confidence.",
+    "footer": "— CHOOSE LIGHT AND POWER —",
+    "caption": "Your energy introduces you before you even speak. ✨\n\nProtect your vibe, maintain your standards, and never lower your frequency for anyone.\n\n.\n.\n#energy #alignment #vibratehigher #innerpeace #selfworth #aura #presence"
   },
   {
     "id": 5,
-    "category": "ACTION & FAITH • NEW BEGINNINGS",
-    "theme": "action",
-    "hero_lines": [
-      "You do not need to see",
-      "the entire staircase."
-    ],
-    "subtext": "Just take the first step in faith. Greatness begins beyond comfort.",
-    "footer": "— TAKE THE FIRST STEP TODAY —",
-    "caption": "You do not need to see the entire staircase. Just take the first step in faith. 🌅\n\nOverthinking is the cemetery of great ideas. Progress demands action, not perfection.\n\nStart before you feel ready.\n\n.\n.\n#takeaction #courage #faith #startnow #growthmindset #overthinking #dailyinspiration #positivity"
+    "slot": "midday",
+    "category": "DISCIPLINE • THE LONG GAME",
+    "hero_lines": ["The master has failed more times", "than the beginner has tried."],
+    "subtext": "Consistency in the shadows creates brilliance in the spotlight.",
+    "footer": "— EXECUTE SILENTLY EVERY DAY —",
+    "caption": "The master has failed more times than the beginner has even tried. 🎯\n\nBehind every 'overnight success' lies a decade of invisible repetitions. Love the boredom of the fundamentals.\n\n.\n.\n#consistency #mastery #focus #habits #successmindset #disciplineovermotivation #longgame"
   },
   {
     "id": 6,
-    "category": "SELF WORTH • ELEVATE YOUR STANDARDS",
-    "theme": "mindset",
-    "hero_lines": [
-      "Stop shrinking yourself",
-      "to fit into places you outgrew."
-    ],
-    "subtext": "Growth is uncomfortable because you have never been this version of you before.",
-    "footer": "— OWN YOUR EVOLUTION WITHOUT APOLOGY —",
-    "caption": "Stop shrinking yourself to fit into places you outgrew. 🦋\n\nIt is okay if people from your past cannot access your future. Maturity is accepting that some doors must close so new ones can swing wide open.\n\nHonor who you are becoming.\n\n.\n.\n#selfworth #boundaries #elevation #growth #transformation #evolve #healingjourney #empowerment"
+    "slot": "midday",
+    "category": "HABITS & PATIENCE • COMPOUND EFFECT",
+    "hero_lines": ["Small daily disciplines", "compound into extraordinary results."],
+    "subtext": "You do not decide your future. You decide your habits.",
+    "footer": "— MASTER THE SMALL THINGS —",
+    "caption": "You don't decide your future. You decide your habits, and your habits decide your future. 📈\n\n1% better every day means 37 times better in one year. Keep compounding.\n\n.\n.\n#compounding #habits #atomicmindset #patience #dailyroutine #productivity"
   },
   {
     "id": 7,
-    "category": "HABITS & PATIENCE • COMPOUND EFFECT",
-    "theme": "discipline",
-    "hero_lines": [
-      "Small daily disciplines",
-      "compound into extraordinary results."
-    ],
-    "subtext": "You do not decide your future. You decide your habits, and your habits decide your future.",
-    "footer": "— MASTER THE SMALL THINGS —",
-    "caption": "You don't decide your future. You decide your habits, and your habits decide your future. 📈\n\n1% better every day means 37 times better in one year. Never underestimate the compounding power of patience and quiet dedication.\n\n.\n.\n#compounding #habits #atomicmindset #patience #dailyroutine #productivity #successprinciples"
+    "slot": "midday",
+    "category": "RELENTLESS EXECUTION • NO EXCUSES",
+    "hero_lines": ["Don't count the days.", "Make the days count."],
+    "subtext": "Action cures fear. Motion creates momentum. Keep building.",
+    "footer": "— LOCK IN ON YOUR GOALS —",
+    "caption": "Don't count the days. Make the days count. ⏱️⚡\n\nWaiting for the 'perfect moment' is just procrastination in disguise. Start now.\n\n.\n.\n#execution #hustle #momentum #productivity #actiontaker #goals #focus"
   },
   {
     "id": 8,
-    "category": "MORNING FIRE • RELENTLESS FOCUS",
-    "theme": "action",
-    "hero_lines": [
-      "Wake up with determination.",
-      "Go to bed with satisfaction."
-    ],
-    "subtext": "The price of discipline is always less than the pain of regret.",
-    "footer": "— ATTACK THE DAY WITH PURPOSE —",
-    "caption": "Wake up with determination. Go to bed with satisfaction. ☀️🔥\n\nYou have two choices every morning: stay in bed dreaming, or wake up and chase what's yours.\n\nMake today count.\n\n.\n.\n#morningmotivation #discipline #relentless #hustle #focus #workethic #dailygrind #entrepreneur"
+    "slot": "afternoon",
+    "category": "UNBREAKABLE • COURAGE & GRIT",
+    "hero_lines": ["Do not pray for an easy life.", "Build the strength to endure."],
+    "subtext": "The storm did not come to destroy you; it came to clear your path.",
+    "footer": "— STAND STRONG THROUGH THE STORM —",
+    "caption": "Do not pray for an easy life. Build the strength to endure. ⚡\n\nEvery challenge you face is either breaking you or making you unbreakable. The choice has always been yours.\n\n.\n.\n#resilience #grit #strength #overcome #keepgoing #hardwork #discipline"
   },
   {
     "id": 9,
+    "slot": "afternoon",
     "category": "CALM UNDER PRESSURE • STOIC WISDOM",
-    "theme": "peace",
-    "hero_lines": [
-      "You cannot control the storm,",
-      "but you can master your ship."
-    ],
+    "hero_lines": ["You cannot control the storm,", "but you can master your ship."],
     "subtext": "Peace of mind is not the absence of chaos; it is mastery within it.",
     "footer": "— BREATHE • ANCHOR • PREVAIL —",
-    "caption": "You cannot control the storm, but you can master your ship. 🌊⚓\n\nExternal events have no power over your character unless you surrender it. Stay centered, breathe, and act with clarity.\n\n.\n.\n#stoicism #innercalm #mindfulness #resilience #emotionalintelligence #peaceofmind #mentalstrength"
+    "caption": "You cannot control the storm, but you can master your ship. 🌊⚓\n\nExternal events have no power over your character unless you surrender it. Stay centered and act with clarity.\n\n.\n.\n#stoicism #innercalm #mindfulness #resilience #emotionalintelligence #peaceofmind"
   },
   {
     "id": 10,
-    "category": "FEARLESS EXECUTION • BREAKTHROUGH",
-    "theme": "courage",
-    "hero_lines": [
-      "Everything you ever wanted",
-      "is on the other side of fear."
-    ],
-    "subtext": "Doubt kills more dreams than failure ever will. Trust your power.",
-    "footer": "— STEP FORWARD WITHOUT HESITATION —",
-    "caption": "Everything you have ever wanted is waiting on the other side of fear. 🦅\n\nFear is just an illusion disguised as caution. When you dare to take the leap, the net will appear.\n\n.\n.\n#fearless #breakthrough #courage #takeleaps #believeinyourself #unbreakable #dreambig"
+    "slot": "afternoon",
+    "category": "FEARLESS ATTITUDE • RESILIENCE",
+    "hero_lines": ["Pain is temporary.", "Quitting lasts forever."],
+    "subtext": "When you feel like stopping, remember why you started.",
+    "footer": "— PUSH THROUGH THE WALL —",
+    "caption": "Pain is temporary. Quitting lasts forever. 💥\n\nThe breakthrough you are searching for is hiding right behind the discomfort you are avoiding.\n\n.\n.\n#breakthrough #nevergiveup #persevere #grit #mentalstrength #unshakable"
+  },
+  {
+    "id": 11,
+    "slot": "evening",
+    "category": "STRATEGIC FOCUS • INNER PEACE",
+    "hero_lines": ["Never announce your moves", "before you make them."],
+    "subtext": "Work with calm precision, and let your results make the noise.",
+    "footer": "— PROTECT YOUR PEACE AT ALL COSTS —",
+    "caption": "Move in silence. Only speak when it's time to say checkmate. ♟️\n\nThe less you reveal, the more power you retain. Guard your vision, stay focused on the work.\n\n.\n.\n#silentexecution #moveinsilence #focus #strategy #stoic #innerpeace #selfcontrol"
+  },
+  {
+    "id": 12,
+    "slot": "evening",
+    "category": "SELF WORTH • ELEVATE YOUR STANDARDS",
+    "hero_lines": ["Stop shrinking yourself", "to fit into places you outgrew."],
+    "subtext": "Growth is uncomfortable because you have never been this version before.",
+    "footer": "— OWN YOUR EVOLUTION WITHOUT APOLOGY —",
+    "caption": "Stop shrinking yourself to fit into places you outgrew. 🦋\n\nIt is okay if people from your past cannot access your future. Honor who you are becoming.\n\n.\n.\n#selfworth #boundaries #elevation #growth #transformation #evolve #healingjourney"
+  },
+  {
+    "id": 13,
+    "slot": "evening",
+    "category": "QUIET POWER • MATURITY",
+    "hero_lines": ["Confidence is quiet.", "Insecurities are loud."],
+    "subtext": "You do not need to prove anything to anyone who isn't running your race.",
+    "footer": "— WALK IN SILENT CERTAINTY —",
+    "caption": "Confidence is quiet. Insecurities are loud. 🤫✨\n\nTrue strength never seeks validation. Keep your eyes on your lane.\n\n.\n.\n#confidence #innerstrength #authenticity #selfassurance #standards #peace"
+  },
+  {
+    "id": 14,
+    "slot": "night",
+    "category": "ACTION & FAITH • SURRENDER",
+    "hero_lines": ["You do not need to see", "the entire staircase."],
+    "subtext": "Just take the first step in faith. Greatness begins beyond comfort.",
+    "footer": "— REST WITH COMPLETE TRUST —",
+    "caption": "You do not need to see the entire staircase. Just take the first step in faith. 🌌\n\nRelease the need to know everything tonight. Trust the unfolding journey.\n\n.\n.\n#faith #surrender #trusttheprocess #innerpeace #nightreflection #letgo"
+  },
+  {
+    "id": 15,
+    "slot": "night",
+    "category": "NIGHT PEACE • DEEP REST",
+    "hero_lines": ["Forgive the heavy thoughts.", "Tonight, give your mind rest."],
+    "subtext": "You did the best you could today. Tomorrow brings new mercies and strength.",
+    "footer": "— SLEEP IN PEACE • WAKE IN POWER —",
+    "caption": "Forgive the heavy thoughts. Tonight, give your mind rest. 🌙🤍\n\nClose the open tabs in your mind. Rest is not a reward—it is a requirement.\n\nGoodnight.\n\n.\n.\n#peacefulsleep #mentalrest #healing #gratitude #selflove #nightthoughts #serenity"
+  },
+  {
+    "id": 16,
+    "slot": "night",
+    "category": "FEARLESS VISION • DESTINY",
+    "hero_lines": ["Everything you ever wanted", "is on the other side of fear."],
+    "subtext": "Doubt kills more dreams than failure ever will. Believe in your light.",
+    "footer": "— DREAM WITHOUT LIMITS —",
+    "caption": "Everything you have ever wanted is waiting on the other side of fear. 🦅✨\n\nDream fearlessly tonight. Tomorrow, take the leap.\n\n.\n.\n#dreambig #unlimited #courage #fearless #destiny #manifestation #believe"
   }
 ]
