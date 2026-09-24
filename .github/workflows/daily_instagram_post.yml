@@ -1,0 +1,60 @@
+name: Auto Instagram Reels Daily Publisher (5 Reels/Day)
+
+on:
+  schedule:
+    # 5 Daily Schedules in Indian Standard Time (IST) [UTC = IST - 5:30]
+    # Reel 1: 07:00 AM IST (01:30 UTC) - Morning Mindset & Ambition
+    - cron: '30 1 * * *'
+    # Reel 2: 10:30 AM IST (05:00 UTC) - Focus & Work Ethic
+    - cron: '0 5 * * *'
+    # Reel 3: 01:30 PM IST (08:00 UTC) - Afternoon Resilience & Grit
+    - cron: '0 8 * * *'
+    # Reel 4: 06:00 PM IST (12:30 UTC) - Evening Discipline & Growth
+    - cron: '30 12 * * *'
+    # Reel 5: 09:30 PM IST (16:00 UTC) - Night Peace & Self-Belief
+    - cron: '0 16 * * *'
+
+  workflow_dispatch: # Allows manual 1-click test trigger anytime from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  publish_reel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install FFmpeg (For 9:16 Video Reel Encoding)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate & Publish Reel to Instagram
+        env:
+          IG_USERNAME: ${{ secrets.IG_USERNAME }}
+          IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
+          IG_SESSION_DATA: ${{ secrets.IG_SESSION_DATA }}
+        run: |
+          python post_with_instagrapi.py
+
+      - name: Save Session & Update Posting History
+        run: |
+          git config --global user.name "Instagram Reels Bot"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add history.json session.json output/
+          git commit -m "Auto-post reel to Instagram [skip ci]" || echo "No changes to commit"
+          git push
