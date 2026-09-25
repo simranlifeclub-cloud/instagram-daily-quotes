@@ -7,12 +7,14 @@ import argparse
 import shutil
 from datetime import datetime, timezone, timedelta
 
+from background_manager import select_dynamic_background, get_available_backgrounds
+from audio_manager import select_dynamic_audio, populate_starter_audio_library
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 QUOTES_FILE = os.path.join(BASE_DIR, "quotes_database.json")
 HISTORY_FILE = os.path.join(BASE_DIR, "history.json")
 SESSION_FILE = os.path.join(BASE_DIR, "session.json")
 OUTPUT_DIR = os.path.join(BASE_DIR, "output")
-DEFAULT_BG = os.path.join(BASE_DIR, "assets", "backgrounds", "serene_sunrise.jpg")
 
 
 def load_quotes():
@@ -23,13 +25,24 @@ def load_quotes():
 
 
 def load_history():
+    default_state = {
+        "posted_ids": [],
+        "used_backgrounds": [],
+        "used_audio": [],
+        "used_themes": [],
+        "last_posted_date": None
+    }
     if os.path.exists(HISTORY_FILE):
         try:
             with open(HISTORY_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
+                data = json.load(f)
+                for k, v in default_state.items():
+                    if k not in data:
+                        data[k] = v
+                return data
         except Exception:
-            return {"posted_ids": [], "last_posted_date": None}
-    return {"posted_ids": [], "last_posted_date": None}
+            return default_state
+    return default_state
 
 
 def save_history(history):
@@ -127,10 +140,10 @@ def get_authenticated_client(username, password):
     except Exception as e:
         err_str = str(e)
         if "Please wait a few minutes" in err_str or "429" in err_str:
-            print("\n" + "="*60)
+            print("\n" + "=" * 60)
             print("[NOTICE] Instagram temporarily rate-limited password logins from cloud IPs.")
             print("To bypass this instantly, add your 'IG_SESSIONID' to GitHub Secrets!")
-            print("="*60 + "\n")
+            print("=" * 60 + "\n")
         raise e
 
     try:
@@ -145,7 +158,13 @@ def main():
     parser = argparse.ArgumentParser(description="Instagram Daily Reel & Post Publisher")
     parser.add_argument("--dry-run", action="store_true", help="Render video/image without uploading")
     parser.add_argument("--no-jitter", action="store_true", help="Disable human posting time jitter")
+    parser.add_argument("--bg", type=str, default=None, help="Force specific background image filename")
+    parser.add_argument("--theme", type=str, default=None, help="Force specific visual theme")
+    parser.add_argument("--audio", type=str, default=None, help="Force specific audio filename")
     args = parser.parse_args()
+
+    # Pre-populate starter audio files if needed
+    populate_starter_audio_library()
 
     username = os.getenv("IG_USERNAME")
     password = os.getenv("IG_PASSWORD")
@@ -179,21 +198,43 @@ def main():
     if has_ffmpeg:
         from video_reel_generator import build_mp4_reel
         media_path = os.path.join(OUTPUT_DIR, f"daily_reel_{quote['id']}.mp4")
-        media_path, thumb_path = build_mp4_reel(quote, media_path, duration=12)
+        media_path, thumb_path, meta = build_mp4_reel(
+            quote,
+            media_path,
+            duration=12,
+            bg_image_path=args.bg,
+            audio_path=args.audio,
+            theme_name=args.theme,
+            history=history
+        )
         is_video = True
     else:
         from card_renderer import render_quote_card
+        bg_path, bg_name = select_dynamic_background(history, slot=quote.get("slot"))
         media_path = os.path.join(OUTPUT_DIR, f"daily_post_{quote['id']}.jpg")
-        render_quote_card(quote, media_path, DEFAULT_BG)
+        media_path, applied_theme = render_quote_card(
+            quote, media_path, bg_image_path=bg_path, theme_name=args.theme
+        )
+        meta = {
+            "background": bg_name,
+            "theme": applied_theme,
+            "audio": "N/A (Photo Mode)",
+            "audio_id": None,
+            "motion": "Static Photo"
+        }
         is_video = False
 
     if args.dry_run:
         print("\n[DRY RUN MODE]")
-        print("Media file:", media_path)
-        print("Format:", "Instagram REEL (MP4 Video)" if is_video else "Instagram PHOTO (JPEG)")
-        print("Time Slot:", quote.get("slot"))
-        print("Thumbnail:", thumb_path)
-        print("Caption preview:\n", caption)
+        print("Media file:    ", media_path)
+        print("Format:        ", "Instagram REEL (MP4 Video)" if is_video else "Instagram PHOTO (JPEG)")
+        print("Time Slot:     ", quote.get("slot"))
+        print("Background:    ", meta.get("background"))
+        print("Visual Theme:  ", meta.get("theme"))
+        print("Soundtrack:    ", meta.get("audio"))
+        print("Camera Motion: ", meta.get("motion"))
+        print("Thumbnail:     ", thumb_path)
+        print("\nCaption preview:\n", caption)
         return
 
     if not sessionid and (not username or not password):
@@ -216,10 +257,18 @@ def main():
         media = cl.photo_upload(path=media_path, caption=caption)
         print(f"\n🎉 [SUCCESS] Post is LIVE on Instagram! Media PK: {media.pk}")
 
+    # Track History with zero consecutive repetition
     history["posted_ids"].append(quote["id"])
+    if meta.get("background"):
+        history["used_backgrounds"].append(meta["background"])
+    if meta.get("audio_id"):
+        history["used_audio"].append(meta["audio_id"])
+    if meta.get("theme"):
+        history["used_themes"].append(meta["theme"])
+
     history["last_posted_date"] = time.strftime("%Y-%m-%d %H:%M:%S UTC")
     save_history(history)
-    print(f"[INFO] Recorded quote #{quote['id']} in posting history. Will not repeat!")
+    print(f"[INFO] Recorded quote #{quote['id']}, background '{meta.get('background')}', and music '{meta.get('audio')}' in history!")
 
 
 if __name__ == "__main__":

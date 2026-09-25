@@ -5,13 +5,13 @@ import time
 import argparse
 import requests
 from card_renderer import render_quote_card
+from background_manager import select_dynamic_background
 
 # Constants & Defaults
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 QUOTES_FILE = os.path.join(BASE_DIR, "quotes_database.json")
 HISTORY_FILE = os.path.join(BASE_DIR, "history.json")
 OUTPUT_DIR = os.path.join(BASE_DIR, "output")
-DEFAULT_BG = os.path.join(BASE_DIR, "assets", "backgrounds", "serene_sunrise.jpg")
 
 
 def load_quotes():
@@ -195,16 +195,21 @@ def main():
     print(f"Hero: {quote['hero_lines']}")
     print(f"Subtext: {quote['subtext']}")
 
+    # Select dynamic background
+    bg_path, bg_name = select_dynamic_background(history, slot=quote.get("slot"))
+
     # Render Image
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     out_image_path = os.path.join(OUTPUT_DIR, f"daily_post_{quote['id']}.png")
-    render_quote_card(quote, out_image_path, DEFAULT_BG)
+    out_image_path, applied_theme = render_quote_card(quote, out_image_path, bg_image_path=bg_path)
 
     caption = quote["caption"]
 
     if args.dry_run:
         print("\n[DRY RUN MODE ENABLED]")
         print("1. Image successfully generated at:", out_image_path)
+        print("   Background: ", bg_name)
+        print("   Visual Theme:", applied_theme)
         print("2. Instagram Caption preview:")
         print("-------------------------------------------------------")
         print(caption)
@@ -228,7 +233,19 @@ def main():
     media_id = post_to_instagram_graph_api(public_url, caption, ig_user_id, access_token)
 
     # 3. Update History
+    if "posted_ids" not in history:
+        history["posted_ids"] = []
+    if "used_backgrounds" not in history:
+        history["used_backgrounds"] = []
+    if "used_themes" not in history:
+        history["used_themes"] = []
+
     history["posted_ids"].append(quote["id"])
+    if bg_name:
+        history["used_backgrounds"].append(bg_name)
+    if applied_theme:
+        history["used_themes"].append(applied_theme)
+
     history["last_posted_date"] = time.strftime("%Y-%m-%d %H:%M:%S UTC")
     save_history(history)
     print(f"[INFO] History updated. Quote #{quote['id']} recorded.")

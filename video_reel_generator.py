@@ -2,131 +2,154 @@ import os
 import sys
 import subprocess
 import random
-import numpy as np
-import scipy.io.wavfile as wavfile
-from card_renderer import render_quote_card
+import shutil
+
+from card_renderer import render_quote_card, get_theme_for_background
+from background_manager import select_dynamic_background, get_available_backgrounds
+from audio_manager import select_dynamic_audio, populate_starter_audio_library
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_BG = os.path.join(BASE_DIR, "assets", "backgrounds", "serene_sunrise.jpg")
+BG_DIR = os.path.join(BASE_DIR, "assets", "backgrounds")
+DEFAULT_BG = os.path.join(BG_DIR, "serene_sunrise.jpg")
 
-CHORD_PALETTES = [
-    [
-        {"start": 0.0, "end": 4.0, "notes": [53, 57, 60, 64, 67], "root": 41},
-        {"start": 4.0, "end": 8.0, "notes": [45, 60, 64, 67, 71], "root": 45},
-        {"start": 8.0, "end": 12.0, "notes": [46, 58, 62, 65, 69], "root": 46}
-    ],
-    [
-        {"start": 0.0, "end": 4.0, "notes": [50, 57, 60, 64, 69], "root": 38},
-        {"start": 4.0, "end": 8.0, "notes": [55, 58, 62, 65, 69], "root": 43},
-        {"start": 8.0, "end": 12.0, "notes": [48, 55, 60, 64, 67], "root": 36}
-    ],
-    [
-        {"start": 0.0, "end": 4.0, "notes": [49, 56, 60, 65, 68], "root": 37},
-        {"start": 4.0, "end": 8.0, "notes": [44, 56, 60, 63, 67], "root": 44},
-        {"start": 8.0, "end": 12.0, "notes": [46, 53, 58, 61, 65], "root": 46}
-    ]
+# 5 Cinematic Camera Motion Presets
+MOTION_PRESETS = [
+    {
+        "id": "ZOOM_IN",
+        "name": "Slow Cinematic Push-In",
+        "expr": lambda total_frames: (
+            f"zoompan=z='min(zoom+0.00035,1.07)':d={total_frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30"
+        )
+    },
+    {
+        "id": "ZOOM_OUT",
+        "name": "Slow Scenery Reveal Pull-Back",
+        "expr": lambda total_frames: (
+            f"zoompan=z='max(1.07-0.00035*on,1.0)':d={total_frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30"
+        )
+    },
+    {
+        "id": "PAN_UP",
+        "name": "Slow Vertical Horizon Pan Up",
+        "expr": lambda total_frames: (
+            f"zoompan=z='1.05':d={total_frames}:x='iw/2-(iw/zoom/2)':y='max(0,ih/2-(ih/zoom/2)-0.08*on)':s=1080x1920:fps=30"
+        )
+    },
+    {
+        "id": "PAN_DOWN",
+        "name": "Slow Vertical Horizon Pan Down",
+        "expr": lambda total_frames: (
+            f"zoompan=z='1.05':d={total_frames}:x='iw/2-(iw/zoom/2)':y='min(ih-ih/zoom,ih/2-(ih/zoom/2)+0.08*on)':s=1080x1920:fps=30"
+        )
+    },
+    {
+        "id": "BREATHE",
+        "name": "Subtle Ambient Camera Pulse",
+        "expr": lambda total_frames: (
+            f"zoompan=z='1.03+0.025*sin(2*3.14159*on/{total_frames})':d={total_frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30"
+        )
+    }
 ]
 
 
-def synthesize_ambient_audio(output_wav, duration=12.0, sample_rate=44100):
-    num_samples = int(duration * sample_rate)
-    t = np.linspace(0, duration, num_samples, endpoint=False)
-    
-    left = np.zeros(num_samples, dtype=np.float32)
-    right = np.zeros(num_samples, dtype=np.float32)
-    
-    def m2f(n): return 440.0 * (2.0 ** ((n - 69.0) / 12.0))
-    
-    chords = random.choice(CHORD_PALETTES)
-    
-    for c in chords:
-        s_idx = int(c["start"] * sample_rate)
-        e_idx = min(num_samples, int((c["end"] + 1.0) * sample_rate))
-        dur = (e_idx - s_idx) / sample_rate
-        t_seg = np.linspace(0, dur, e_idx - s_idx, endpoint=False)
-        
-        env = np.ones(len(t_seg), dtype=np.float32)
-        att = min(len(t_seg) // 3, int(1.0 * sample_rate))
-        rel = min(len(t_seg) // 3, int(1.0 * sample_rate))
-        env[:att] = np.sin(np.linspace(0, np.pi/2, att))
-        env[-rel:] = np.cos(np.linspace(0, np.pi/2, rel))
-        
-        c_l, c_r = np.zeros_like(t_seg), np.zeros_like(t_seg)
-        for i, n in enumerate(c["notes"]):
-            freq = m2f(n)
-            tone_l = 0.7 * np.sin(2 * np.pi * freq * 0.999 * t_seg) + 0.3 * np.sin(4 * np.pi * freq * t_seg)
-            tone_r = 0.7 * np.sin(2 * np.pi * freq * 1.001 * t_seg) + 0.3 * np.sin(4 * np.pi * freq * t_seg)
-            pan = (i / max(1, len(c["notes"]) - 1)) * 0.6 + 0.2
-            c_l += tone_l * (1.0 - pan)
-            c_r += tone_r * pan
-            
-        root_f = m2f(c["root"])
-        sub = 0.45 * np.sin(2 * np.pi * root_f * t_seg)
-        c_l += sub * 0.4
-        c_r += sub * 0.4
-        
-        left[s_idx:e_idx] += c_l * env * 0.22
-        right[s_idx:e_idx] += c_r * env * 0.22
-        
-    fade_len = int(1.2 * sample_rate)
-    left[:fade_len] *= np.linspace(0, 1, fade_len)
-    right[:fade_len] *= np.linspace(0, 1, fade_len)
-    left[-fade_len:] *= np.linspace(1, 0, fade_len)
-    right[-fade_len:] *= np.linspace(1, 0, fade_len)
-    
-    peak = max(np.max(np.abs(left)), np.max(np.abs(right)))
-    if peak > 0:
-        left = (left / peak) * 0.85
-        right = (right / peak) * 0.85
-        
-    stereo = np.stack([left, right], axis=1)
-    wavfile.write(output_wav, sample_rate, (stereo * 32767.0).astype(np.int16))
-    return output_wav
+def build_mp4_reel(
+    quote_data,
+    output_mp4,
+    duration=12,
+    bg_image_path=None,
+    audio_path=None,
+    theme_name=None,
+    history=None
+):
+    """
+    Renders a stunning 1080x1920 Instagram Reel with:
+    1. Fresh atmospheric background image (from 9+ aesthetic landscapes)
+    2. Complementary visual card theme & custom typography
+    3. Fresh audio soundtrack (from audio library or 8-style procedural engine)
+    4. Cinematic Ken Burns camera motion
+    """
+    if history is None:
+        history = {}
 
-
-def build_mp4_reel(quote_data, output_mp4, duration=12):
     temp_dir = os.path.join(BASE_DIR, "output", "temp")
     os.makedirs(temp_dir, exist_ok=True)
-    
-    # Save cover card as JPEG for thumbnail compatibility
+    slot = quote_data.get("slot", "morning")
+
+    # 1. Select Background
+    if not bg_image_path:
+        bg_image_path, bg_filename = select_dynamic_background(history, slot=slot)
+    else:
+        bg_filename = os.path.basename(bg_image_path)
+
+    # 2. Select Audio Track / Synthesized Style
+    audio_display_name = "Ambient Soundtrack"
+    audio_id = "default_audio"
+    if not audio_path:
+        temp_audio = os.path.join(temp_dir, f"audio_{quote_data['id']}.wav")
+        audio_path, audio_display_name, audio_id = select_dynamic_audio(
+            history, quote_slot=slot, output_temp_wav=temp_audio
+        )
+    else:
+        audio_display_name = os.path.splitext(os.path.basename(audio_path))[0].replace("_", " ").title()
+        audio_id = os.path.basename(audio_path)
+
+    # 3. Render Custom Themed Cover Card Thumbnail
     card_img = os.path.join(temp_dir, f"card_{quote_data['id']}.jpg")
-    audio_wav = os.path.join(temp_dir, f"audio_{quote_data['id']}.wav")
-    
-    # 1. Render custom cover card thumbnail
-    render_quote_card(quote_data, card_img, DEFAULT_BG)
-    
-    # 2. Synthesize audio
-    synthesize_ambient_audio(audio_wav, duration=duration)
-    
+    _, applied_theme = render_quote_card(
+        quote_data, card_img, bg_image_path=bg_image_path, theme_name=theme_name
+    )
+
+    # 4. Select Camera Motion
+    motion = random.choice(MOTION_PRESETS)
     fps = 30
     total_frames = int(duration * fps)
-    
-    zoom_expr = "min(zoom+0.0003,1.06)" if random.random() > 0.5 else "max(1.06-0.0003*on,1.0)"
-    
+    vf_filter = f"scale=1080:1920,{motion['expr'](total_frames)}"
+
+    # 5. Build FFmpeg command with smooth audio fade-in & fade-out
+    af_filter = f"afade=t=in:st=0:d=1.2,afade=t=out:st={duration - 1.8}:d=1.8,volume=0.92"
+
     cmd = [
         "ffmpeg", "-y",
         "-loop", "1", "-framerate", str(fps), "-t", str(duration), "-i", card_img,
-        "-i", audio_wav,
-        "-vf", f"scale=1080:1920,zoompan=z='{zoom_expr}':d={total_frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps={fps}",
+        "-i", audio_path,
+        "-vf", vf_filter,
+        "-af", af_filter,
         "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-pix_fmt", "yuv420p",
-        "-c:a", "aac", "-b:a", "192k", "-shortest",
+        "-c:a", "aac", "-b:a", "192k", "-t", str(duration),
         output_mp4
     ]
-    
-    print(f"[INFO] Rendering unique MP4 Reel: {output_mp4} ({duration}s)...")
+
+    print("\n-------------------------------------------------------")
+    print(f"[REEL ENGINE] Rendering High-Retention MP4 Reel ({duration}s)")
+    print(f"  • Background: {bg_filename}")
+    print(f"  • Theme:      {applied_theme}")
+    print(f"  • Music:      {audio_display_name}")
+    print(f"  • Motion:     {motion['name']}")
+    print("-------------------------------------------------------")
+
     res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if res.returncode != 0:
+        # Fallback without zoompan in case of older FFmpeg build
         fallback_cmd = [
             "ffmpeg", "-y",
             "-loop", "1", "-framerate", str(fps), "-t", str(duration), "-i", card_img,
-            "-i", audio_wav,
+            "-i", audio_path,
+            "-af", af_filter,
             "-c:v", "libx264", "-tune", "stillimage", "-pix_fmt", "yuv420p",
-            "-c:a", "aac", "-b:a", "192k", "-shortest",
+            "-c:a", "aac", "-b:a", "192k", "-t", str(duration),
             output_mp4
         ]
         fb_res = subprocess.run(fallback_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         if fb_res.returncode != 0:
             raise RuntimeError(f"FFmpeg failed: {fb_res.stderr}")
-            
-    print(f"[SUCCESS] High-retention Reel ready: {output_mp4}")
-    return output_mp4, card_img
+
+    metadata = {
+        "background": bg_filename,
+        "theme": applied_theme,
+        "audio": audio_display_name,
+        "audio_id": audio_id,
+        "motion": motion["id"]
+    }
+
+    print(f"[SUCCESS] Fresh Look Reel Ready: {output_mp4}\n")
+    return output_mp4, card_img, metadata

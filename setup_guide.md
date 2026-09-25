@@ -1,6 +1,56 @@
-# Complete Step-by-Step Setup Guide: 100% Free Daily Instagram Auto-Posting
+# Complete Step-by-Step Setup Guide: Daily Instagram Reels Auto-Poster
 
-This guide walks you through setting up your automated Instagram publishing pipeline using **GitHub Actions + Meta Graph API**. Once configured, this runs completely in the cloud every morning even when your Mac is turned off.
+This system automatically publishes **5 unique, high-retention Instagram Reels every day** using **GitHub Actions + FFmpeg + Instagrapi / Meta Graph API**.
+
+Every reel features:
+- **Different Background Every Time**: Rotates across 9+ curated aesthetic 9:16 vertical landscapes matching time-of-day slots (or auto-fetches online).
+- **Different Music Every Time**: Seamlessly rotates between 6+ bundled royalty-free tracks, user custom MP3s, and an 8-style algorithmic music composer.
+- **Fresh Visual Look Every Time**: Automatically pairs each reel with one of 8 luxurious glassmorphic themes, custom typography palettes, dynamic quote marks, and cinematic Ken Burns camera motion.
+- **Zero Consecutive Repetitions**: Backgrounds, audio tracks, and quotes are tracked in `history.json` and cycle systematically.
+
+---
+
+### Daily Schedule (Indian Standard Time - IST)
+
+| Slot | Time (IST) | Schedule (UTC) | Content Focus | Atmosphere / Preferred Background |
+|---|---|---|---|---|
+| **Reel 1** | **07:00 AM** | 01:30 UTC | Morning Mindset & Ambition | Golden Mountain Sunrise, Misty Forest |
+| **Reel 2** | **10:30 AM** | 05:00 UTC | Relentless Focus & Work Ethic | Powerful Ocean Waves, Minimalist Architecture |
+| **Reel 3** | **01:30 PM** | 08:00 UTC | Resilience & Overcoming Doubts | Sahara Desert Dunes, Emerald Waterfall |
+| **Reel 4** | **06:00 PM** | 12:30 UTC | Evening Discipline & Reflection | Twilight City Skyline, Coastal Golden Dusk |
+| **Reel 5** | **09:30 PM** | 16:00 UTC | Night Peace & Self-Belief | Starry Milky Way Lake, Moody City Bokeh |
+
+---
+
+### Adding Your Own Backgrounds & Music (Optional)
+
+#### How to Add New Backgrounds:
+Simply drop any vertical `1080x1920` image (`.jpg`, `.jpeg`, `.png`, `.webp`) into:
+```
+assets/backgrounds/
+```
+The bot will automatically discover it, add it to the rotation, and select complementary visual themes!
+
+#### How to Add New Audio / Music:
+Simply drop any royalty-free background music track (`.mp3`, `.wav`, `.m4a`, `.ogg`) into:
+```
+assets/audio/
+```
+The bot will automatically pick from your audio library, trim it to 12s, and apply a 1.2s fade-in and 1.8s fade-out so it loops seamlessly on Instagram Reels!
+
+---
+
+### 8 Luxury Aesthetic Visual Themes
+
+Each reel dynamically adapts to one of 8 complementary themes:
+1. **`GOLDEN_LUXURY`**: 24k Obsidian & Gold glass card, warm champagne accents.
+2. **`EMERALD_MINT`**: Deep spruce glass card, mint green & sage highlights.
+3. **`CYAN_HORIZON`**: Deep oceanic navy glass card, electric cyan & ice-blue accents.
+4. **`SUNSET_EMBER`**: Twilight bronze glass card, warm rose gold & apricot peach tones.
+5. **`ROYAL_AMETHYST`**: Midnight velvet purple glass card, lilac & lavender luminescence.
+6. **`FROSTED_SILVER`**: Modern arctic frosted glass card, platinum chrome borders & crisp typography.
+7. **`DESERT_TERRACOTTA`**: Warm espresso glass card, golden terracotta & dune sand accents.
+8. **`MONOCHROME_SLATE`**: Brutalist graphite slate card, diamond silver highlights.
 
 ---
 
@@ -12,75 +62,31 @@ This guide walks you through setting up your automated Instagram publishing pipe
 
 ---
 
-### Step 2: Link a Facebook Page (Free, 1 minute)
-1. In the Instagram app, go to **Edit profile**.
-2. Under *Public business information*, tap **Page**.
-3. Either connect an existing Facebook page or tap **Create Facebook Page** (e.g. "My Daily Motivation").
-4. Complete the link.
+### Step 2: Configure Authentication Secrets in GitHub
+
+Go to your repository on GitHub:
+**Settings** → **Secrets and variables** → **Actions** → **New repository secret**.
+
+Add the following secret:
+- **`IG_SESSIONID`** *(Recommended - 100% bypasses Instagram 429 login limits)*:
+  1. Open [instagram.com](https://www.instagram.com) on your computer browser and log in.
+  2. Press `F12` (or Right-click → **Inspect**), go to **Application** (or **Storage**) → **Cookies** → `https://www.instagram.com`.
+  3. Find the cookie named **`sessionid`**, copy its value (a long alphanumeric string), and paste it as `IG_SESSIONID`.
+
+- *(Optional Fallback)* **`IG_USERNAME`** & **`IG_PASSWORD`**:
+  Your Instagram login username and password.
 
 ---
 
-### Step 3: Get Your Free Meta API Credentials (3 minutes)
-
-1. Open [developers.facebook.com](https://developers.facebook.com/) and log in with your Facebook account.
-2. Click **My Apps** (top right) → **Create App**.
-3. Choose **Other** → Next → Choose **Business** as the app type → Next.
-4. Enter an App Name (e.g., `DailyQuoteBot`) and click **Create App**.
-5. Once in your app dashboard:
-   - Go to [Graph API Explorer](https://developers.facebook.com/tools/explorer/).
-   - In the top-right dropdown, select your newly created app (`DailyQuoteBot`).
-   - In the **User or Page** dropdown, select **Get User Access Token**.
-   - Under **Permissions**, add these 4 permissions:
-     - `instagram_basic`
-     - `instagram_content_publish`
-     - `pages_show_list`
-     - `pages_read_engagement`
-   - Click **Generate Access Token** and approve the popup.
-
-6. **Find your Instagram Account ID (`IG_USER_ID`)**:
-   - In the Graph API Explorer query box, run:
-     ```text
-     GET me/accounts?fields=name,instagram_business_account
-     ```
-   - In the JSON response, locate your `instagram_business_account.id` (a numeric string like `17841405829102938`). This is your **`IG_USER_ID`**.
-
-7. **Generate a 60-Day Long-Lived Token (`META_ACCESS_TOKEN`)**:
-   - Go to the [Meta Access Token Debugger](https://developers.facebook.com/tools/debug/accesstoken/).
-   - Paste the short-lived token from the Explorer → Click **Debug**.
-   - Scroll down to the bottom and click **Extend Access Token**.
-   - Copy the resulting long string. This is your **`META_ACCESS_TOKEN`**.
-
----
-
-### Step 4: Add Secrets to Your GitHub Repository (1 minute)
-
-1. Create a new GitHub repository (can be **Private** or Public).
-2. Push the files inside `Instagram_Auto_Poster/` to your repository:
-   ```bash
-   cd Instagram_Auto_Poster
-   git init
-   git add .
-   git commit -m "feat: setup instagram auto poster"
-   git branch -M main
-   git remote add origin https://github.com/<YOUR_USERNAME>/<YOUR_REPO_NAME>.git
-   git push -u origin main
-   ```
-3. In your GitHub repository:
-   - Go to **Settings** → **Secrets and variables** → **Actions**.
-   - Click **New repository secret**.
-   - Add Secret 1:
-     - Name: `IG_USER_ID`
-     - Value: *(Your numeric Instagram account ID from Step 3.6)*
-   - Add Secret 2:
-     - Name: `META_ACCESS_TOKEN`
-     - Value: *(Your Long-Lived Access Token from Step 3.7)*
-
----
-
-### Step 5: Test & Activate!
+### Step 3: Test & Trigger Anytime!
 
 1. In your GitHub repository, click the **Actions** tab.
-2. Under workflows on the left, click **Daily Motivational Instagram Post**.
+2. Under workflows on the left, click **Auto Instagram Reels Daily Publisher (5 Reels/Day)**.
 3. Click the **Run workflow** dropdown on the right → Click **Run workflow**.
-4. The workflow will spin up, render today's motivational graphic, and publish it directly to your Instagram profile in ~20 seconds!
-5. From then on, GitHub Actions will automatically run every morning at **08:00 AM IST (02:30 UTC)** without any manual intervention!
+4. The workflow will:
+   - Pick the next unposted quote matching the current IST time slot.
+   - Select an unposted background image and complementary visual theme.
+   - Select an unposted audio soundtrack or synthesize a fresh musical style.
+   - Render a 1080x1920 MP4 Reel with cinematic camera motion.
+   - Upload the reel with custom cover card thumbnail and optimized caption/hashtags directly to Instagram!
+   - Update `history.json` and push it back to GitHub to prevent repetition.
