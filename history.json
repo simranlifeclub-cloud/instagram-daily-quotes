@@ -7,7 +7,8 @@
     5,
     8,
     12,
-    11
+    11,
+    16
   ],
   "used_backgrounds": [
     "starry_night.jpg",
@@ -17,11 +18,13 @@
     "desert_dunes.jpg",
     "minimalist_arch.jpg",
     "golden_hour_trail.jpg",
-    "twilight_leaf_silhouette.jpg"
+    "twilight_leaf_silhouette.jpg",
+    "cozy_rainy_window.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
-    "winter_celestial.mp3"
+    "winter_celestial.mp3",
+    "cinematic_satie_piano.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -31,9 +34,10 @@
     "DESERT_TERRACOTTA",
     "FROSTED_SILVER",
     "GOLDEN_LUXURY",
-    "ROYAL_AMETHYST"
+    "ROYAL_AMETHYST",
+    "FROSTED_SILVER"
   ],
-  "last_posted_date": "2026-09-26 12:51:04 UTC",
+  "last_posted_date": "2026-09-26 16:11:03 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -41,9 +45,11 @@
     "SHORT_VIDEO",
     "TEXT_POSTER",
     "SHORT_VIDEO",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
+    "Jenny (Uplifting, Clear, Confident)",
     "Jenny (Uplifting, Clear, Confident)"
   ]
 }
