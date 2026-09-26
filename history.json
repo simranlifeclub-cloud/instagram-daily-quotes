@@ -5,7 +5,8 @@
     6,
     7,
     5,
-    8
+    8,
+    12
   ],
   "used_backgrounds": [
     "starry_night.jpg",
@@ -13,24 +14,29 @@
     "ocean_waves.jpg",
     "emerald_waterfall.jpg",
     "desert_dunes.jpg",
-    "minimalist_arch.jpg"
+    "minimalist_arch.jpg",
+    "golden_hour_trail.jpg"
   ],
-  "used_audio": [],
+  "used_audio": [
+    "arcade_synthwave.mp3"
+  ],
   "used_themes": [
     "ROYAL_AMETHYST",
     "GOLDEN_LUXURY",
     "CYAN_HORIZON",
     "EMERALD_MINT",
     "DESERT_TERRACOTTA",
-    "FROSTED_SILVER"
+    "FROSTED_SILVER",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-09-26 08:08:28 UTC",
+  "last_posted_date": "2026-09-26 12:28:54 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
     "VOICEOVER",
     "SHORT_VIDEO",
-    "TEXT_POSTER"
+    "TEXT_POSTER",
+    "SHORT_VIDEO"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)"
