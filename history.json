@@ -4,35 +4,40 @@
     4,
     6,
     7,
-    5
+    5,
+    8
   ],
   "used_backgrounds": [
     "starry_night.jpg",
     "serene_sunrise.jpg",
     "ocean_waves.jpg",
     "emerald_waterfall.jpg",
-    "desert_dunes.jpg"
+    "desert_dunes.jpg",
+    "minimalist_arch.jpg"
   ],
   "used_audio": [
     "cinematic_piano.wav",
     "starlight_bells.wav",
     "deep_focus_synth.wav",
     "zen_meditation.wav",
-    "acoustic_plucks.wav"
+    "acoustic_plucks.wav",
+    "lofi_chill.wav"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
     "GOLDEN_LUXURY",
     "CYAN_HORIZON",
     "EMERALD_MINT",
-    "DESERT_TERRACOTTA"
+    "DESERT_TERRACOTTA",
+    "FROSTED_SILVER"
   ],
-  "last_posted_date": "2026-09-26 05:26:03 UTC",
+  "last_posted_date": "2026-09-26 08:08:28 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
     "VOICEOVER",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "TEXT_POSTER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)"
