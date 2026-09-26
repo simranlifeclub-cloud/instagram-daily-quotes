@@ -53,34 +53,31 @@ MOTION_PRESETS = [
     }
 ]
 
-REEL_FORMATS = ["VOICEOVER", "SHORT_VIDEO", "TEXT_POSTER"]
+REEL_FORMATS = ["SHORT_VIDEO", "PURE_CINEMATIC", "VOICEOVER"]
 
 
 def select_dynamic_reel_format(history, slot=None):
     """
-    Selects the next reel format across the 3 core types:
-    1. VOICEOVER: Spoken motivational voice narration + ducked music
-    2. SHORT_VIDEO: Real motion video background + ambient music + text overlay
-    3. TEXT_POSTER: High-res landscape photography + visual theme + Ken Burns motion
+    Selects the next reel format matching the aesthetic reels grid:
+    1. SHORT_VIDEO (70%): Aesthetic nature/lifestyle video loop + minimalist white centered quote
+    2. PURE_CINEMATIC (15%): Pure scenic visual mood reel + ambient music (no text)
+    3. VOICEOVER (15%): Aesthetic motion video + spoken wisdom + ducked music
     """
-    # Slot preferences
     slot_map = {
-        "morning": "VOICEOVER",     # High energy morning speech
-        "midday": "SHORT_VIDEO",     # Dynamic video for midday focus
-        "afternoon": "TEXT_POSTER",  # Reflective poster card
-        "evening": "VOICEOVER",     # Inspiring evening wisdom voiceover
-        "night": "SHORT_VIDEO"       # Peaceful night motion loop
+        "morning": "SHORT_VIDEO",
+        "midday": "SHORT_VIDEO",
+        "afternoon": "PURE_CINEMATIC",
+        "evening": "SHORT_VIDEO",
+        "night": "VOICEOVER"
     }
-    preferred = slot_map.get(slot)
+    preferred = slot_map.get(slot, "SHORT_VIDEO")
     used_formats = history.get("used_formats", [])
     
-    # If the last posted reel had this format, pick an unused format for maximum feed diversity
-    if used_formats and used_formats[-1] == preferred:
-        remaining = [f for f in REEL_FORMATS if f != preferred]
-        chosen = random.choice(remaining)
-        return chosen
+    # Don't repeat non-standard formats consecutively
+    if used_formats and used_formats[-1] in ("PURE_CINEMATIC", "VOICEOVER"):
+        return "SHORT_VIDEO"
 
-    return preferred or random.choice(REEL_FORMATS)
+    return preferred or "SHORT_VIDEO"
 
 
 def build_mp4_reel(
@@ -96,10 +93,10 @@ def build_mp4_reel(
     history=None
 ):
     """
-    Builds an Instagram Reel across all 3 content styles:
-    - VOICEOVER (Spoken voiceover + ducked music)
-    - SHORT_VIDEO (Full motion video background + text overlay)
-    - TEXT_POSTER (Aesthetic landscape photo + Ken Burns animation + music)
+    Builds an Instagram Reel matching the aesthetic nature & lifestyle grid:
+    - SHORT_VIDEO (Aesthetic motion video loop + clean white centered quote)
+    - PURE_CINEMATIC (Pure scenic landscape B-roll + ambient soundtrack)
+    - VOICEOVER (Aesthetic footage + spoken voice narration + ducked music)
     """
     if history is None:
         history = {}
@@ -140,10 +137,9 @@ def build_mp4_reel(
             mixed_audio = os.path.join(temp_dir, f"mixed_audio_{quote_data['id']}.wav")
             final_audio_path = mix_voice_and_music(voice_res, audio_path, mixed_audio, duration=duration)
         else:
-            # Fallback to poster format if voice unavailable
-            reel_format = "TEXT_POSTER"
+            reel_format = "SHORT_VIDEO"
 
-    # 5. Render Cover Card Thumbnail & Frame Overlay
+    # 5. Render Cover Card Thumbnail
     card_img = os.path.join(temp_dir, f"card_{quote_data['id']}.jpg")
     _, applied_theme = render_quote_card(
         quote_data, card_img, bg_image_path=bg_image_path, theme_name=theme_name
@@ -152,28 +148,26 @@ def build_mp4_reel(
     fps = 30
     total_frames = int(duration * fps)
 
-    # -------------------------------------------------------------
-    # FORMAT 2: SHORT VIDEO REEL (Motion video loop + overlay)
-    # -------------------------------------------------------------
-    if reel_format == "SHORT_VIDEO":
-        # Check if user has real video in assets/videos/
-        if not bg_video_path:
-            bg_video_path, video_filename = select_dynamic_video(history, slot=slot)
-            
-        video_bg_temp = os.path.join(temp_dir, f"prepared_video_{quote_data['id']}.mp4")
-        if bg_video_path and os.path.exists(bg_video_path):
-            prepare_looping_video_background(bg_video_path, video_bg_temp, duration=duration)
-            used_video_label = os.path.basename(bg_video_path)
-        else:
-            # Generate fluid motion video loop from high-res landscape
-            generate_motion_video_from_image(bg_image_path, video_bg_temp, duration=duration, fps=fps)
-            used_video_label = f"Motion Loop ({bg_filename})"
+    # Prepare motion background video
+    if not bg_video_path:
+        bg_video_path, video_filename = select_dynamic_video(history, slot=slot)
+        
+    video_bg_temp = os.path.join(temp_dir, f"prepared_video_{quote_data['id']}.mp4")
+    if bg_video_path and os.path.exists(bg_video_path):
+        prepare_looping_video_background(bg_video_path, video_bg_temp, duration=duration)
+        used_video_label = os.path.basename(bg_video_path)
+    else:
+        # Generate smooth cinematic camera motion video loop from high-res photograph
+        generate_motion_video_from_image(bg_image_path, video_bg_temp, duration=duration, fps=fps)
+        used_video_label = f"Motion Loop ({bg_filename})"
 
-        # Render transparent overlay
+    # -------------------------------------------------------------
+    # FORMAT 1 & 2: SHORT_VIDEO & VOICEOVER (Video loop + Minimalist Text Overlay)
+    # -------------------------------------------------------------
+    if reel_format in ("SHORT_VIDEO", "VOICEOVER"):
         overlay_png = os.path.join(temp_dir, f"overlay_{quote_data['id']}.png")
         render_quote_card_overlay(quote_data, overlay_png, theme_name=applied_theme)
 
-        # Composite video background + transparent card overlay + audio in FFmpeg
         cmd = [
             "ffmpeg", "-y",
             "-i", video_bg_temp,
@@ -188,10 +182,29 @@ def build_mp4_reel(
             "-t", str(duration),
             output_mp4
         ]
-        motion_name = f"Real Motion Video [{used_video_label}]"
+        motion_name = f"Cinematic Video + Aesthetic Overlay [{used_video_label}]"
 
     # -------------------------------------------------------------
-    # FORMAT 1 & 3: VOICEOVER REEL or TEXT POSTER REEL
+    # FORMAT 3: PURE_CINEMATIC (Pure scenic B-roll mood reel, no text)
+    # -------------------------------------------------------------
+    elif reel_format == "PURE_CINEMATIC":
+        cmd = [
+            "ffmpeg", "-y",
+            "-i", video_bg_temp,
+            "-i", final_audio_path,
+            "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
+            "-map", "0:v",
+            "-map", "1:a",
+            "-af", f"afade=t=in:st=0:d=1.2,afade=t=out:st={duration-1.8}:d=1.8",
+            "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p",
+            "-c:a", "aac", "-b:a", "192k",
+            "-t", str(duration),
+            output_mp4
+        ]
+        motion_name = f"Pure Scenic B-Roll [{used_video_label}]"
+
+    # -------------------------------------------------------------
+    # FORMAT 4: TEXT_POSTER FALLBACK
     # -------------------------------------------------------------
     else:
         motion = random.choice(MOTION_PRESETS)

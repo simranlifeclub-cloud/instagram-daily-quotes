@@ -8,33 +8,41 @@ DEFAULT_BG = os.path.join(BG_DIR, "serene_sunrise.jpg")
 
 SLOT_BG_PREFERENCES = {
     "morning": [
-        "golden_mountain.jpg",
-        "misty_forest.jpg",
+        "shimmering_ocean.jpg",
+        "golden_hour_trail.jpg",
+        "snowy_mountain_peak.jpg",
         "serene_sunrise.jpg",
-        "emerald_waterfall.jpg"
+        "golden_mountain.jpg",
+        "misty_forest.jpg"
     ],
     "midday": [
+        "tropical_green_foliage.jpg",
+        "misty_mountain_ridge.jpg",
+        "shimmering_ocean.jpg",
         "ocean_waves.jpg",
-        "minimalist_arch.jpg",
         "emerald_waterfall.jpg",
-        "desert_dunes.jpg"
+        "minimalist_arch.jpg"
     ],
     "afternoon": [
+        "cozy_rainy_window.jpg",
+        "golden_hour_trail.jpg",
+        "misty_mountain_ridge.jpg",
         "desert_dunes.jpg",
-        "ocean_waves.jpg",
-        "minimalist_arch.jpg",
-        "golden_mountain.jpg"
+        "misty_forest.jpg"
     ],
     "evening": [
+        "sunset_clouds_beach.jpg",
+        "twilight_leaf_silhouette.jpg",
+        "golden_hour_trail.jpg",
         "city_twilight.jpg",
-        "desert_dunes.jpg",
-        "golden_mountain.jpg",
-        "starry_night.jpg"
+        "golden_mountain.jpg"
     ],
     "night": [
+        "twilight_leaf_silhouette.jpg",
+        "cozy_rainy_window.jpg",
         "starry_night.jpg",
-        "city_twilight.jpg",
-        "misty_forest.jpg"
+        "sunset_clouds_beach.jpg",
+        "city_twilight.jpg"
     ]
 }
 

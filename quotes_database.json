@@ -141,6 +141,53 @@
     "hero_lines": ["Everything you ever wanted", "is on the other side of fear."],
     "subtext": "Doubt kills more dreams than failure ever will. Believe in your light.",
     "footer": "— DREAM WITHOUT LIMITS —",
-    "caption": "Everything you have ever wanted is waiting on the other side of fear. 🦅✨\n\nDream fearlessly tonight. Tomorrow, take the leap.\n\n.\n.\n#dreambig #unlimited #courage #fearless #destiny #manifestation #believe"
+  },
+  {
+    "id": 17,
+    "slot": "midday",
+    "category": "GRATITUDE • PERSPECTIVE",
+    "quote_text": "The things I want are valuable, but the things I have are truly invaluable.",
+    "hero_lines": ["The things I want are valuable,", "but the things I have are truly invaluable."],
+    "caption": "The things I want are valuable, but the things I have are truly invaluable. ✨🌊\n\nTake a slow breath today. Count what you already have before chasing what is next.\n\n.\n.\n#gratitude #peace #mindset #simranlifeclub #perspective #innercalm #reels #dailymotivation"
+  },
+  {
+    "id": 18,
+    "slot": "morning",
+    "category": "MORNING STILLNESS • MINDFULNESS",
+    "quote_text": "Slow down. You are not behind in life. You are exactly where you need to be.",
+    "hero_lines": ["Slow down. You are not behind in life.", "You are exactly where you need to be."],
+    "caption": "Slow down. You are not behind in life. ☀️🏔️\n\nNature never rushes, yet everything gets accomplished. Trust your season.\n\n.\n.\n#mindset #morningmindset #trusttheprocess #innerpeace #selfgrowth #reels #presence"
+  },
+  {
+    "id": 19,
+    "slot": "afternoon",
+    "category": "COZY REFLECTION • REST",
+    "quote_text": "Sometimes the most productive thing you can do is rest, reset, and listen.",
+    "hero_lines": ["Sometimes the most productive", "thing you can do is rest, reset, and listen."],
+    "caption": "Rest is not quitting. It is recharging your soul. ☕🌧️\n\nGive yourself permission to pause and breathe.\n\n.\n.\n#peaceful #cozyvibes #reset #mindfulness #selfcare #quietmoments #simranlifeclub"
+  },
+  {
+    "id": 20,
+    "slot": "evening",
+    "category": "SUNSET PEACE • LETTING GO",
+    "quote_text": "Let go of what was, accept what is, and trust what will be.",
+    "hero_lines": ["Let go of what was,", "accept what is,", "and trust what will be."],
+    "caption": "Sunsets are proof that endings can be beautiful too. 🌅✨\n\nRelease today with grace and welcome tomorrow with open arms.\n\n.\n.\n#sunset #innerpeace #lettinggo #surrender #gratitude #mindset #simranlifeclub"
+  },
+  {
+    "id": 21,
+    "slot": "night",
+    "category": "NIGHT SERENITY • DEEP PEACE",
+    "quote_text": "In the quiet moments, we find the answers we could never hear in the noise.",
+    "hero_lines": ["In the quiet moments,", "we find the answers we could never hear in the noise."],
+    "caption": "Silence is where clarity lives. 🌙🌌\n\nTonight, let your thoughts settle like still water. Sleep in peace.\n\n.\n.\n#nightthoughts #stillness #meditation #clarity #peaceofmind #goodnight"
+  },
+  {
+    "id": 22,
+    "slot": "morning",
+    "category": "FRESH BEGINNINGS • SIMPLICITY",
+    "quote_text": "The secret to having it all is knowing you already do.",
+    "hero_lines": ["The secret to having it all", "is knowing you already do."],
+    "caption": "Abundance is a state of mind, not a number. 🌿✨\n\nWake up with gratitude and watch how everything transforms.\n\n.\n.\n#abundance #gratitude #mindset #perspective #morninginspiration #simranlifeclub"
   }
 ]

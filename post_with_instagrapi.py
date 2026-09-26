@@ -162,7 +162,7 @@ def main():
     parser = argparse.ArgumentParser(description="Instagram Multi-Format Reel Publisher")
     parser.add_argument("--dry-run", action="store_true", help="Render video/image without uploading")
     parser.add_argument("--no-jitter", action="store_true", help="Disable human posting time jitter")
-    parser.add_argument("--format", type=str, choices=["VOICEOVER", "SHORT_VIDEO", "TEXT_POSTER"], default=None, help="Force specific reel format")
+    parser.add_argument("--format", type=str, choices=["VOICEOVER", "SHORT_VIDEO", "PURE_CINEMATIC", "TEXT_POSTER"], default=None, help="Force specific reel format")
     parser.add_argument("--bg", type=str, default=None, help="Force specific background image filename")
     parser.add_argument("--video", type=str, default=None, help="Force specific background video filename")
     parser.add_argument("--theme", type=str, default=None, help="Force specific visual theme")

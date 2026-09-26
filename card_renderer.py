@@ -5,132 +5,84 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 8 Luxury Aesthetic Visual Themes
+# 8 Curated Color & Mood Themes
 THEMES = {
     "GOLDEN_LUXURY": {
         "id": "GOLDEN_LUXURY",
-        "name": "24k Obsidian & Gold",
-        "card_fill": (12, 16, 26, 215),
-        "card_outline": (255, 225, 160, 90),
-        "pill_fill": (24, 32, 50, 245),
-        "pill_outline": (255, 215, 130, 185),
-        "pill_text": (255, 220, 145, 255),
-        "quote_mark": (255, 205, 110, 230),
-        "hero_text": (255, 255, 255, 255),
-        "separator": (255, 210, 120, 165),
-        "subtext": (235, 238, 245, 235),
-        "footer": (255, 205, 110, 215),
-        "safe_accent": (255, 225, 160, 190)
+        "name": "Golden Hour & Warm Sun",
+        "text_color": (255, 255, 255, 255),
+        "shadow_color": (0, 0, 0, 190),
+        "vignette_tint": (15, 12, 10),
+        "accent_color": (255, 225, 160, 180)
     },
     "EMERALD_MINT": {
         "id": "EMERALD_MINT",
-        "name": "Deep Forest & Mint Sage",
-        "card_fill": (8, 22, 18, 220),
-        "card_outline": (120, 230, 180, 90),
-        "pill_fill": (14, 42, 34, 245),
-        "pill_outline": (140, 240, 195, 185),
-        "pill_text": (180, 255, 220, 255),
-        "quote_mark": (140, 240, 190, 230),
-        "hero_text": (255, 255, 255, 255),
-        "separator": (120, 230, 180, 165),
-        "subtext": (220, 245, 235, 235),
-        "footer": (160, 245, 200, 215),
-        "safe_accent": (140, 240, 190, 190)
+        "name": "Misty Alpine & Forest",
+        "text_color": (255, 255, 255, 255),
+        "shadow_color": (0, 0, 0, 200),
+        "vignette_tint": (8, 18, 12),
+        "accent_color": (180, 245, 215, 180)
     },
     "CYAN_HORIZON": {
         "id": "CYAN_HORIZON",
-        "name": "Midnight Ocean & Electric Cyan",
-        "card_fill": (10, 18, 30, 220),
-        "card_outline": (100, 210, 255, 95),
-        "pill_fill": (18, 36, 60, 245),
-        "pill_outline": (120, 225, 255, 185),
-        "pill_text": (160, 235, 255, 255),
-        "quote_mark": (100, 220, 255, 230),
-        "hero_text": (255, 255, 255, 255),
-        "separator": (100, 210, 255, 165),
-        "subtext": (225, 240, 255, 235),
-        "footer": (130, 225, 255, 215),
-        "safe_accent": (100, 210, 255, 190)
+        "name": "Shimmering Ocean & Deep Sea",
+        "text_color": (255, 255, 255, 255),
+        "shadow_color": (0, 0, 0, 200),
+        "vignette_tint": (8, 16, 26),
+        "accent_color": (160, 235, 255, 180)
     },
     "SUNSET_EMBER": {
         "id": "SUNSET_EMBER",
-        "name": "Twilight Ember & Rose Gold",
-        "card_fill": (24, 14, 18, 220),
-        "card_outline": (255, 170, 130, 95),
-        "pill_fill": (48, 24, 30, 245),
-        "pill_outline": (255, 180, 140, 185),
-        "pill_text": (255, 205, 180, 255),
-        "quote_mark": (255, 165, 120, 230),
-        "hero_text": (255, 255, 255, 255),
-        "separator": (255, 165, 120, 165),
-        "subtext": (255, 235, 230, 235),
-        "footer": (255, 175, 135, 215),
-        "safe_accent": (255, 180, 140, 190)
+        "name": "Fiery Sunset & Twilight Ember",
+        "text_color": (255, 255, 255, 255),
+        "shadow_color": (0, 0, 0, 200),
+        "vignette_tint": (24, 12, 14),
+        "accent_color": (255, 205, 175, 180)
     },
     "ROYAL_AMETHYST": {
         "id": "ROYAL_AMETHYST",
-        "name": "Celestial Galaxy & Lilac Velvet",
-        "card_fill": (18, 12, 28, 220),
-        "card_outline": (210, 170, 255, 90),
-        "pill_fill": (36, 22, 56, 245),
-        "pill_outline": (220, 180, 255, 185),
-        "pill_text": (235, 210, 255, 255),
-        "quote_mark": (215, 165, 255, 230),
-        "hero_text": (255, 255, 255, 255),
-        "separator": (210, 165, 255, 165),
-        "subtext": (240, 230, 255, 235),
-        "footer": (220, 180, 255, 215),
-        "safe_accent": (215, 175, 255, 190)
+        "name": "Twilight Dusk & Celestial",
+        "text_color": (255, 255, 255, 255),
+        "shadow_color": (0, 0, 0, 200),
+        "vignette_tint": (16, 10, 24),
+        "accent_color": (225, 200, 255, 180)
     },
     "FROSTED_SILVER": {
         "id": "FROSTED_SILVER",
-        "name": "Minimalist Frosted Arctic Glass",
-        "card_fill": (22, 26, 34, 200),
-        "card_outline": (235, 242, 255, 100),
-        "pill_fill": (38, 44, 56, 245),
-        "pill_outline": (240, 245, 255, 185),
-        "pill_text": (245, 250, 255, 255),
-        "quote_mark": (240, 245, 255, 230),
-        "hero_text": (255, 255, 255, 255),
-        "separator": (220, 230, 245, 165),
-        "subtext": (240, 245, 255, 240),
-        "footer": (230, 240, 255, 220),
-        "safe_accent": (235, 242, 255, 190)
+        "name": "Cozy Rainy Day & Arctic Glass",
+        "text_color": (255, 255, 255, 255),
+        "shadow_color": (0, 0, 0, 200),
+        "vignette_tint": (16, 20, 24),
+        "accent_color": (240, 245, 255, 180)
     },
     "DESERT_TERRACOTTA": {
         "id": "DESERT_TERRACOTTA",
-        "name": "Sahara Dunes & Warm Sand Gold",
-        "card_fill": (24, 18, 14, 220),
-        "card_outline": (235, 185, 130, 90),
-        "pill_fill": (46, 32, 24, 245),
-        "pill_outline": (245, 195, 140, 185),
-        "pill_text": (255, 225, 180, 255),
-        "quote_mark": (245, 180, 110, 230),
-        "hero_text": (255, 255, 255, 255),
-        "separator": (235, 180, 120, 165),
-        "subtext": (245, 235, 225, 235),
-        "footer": (245, 190, 130, 215),
-        "safe_accent": (240, 190, 130, 190)
+        "name": "Warm Dunes & Terracotta",
+        "text_color": (255, 255, 255, 255),
+        "shadow_color": (0, 0, 0, 200),
+        "vignette_tint": (22, 16, 12),
+        "accent_color": (255, 220, 180, 180)
     },
     "MONOCHROME_SLATE": {
         "id": "MONOCHROME_SLATE",
-        "name": "Brutalist Graphite & Diamond Slate",
-        "card_fill": (14, 15, 18, 225),
-        "card_outline": (195, 200, 210, 85),
-        "pill_fill": (28, 30, 36, 245),
-        "pill_outline": (205, 210, 220, 185),
-        "pill_text": (235, 240, 245, 255),
-        "quote_mark": (210, 215, 225, 230),
-        "hero_text": (255, 255, 255, 255),
-        "separator": (190, 195, 205, 165),
-        "subtext": (230, 235, 240, 235),
-        "footer": (200, 205, 215, 215),
-        "safe_accent": (210, 215, 225, 190)
+        "name": "Minimalist Charcoal & Diamond",
+        "text_color": (255, 255, 255, 255),
+        "shadow_color": (0, 0, 0, 210),
+        "vignette_tint": (12, 14, 16),
+        "accent_color": (230, 235, 240, 180)
     }
 }
 
 # Auto-match background image to complementary aesthetic theme
 BG_THEME_MAP = {
+    "shimmering_ocean.jpg": "CYAN_HORIZON",
+    "sunset_clouds_beach.jpg": "SUNSET_EMBER",
+    "cozy_rainy_window.jpg": "FROSTED_SILVER",
+    "golden_hour_trail.jpg": "GOLDEN_LUXURY",
+    "misty_mountain_ridge.jpg": "EMERALD_MINT",
+    "tropical_green_foliage.jpg": "EMERALD_MINT",
+    "snowy_mountain_peak.jpg": "CYAN_HORIZON",
+    "twilight_leaf_silhouette.jpg": "ROYAL_AMETHYST",
     "misty_forest.jpg": "EMERALD_MINT",
     "emerald_waterfall.jpg": "EMERALD_MINT",
     "ocean_waves.jpg": "CYAN_HORIZON",
@@ -212,311 +164,206 @@ def create_procedural_background(width=1080, height=1920, theme_id="GOLDEN_LUXUR
     return im
 
 
-def get_safe_zone_text(quote_data):
-    """Generates context-rich header text for Instagram safe zone."""
-    slot = quote_data.get("slot", "").lower()
-    headers = {
-        "morning": "✦ MORNING CLARITY & AMBITION ✦",
-        "midday": "✦ RELENTLESS FOCUS & DISCIPLINE ✦",
-        "afternoon": "✦ INNER RESILIENCE & GRIT ✦",
-        "evening": "✦ EVENING WISDOM & GROWTH ✦",
-        "night": "✦ PEACE OF MIND & SELF BELIEF ✦"
-    }
-    return headers.get(slot, "✦ DAILY INSPIRATION & WISDOM ✦")
+def extract_and_wrap_quote(quote_data, font, draw, max_width=720):
+    """
+    Extracts the quote text and wraps it gracefully into 3-4 natural, poetic lines.
+    Matches the exact minimalist aesthetic shown in viral nature reels.
+    """
+    # Prefer explicit quote_text, otherwise combine hero_lines
+    if "quote_text" in quote_data and quote_data["quote_text"]:
+        raw_text = quote_data["quote_text"].strip()
+    elif "hero_lines" in quote_data and quote_data["hero_lines"]:
+        raw_text = " ".join(quote_data["hero_lines"]).strip()
+    else:
+        raw_text = "The things I want are valuable, but the things I have are truly invaluable"
+
+    words = raw_text.split()
+    lines = []
+    current_line = []
+    for word in words:
+        test_line = " ".join(current_line + [word])
+        bbox = draw.textbbox((0, 0), test_line, font=font)
+        w = bbox[2] - bbox[0]
+        if w <= max_width:
+            current_line.append(word)
+        else:
+            if current_line:
+                lines.append(" ".join(current_line))
+            current_line = [word]
+    if current_line:
+        lines.append(" ".join(current_line))
+        
+    return lines
+
+
+def render_minimalist_quote(quote_data, base_image, theme=None, is_overlay_only=False):
+    """
+    Renders pure, elegant, minimalist white typography directly on top of the
+    cinematic scene with multi-layer soft text shadows and atmospheric diffusion.
+    
+    Zero clunky cards, zero borders, zero boxes — 100% authentic aesthetic reel style.
+    """
+    target_w, target_h = 1080, 1920
+    
+    if not theme:
+        theme = THEMES["GOLDEN_LUXURY"]
+        
+    tint_r, tint_g, tint_b = theme.get("vignette_tint", (10, 12, 18))
+
+    # 1. Typography configuration
+    # Georgia gives the timeless, literary editorial feel seen on aesthetic reels
+    font_size = 54
+    quote_font = get_font("Georgia.ttf", font_size)
+    watermark_font = get_font("Georgia.ttf", 20)
+
+    # Initial probe to determine line heights and layout
+    temp_draw = ImageDraw.Draw(base_image)
+    lines = extract_and_wrap_quote(quote_data, quote_font, temp_draw, max_width=720)
+
+    # If lines are long, adjust font size slightly for ideal proportion
+    if len(lines) > 4:
+        font_size = 48
+        quote_font = get_font("Georgia.ttf", font_size)
+        lines = extract_and_wrap_quote(quote_data, quote_font, temp_draw, max_width=740)
+
+    line_spacing = 24
+    bbox_list = [temp_draw.textbbox((0, 0), l, font=quote_font) for l in lines]
+    line_heights = [b[3] - b[1] for b in bbox_list]
+    total_text_h = sum(line_heights) + (len(lines) - 1) * line_spacing
+
+    # Golden ratio center: slightly above vertical middle (y=890) to stay safely above
+    # Instagram's bottom UI (account handle, music track, caption)
+    start_y = (target_h - total_text_h) // 2 - 30
+
+    # 2. Subtle Atmospheric Vignette Layer (Guarantees 100% legibility on sunny/bright clips)
+    vignette = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+    v_draw = ImageDraw.Draw(vignette)
+    
+    center_y = start_y + (total_text_h // 2)
+    band_height = max(380, total_text_h + 200)
+    y_min = max(0, center_y - band_height // 2)
+    y_max = min(target_h, center_y + band_height // 2)
+
+    for y in range(y_min, y_max):
+        dist = abs(y - center_y) / (band_height / 2.0)
+        if dist < 1.0:
+            # Soft cosine curve for perfectly invisible blend
+            curve = (math.cos(dist * math.pi) + 1.0) / 2.0
+            alpha = int(curve * 60) # gentle 0-60 alpha
+            v_draw.line([(0, y), (target_w, y)], fill=(tint_r, tint_g, tint_b, alpha))
+
+    base_image = Image.alpha_composite(base_image, vignette)
+
+    # 3. Multi-Offset Diffused Soft Shadow Layer
+    # Creates organic depth without looking like hard stroke/outline
+    shadow = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+    s_draw = ImageDraw.Draw(shadow)
+
+    # Multi-directional diffused shadow offsets
+    shadow_offsets = [
+        (0, 2, 70),
+        (0, -2, 40),
+        (-2, 0, 40),
+        (2, 0, 40),
+        (-1, 3, 90),
+        (1, 3, 90),
+        (0, 4, 150),
+        (0, 6, 120),
+        (0, 8, 70)
+    ]
+    for ox, oy, alpha in shadow_offsets:
+        curr_y = start_y + oy
+        for i, line in enumerate(lines):
+            s_draw.text(
+                (target_w // 2 + ox, curr_y),
+                line,
+                font=quote_font,
+                fill=(0, 0, 0, alpha),
+                anchor="ma"
+            )
+            curr_y += line_heights[i] + line_spacing
+
+    base_image = Image.alpha_composite(base_image, shadow)
+
+    # 4. Primary Crisp White Typography Layer
+    text_layer = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+    t_draw = ImageDraw.Draw(text_layer)
+
+    curr_y = start_y
+    for i, line in enumerate(lines):
+        t_draw.text(
+            (target_w // 2, curr_y),
+            line,
+            font=quote_font,
+            fill=(255, 255, 255, 255),
+            anchor="ma"
+        )
+        curr_y += line_heights[i] + line_spacing
+
+    # 5. Subtle, Refined Branding at Bottom
+    # Clean, delicate, letterspaced watermark that adds trust without distraction
+    watermark_text = "@simranlifeclub"
+    w_bbox = t_draw.textbbox((0, 0), watermark_text, font=watermark_font)
+    t_draw.text(
+        (target_w // 2, 1720),
+        watermark_text,
+        font=watermark_font,
+        fill=(255, 255, 255, 140),
+        anchor="ma"
+    )
+
+    base_image = Image.alpha_composite(base_image, text_layer)
+    return base_image
 
 
 def render_quote_card(quote_data, output_path, bg_image_path=None, theme_name=None):
     """
-    Renders a stunning 1080x1920 Instagram Post / Reel Card for daily publishing
-    with dynamic aesthetic themes, custom typography, and glassmorphic elevation.
+    Renders a stunning 1080x1920 Instagram Reel Cover / Post with full-bleed
+    cinematic nature photography and minimalist white centered typography.
     """
     target_w, target_h = 1080, 1920
     
-    # 1. Resolve Theme
     bg_filename = os.path.basename(bg_image_path) if bg_image_path else None
     theme = get_theme_for_background(bg_filename, theme_name)
-    theme_id = theme["id"]
 
-    # 2. Base Background Layer
     if bg_image_path and os.path.exists(bg_image_path):
         im = Image.open(bg_image_path).convert("RGBA")
-        im = im.resize((target_w, target_h), Image.Resampling.LANCZOS)
+        if im.size != (target_w, target_h):
+            im = im.resize((target_w, target_h), Image.Resampling.LANCZOS)
     else:
-        im = create_procedural_background(target_w, target_h, theme_id).convert("RGBA")
-        
-    # 3. Atmospheric Darkening & Vignette Overlay for Text Contrast
-    darken = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-    d_draw = ImageDraw.Draw(darken)
-    
-    for y in range(target_h):
-        dist_from_center = abs(y - 1000) / 1000.0
-        alpha = int(45 + 55 * (1.0 - dist_from_center) + 40 * (y / target_h))
-        d_draw.line([(0, y), (target_w, y)], fill=(10, 12, 18, min(145, alpha)))
-        
-    im = Image.alpha_composite(im, darken)
-    draw = ImageDraw.Draw(im)
-    
-    # 4. Load Typography
-    tag_font = get_font("Georgia-Bold.ttf", 24)
-    quote_mark_font = get_font("Georgia-Bold.ttf", 120)
-    main_quote_font = get_font("Georgia-Bold.ttf", 48)
-    sub_quote_font = get_font("Georgia-Italic.ttf", 36)
-    footer_font = get_font("Georgia-Bold.ttf", 26)
-    safe_font = get_font("Georgia-Bold.ttf", 23)
+        im = create_procedural_background(target_w, target_h, theme["id"]).convert("RGBA")
 
-    # 5. Measure Content Height for Dynamic Golden-Ratio Card Centering
-    hero_lines = quote_data.get("hero_lines", ["Words to live by."])
-    subtext = quote_data.get("subtext", "")
-    
-    # Wrap subtext
-    words = subtext.split()
-    sub_lines = []
-    curr_line = ""
-    for w in words:
-        test_line = curr_line + (" " if curr_line else "") + w
-        bbox = draw.textbbox((0, 0), test_line, font=sub_quote_font)
-        if (bbox[2] - bbox[0]) > 800:
-            if curr_line:
-                sub_lines.append(curr_line)
-            curr_line = w
-        else:
-            curr_line = test_line
-    if curr_line:
-        sub_lines.append(curr_line)
-
-    # Calculate optimal card bounds
-    content_height = 140 + (len(hero_lines) * 72) + 70 + (len(sub_lines) * 54) + 110
-    card_h = max(740, min(840, content_height))
-    card_y0 = (target_h - card_h) // 2 + 30
-    card_y1 = card_y0 + card_h
-    card_x0, card_x1 = 70, 1010
-    
-    # 6. Glassmorphism Card Frame
-    card_overlay = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-    card_draw = ImageDraw.Draw(card_overlay)
-    
-    card_draw.rounded_rectangle(
-        [card_x0, card_y0, card_x1, card_y1],
-        radius=44,
-        fill=theme["card_fill"],
-        outline=theme["card_outline"],
-        width=2
-    )
-    im = Image.alpha_composite(im, card_overlay)
-    draw = ImageDraw.Draw(im)
-
-    # 7. Category Badge Pill
-    category_text = quote_data.get("category", "DAILY MINDSET • INNER RESILIENCE")
-    pill_t_bbox = draw.textbbox((0, 0), category_text, font=tag_font)
-    pill_t_w = pill_t_bbox[2] - pill_t_bbox[0]
-    pill_w = pill_t_w + 56
-    pill_h = 44
-    pill_x0 = (target_w - pill_w) // 2
-    pill_y0 = card_y0 + 38
-    
-    pill_overlay = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-    p_draw = ImageDraw.Draw(pill_overlay)
-    p_draw.rounded_rectangle(
-        [pill_x0, pill_y0, pill_x0 + pill_w, pill_y0 + pill_h],
-        radius=22,
-        fill=theme["pill_fill"],
-        outline=theme["pill_outline"],
-        width=2
-    )
-    im = Image.alpha_composite(im, pill_overlay)
-    draw = ImageDraw.Draw(im)
-    
-    draw.text(
-        (target_w // 2, pill_y0 + 22),
-        category_text,
-        font=tag_font,
-        fill=theme["pill_text"],
-        anchor="mm"
-    )
-
-    # 8. Opening Quote Mark
-    draw.text(
-        (target_w // 2, card_y0 + 135),
-        "“",
-        font=quote_mark_font,
-        fill=theme["quote_mark"],
-        anchor="mm"
-    )
-
-    # 9. Hero Quote Lines
-    curr_y = card_y0 + 220
-    for line in hero_lines:
-        # Drop shadow for depth
-        draw.text((target_w // 2 + 2, curr_y + 2), line, font=main_quote_font, fill=(0, 0, 0, 190), anchor="mm")
-        # Main text
-        draw.text((target_w // 2, curr_y), line, font=main_quote_font, fill=theme["hero_text"], anchor="mm")
-        curr_y += 72
-
-    # 10. Themed Separator Line & Accents
-    curr_y += 14
-    sep_len = 160
-    draw.line(
-        [(target_w // 2 - sep_len // 2, curr_y), (target_w // 2 + sep_len // 2, curr_y)],
-        fill=theme["separator"],
-        width=2
-    )
-    curr_y += 45
-
-    # 11. Subtext / Takeaway Lines
-    for line in sub_lines:
-        draw.text((target_w // 2 + 1, curr_y + 1), line, font=sub_quote_font, fill=(0, 0, 0, 160), anchor="mm")
-        draw.text((target_w // 2, curr_y), line, font=sub_quote_font, fill=theme["subtext"], anchor="mm")
-        curr_y += 54
-
-    # 12. Card Footer Call to Action
-    footer_text = quote_data.get("footer", "— SAVE & SHARE IF YOU NEEDED THIS —")
-    draw.text(
-        (target_w // 2, card_y1 - 42),
-        footer_text,
-        font=footer_font,
-        fill=theme["footer"],
-        anchor="mm"
-    )
-
-    # 13. Platform Safe Zone Top & Bottom Headers
-    top_safe_text = get_safe_zone_text(quote_data)
-    draw.text((target_w // 2, 160), top_safe_text, font=safe_font, fill=theme["safe_accent"], anchor="mm")
-    draw.text((target_w // 2, 1780), "✦ Simran Life Club ✦", font=safe_font, fill=(255, 255, 255, 180), anchor="mm")
+    im = render_minimalist_quote(quote_data, im, theme=theme, is_overlay_only=False)
 
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
-    im.convert("RGB").save(output_path, "PNG", quality=98)
+    im.convert("RGB").save(output_path, "JPEG", quality=96)
     return output_path, theme["id"]
 
 
 def render_quote_card_overlay(quote_data, output_path, theme_name=None):
     """
-    Renders an elegant, semi-transparent glassmorphic quote card on a transparent 1080x1920 canvas
-    for direct high-framerate overlay onto motion video backgrounds in FFmpeg.
+    Renders an elegant, transparent 1080x1920 overlay with soft text shadows
+    and crisp white typography for direct compositing over motion video loops in FFmpeg.
     """
     target_w, target_h = 1080, 1920
     theme = get_theme_for_background(None, theme_name)
     
-    # 1. Start with full transparency
-    im = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-    
-    # 2. Atmospheric darkening in the center zone to ensure crisp legibility over moving video
-    darken = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-    d_draw = ImageDraw.Draw(darken)
-    for y in range(target_h):
-        dist_from_center = abs(y - 1000) / 1000.0
-        alpha = int(35 + 45 * (1.0 - dist_from_center))
-        d_draw.line([(0, y), (target_w, y)], fill=(8, 10, 14, min(95, alpha)))
-    im = Image.alpha_composite(im, darken)
-    draw = ImageDraw.Draw(im)
-
-    # 3. Load Typography
-    tag_font = get_font("Georgia-Bold.ttf", 24)
-    quote_mark_font = get_font("Georgia-Bold.ttf", 120)
-    main_quote_font = get_font("Georgia-Bold.ttf", 48)
-    sub_quote_font = get_font("Georgia-Italic.ttf", 36)
-    footer_font = get_font("Georgia-Bold.ttf", 26)
-    safe_font = get_font("Georgia-Bold.ttf", 23)
-
-    hero_lines = quote_data.get("hero_lines", ["Words to live by."])
-    subtext = quote_data.get("subtext", "")
-    
-    words = subtext.split()
-    sub_lines = []
-    curr_line = ""
-    for w in words:
-        test_line = curr_line + (" " if curr_line else "") + w
-        bbox = draw.textbbox((0, 0), test_line, font=sub_quote_font)
-        if (bbox[2] - bbox[0]) > 800:
-            if curr_line:
-                sub_lines.append(curr_line)
-            curr_line = w
-        else:
-            curr_line = test_line
-    if curr_line:
-        sub_lines.append(curr_line)
-
-    content_height = 140 + (len(hero_lines) * 72) + 70 + (len(sub_lines) * 54) + 110
-    card_h = max(740, min(840, content_height))
-    card_y0 = (target_h - card_h) // 2 + 30
-    card_y1 = card_y0 + card_h
-    card_x0, card_x1 = 70, 1010
-    
-    # 4. Glass Card Frame
-    card_overlay = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-    card_draw = ImageDraw.Draw(card_overlay)
-    card_draw.rounded_rectangle(
-        [card_x0, card_y0, card_x1, card_y1],
-        radius=44,
-        fill=theme["card_fill"],
-        outline=theme["card_outline"],
-        width=2
-    )
-    im = Image.alpha_composite(im, card_overlay)
-    draw = ImageDraw.Draw(im)
-
-    # 5. Badge Pill
-    category_text = quote_data.get("category", "DAILY MINDSET • INNER RESILIENCE")
-    pill_t_bbox = draw.textbbox((0, 0), category_text, font=tag_font)
-    pill_w = (pill_t_bbox[2] - pill_t_bbox[0]) + 56
-    pill_h = 44
-    pill_x0 = (target_w - pill_w) // 2
-    pill_y0 = card_y0 + 38
-    
-    pill_overlay = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-    p_draw = ImageDraw.Draw(pill_overlay)
-    p_draw.rounded_rectangle(
-        [pill_x0, pill_y0, pill_x0 + pill_w, pill_y0 + pill_h],
-        radius=22,
-        fill=theme["pill_fill"],
-        outline=theme["pill_outline"],
-        width=2
-    )
-    im = Image.alpha_composite(im, pill_overlay)
-    draw = ImageDraw.Draw(im)
-    
-    draw.text((target_w // 2, pill_y0 + 22), category_text, font=tag_font, fill=theme["pill_text"], anchor="mm")
-    draw.text((target_w // 2, card_y0 + 135), "“", font=quote_mark_font, fill=theme["quote_mark"], anchor="mm")
-
-    curr_y = card_y0 + 220
-    for line in hero_lines:
-        draw.text((target_w // 2 + 2, curr_y + 2), line, font=main_quote_font, fill=(0, 0, 0, 200), anchor="mm")
-        draw.text((target_w // 2, curr_y), line, font=main_quote_font, fill=theme["hero_text"], anchor="mm")
-        curr_y += 72
-
-    curr_y += 14
-    sep_len = 160
-    draw.line([(target_w // 2 - sep_len // 2, curr_y), (target_w // 2 + sep_len // 2, curr_y)], fill=theme["separator"], width=2)
-    curr_y += 45
-
-    for line in sub_lines:
-        draw.text((target_w // 2 + 1, curr_y + 1), line, font=sub_quote_font, fill=(0, 0, 0, 180), anchor="mm")
-        draw.text((target_w // 2, curr_y), line, font=sub_quote_font, fill=theme["subtext"], anchor="mm")
-        curr_y += 54
-
-    footer_text = quote_data.get("footer", "— SAVE & SHARE IF YOU NEEDED THIS —")
-    draw.text((target_w // 2, card_y1 - 42), footer_text, font=footer_font, fill=theme["footer"], anchor="mm")
-
-    top_safe_text = get_safe_zone_text(quote_data)
-    draw.text((target_w // 2, 160), top_safe_text, font=safe_font, fill=theme["safe_accent"], anchor="mm")
-    draw.text((target_w // 2, 1780), "✦ Simran Life Club ✦", font=safe_font, fill=(255, 255, 255, 180), anchor="mm")
+    # 1. Full transparency canvas
+    transparent_canvas = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+    overlay = render_minimalist_quote(quote_data, transparent_canvas, theme=theme, is_overlay_only=True)
 
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
-    im.save(output_path, "PNG")
+    overlay.save(output_path, "PNG")
     return output_path, theme["id"]
 
 
 if __name__ == "__main__":
     sample_quote = {
         "slot": "morning",
-        "category": "MORNING MINDSET • RESILIENCE",
-        "hero_lines": [
-            "The mountain you are carrying,",
-            "you were only meant to climb."
-        ],
-        "subtext": "Trust the quiet season. Your timing is not late — it is preparing you.",
-        "footer": "— SAVE & SHARE IF YOU NEEDED THIS —"
+        "quote_text": "The things I want are valuable, but the things I have are truly invaluable",
+        "hero_lines": ["The things I want are valuable,", "but the things I have are truly invaluable"]
     }
-    out_path = os.path.join(BASE_DIR, "output", "test_render.png")
-    test_bg = os.path.join(BASE_DIR, "assets", "backgrounds", "misty_forest.jpg")
+    out_path = os.path.join(BASE_DIR, "output", "test_aesthetic_render.jpg")
+    test_bg = os.path.join(BASE_DIR, "assets", "backgrounds", "shimmering_ocean.jpg")
     render_quote_card(sample_quote, out_path, test_bg)
-    print(f"Test card successfully rendered with theme!")
+    print(f"Test aesthetic card successfully rendered: {out_path}")

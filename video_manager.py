@@ -49,12 +49,16 @@ def generate_motion_video_from_image(image_path, output_mp4, duration=12, fps=30
     
     # Motion presets for image-to-video conversion
     pan_effects = [
+        # Slow cinematic push-in (very popular for ocean & mountain scenes)
+        f"zoompan=z='min(zoom+0.00032,1.07)':d={total_frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps={fps}",
+        # Slow reveal pull-back
+        f"zoompan=z='max(1.07-0.00032*on,1.0)':d={total_frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps={fps}",
         # Floating gentle pan and zoom
-        f"zoompan=z='1.04+0.03*sin(2*3.14159*on/{total_frames})':d={total_frames}:x='iw/2-(iw/zoom/2)+15*sin(2*3.14159*on/{total_frames})':y='ih/2-(ih/zoom/2)+10*cos(2*3.14159*on/{total_frames})':s=1080x1920:fps={fps}",
+        f"zoompan=z='1.04+0.025*sin(2*3.14159*on/{total_frames})':d={total_frames}:x='iw/2-(iw/zoom/2)+12*sin(2*3.14159*on/{total_frames})':y='ih/2-(ih/zoom/2)+8*cos(2*3.14159*on/{total_frames})':s=1080x1920:fps={fps}",
         # Slow rising drone effect
-        f"zoompan=z='min(1.0+0.00035*on,1.08)':d={total_frames}:x='iw/2-(iw/zoom/2)':y='max(0,ih/2-(ih/zoom/2)-0.12*on)':s=1080x1920:fps={fps}",
+        f"zoompan=z='min(1.0+0.0003*on,1.07)':d={total_frames}:x='iw/2-(iw/zoom/2)':y='max(0,ih/2-(ih/zoom/2)-0.10*on)':s=1080x1920:fps={fps}",
         # Slow descending tilt
-        f"zoompan=z='min(1.0+0.00035*on,1.08)':d={total_frames}:x='iw/2-(iw/zoom/2)':y='min(ih-ih/zoom,ih/2-(ih/zoom/2)+0.12*on)':s=1080x1920:fps={fps}"
+        f"zoompan=z='min(1.0+0.0003*on,1.07)':d={total_frames}:x='iw/2-(iw/zoom/2)':y='min(ih-ih/zoom,ih/2-(ih/zoom/2)+0.10*on)':s=1080x1920:fps={fps}"
     ]
     chosen_effect = random.choice(pan_effects)
     
