@@ -8,6 +8,58 @@ import wave
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 AUDIO_DIR = os.path.join(BASE_DIR, "assets", "audio")
 
+# 8 Distinct Royalty-Free CC0 / Public Domain Music Tracks Catalog
+AUDIO_CATALOG = {
+    "lofi_chillhop.mp3": {
+        "title": "Warm Rhodes & Lo-Fi Chillhop",
+        "genre": "Lo-Fi Beats",
+        "slots": ["evening", "afternoon"],
+        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-roomscene-lofi.mp3"
+    },
+    "boombap_groove.mp3": {
+        "title": "Energetic 90s Boom-Bap Hip Hop",
+        "genre": "Hip Hop / Motivation",
+        "slots": ["morning", "midday"],
+        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/korobeiniki-boombap-loop.mp3"
+    },
+    "cinematic_satie_piano.mp3": {
+        "title": "Gymnopédie Serene Grand Piano",
+        "genre": "Cinematic Piano",
+        "slots": ["night", "morning"],
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Gymnopedie_No._2_%28ISRC_USUAN1100786%29.mp3"
+    },
+    "melodic_piano_rondo.mp3": {
+        "title": "Uplifting Melodic Acoustic Rondo",
+        "genre": "Acoustic Melody",
+        "slots": ["morning", "midday"],
+        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-rondo.mp3"
+    },
+    "arcade_synthwave.mp3": {
+        "title": "Retro Ambient Synthwave Vibe",
+        "genre": "Synthwave / Cyber",
+        "slots": ["midday", "evening"],
+        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-arcade-vibe.mp3"
+    },
+    "winter_celestial.mp3": {
+        "title": "Celestial Chimes & Ambient Bells",
+        "genre": "Ambient / Meditation",
+        "slots": ["night", "evening"],
+        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-winter-arcade.mp3"
+    },
+    "stoic_mindset.mp3": {
+        "title": "Stoic Cello & Deep Cinematic Pad",
+        "genre": "Deep Wisdom",
+        "slots": ["afternoon", "evening"],
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Stoic_Morning_%28ISRC_USUAN1100061%29.mp3"
+    },
+    "duru_tresillo_chill.mp3": {
+        "title": "Dorian Tresillo Deep Flow",
+        "genre": "Deep Focus",
+        "slots": ["midday", "afternoon"],
+        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-ai-ep2-music.mp3"
+    }
+}
+
 # Musical note to frequency helper (A4 = 440 Hz)
 def m2f(note):
     return 440.0 * (2.0 ** ((note - 69.0) / 12.0))
@@ -308,32 +360,66 @@ def get_available_audio_files():
 
 def select_dynamic_audio(history, quote_slot=None, output_temp_wav=None):
     """
-    Selects or synthesizes a fresh, distinct audio track for the reel.
-    1. Checks if pre-existing audio files exist in assets/audio/
-    2. If so, rotates through them avoiding recent tracks in history
-    3. If none exist or by procedural rotation, selects a fresh procedural style from MUSIC_STYLES
+    Selects a distinct, high-quality audio track for the reel.
+    1. Checks if real audio files exist in assets/audio/ (auto-populates if missing)
+    2. Strictly avoids repeating recent tracks from history['used_audio']
+    3. Guarantees that the last-posted audio track is NEVER repeated consecutively
+    4. Matches slot mood (morning=uplifting/boom-bap, evening/night=lo-fi/piano/ambient)
     Returns: (audio_path, audio_display_name, audio_id)
     """
-    used_audio = history.get("used_audio", [])
+    if history is None:
+        history = {}
+
     audio_files = get_available_audio_files()
-    
-    # Mode A: User has real audio files in assets/audio/
+    if not audio_files:
+        populate_starter_audio_library()
+        audio_files = get_available_audio_files()
+
+    # Mode A: User / Starter library has real audio files in assets/audio/
     if audio_files:
-        unused_files = [f for f in audio_files if f not in used_audio]
-        if not unused_files:
-            unused_files = audio_files
-            used_audio = [item for item in used_audio if item not in audio_files]
+        used_audio = history.get("used_audio", [])
         
-        chosen_file = random.choice(unused_files)
+        # Filter used_audio to only keep tracks that currently exist in assets/audio/
+        valid_used = [f for f in used_audio if f in audio_files]
+        last_track = valid_used[-1] if valid_used else None
+
+        # Tracks unused in the current cycle
+        unused_files = [f for f in audio_files if f not in valid_used]
+
+        # If all tracks have been used at least once, reset cycle
+        if not unused_files:
+            unused_files = list(audio_files)
+
+        # STRICT NON-REPETITION: Never pick the track that was just posted
+        if len(unused_files) > 1 and last_track in unused_files:
+            unused_files.remove(last_track)
+
+        # Slot-based affinity matching if slot is provided
+        slot_candidates = []
+        if quote_slot:
+            slot_candidates = [
+                f for f in unused_files
+                if quote_slot in AUDIO_CATALOG.get(f, {}).get("slots", [])
+            ]
+
+        # Pick with 75% affinity for slot mood, or fallback to any unused track
+        if slot_candidates and random.random() < 0.75:
+            chosen_file = random.choice(slot_candidates)
+        else:
+            chosen_file = random.choice(unused_files)
+
         audio_path = os.path.join(AUDIO_DIR, chosen_file)
-        display_name = os.path.splitext(chosen_file)[0].replace("_", " ").title()
+        catalog_info = AUDIO_CATALOG.get(chosen_file, {})
+        display_name = catalog_info.get("title") or os.path.splitext(chosen_file)[0].replace("_", " ").title()
+        
         return audio_path, display_name, chosen_file
 
-    # Mode B: High-Fidelity Procedural Synthesis Engine (8 distinct genres)
-    unused_styles = [s for s in MUSIC_STYLES if s["id"] not in used_audio]
+    # Mode B: High-Fidelity Procedural Synthesis Fallback (if completely offline & empty)
+    used_styles = history.get("used_audio", [])
+    unused_styles = [s for s in MUSIC_STYLES if s["id"] not in used_styles]
     if not unused_styles:
         unused_styles = MUSIC_STYLES
-        used_audio = []
+        used_styles = []
 
     chosen_style = random.choice(unused_styles)
     if not output_temp_wav:
@@ -341,26 +427,51 @@ def select_dynamic_audio(history, quote_slot=None, output_temp_wav=None):
         os.makedirs(temp_dir, exist_ok=True)
         output_temp_wav = os.path.join(temp_dir, f"audio_{chosen_style['id']}.wav")
 
-    synthesize_style_audio(chosen_style, output_temp_wav, duration=12.0)
+    synthesize_style_audio(chosen_style, output_temp_wav, duration=15.0)
     return output_temp_wav, chosen_style["name"], chosen_style["id"]
 
 
 def populate_starter_audio_library():
-    """Generates starter high quality .wav audio files in assets/audio/ if empty."""
+    """
+    Ensures the audio library in assets/audio/ is populated with genuine, high-quality
+    royalty-free CC0 and public domain audio tracks.
+    Auto-downloads missing tracks from direct reliable URLs.
+    """
+    import urllib.request
     os.makedirs(AUDIO_DIR, exist_ok=True)
     existing = get_available_audio_files()
-    if existing:
-        return
     
-    print("[INFO] Generating starter royalty-free audio tracks for assets/audio/...")
-    for style in MUSIC_STYLES[:6]:
-        out_name = f"{style['id']}.wav"
-        target_path = os.path.join(AUDIO_DIR, out_name)
-        if not os.path.exists(target_path):
-            synthesize_style_audio(style, target_path, duration=12.0)
-            print(f"  + Created track: {out_name} ({style['name']})")
-    print("[SUCCESS] Starter audio library initialized!")
+    missing = [f for f in AUDIO_CATALOG.keys() if f not in existing]
+    if not missing:
+        return
+
+    print(f"[INFO] Populating audio library ({len(missing)} tracks to acquire)...")
+    headers = {"User-Agent": "Mozilla/5.0 (Instagram Auto Poster Bot)"}
+    
+    for fname in missing:
+        url = AUDIO_CATALOG[fname].get("url")
+        if not url:
+            continue
+        dest = os.path.join(AUDIO_DIR, fname)
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=20) as resp, open(dest, "wb") as f:
+                f.write(resp.read())
+            print(f"  ✓ Downloaded {fname}: {AUDIO_CATALOG[fname]['title']}")
+        except Exception as e:
+            print(f"  [WARN] Failed to download {fname}: {e}")
+
+    # Offline emergency fallback: if no audio files could be acquired
+    if not get_available_audio_files():
+        print("[WARN] Offline: generating procedural fallback tracks...")
+        for style in MUSIC_STYLES[:4]:
+            out_name = f"{style['id']}.wav"
+            target_path = os.path.join(AUDIO_DIR, out_name)
+            if not os.path.exists(target_path):
+                synthesize_style_audio(style, target_path, duration=15.0)
+                print(f"  + Generated: {out_name}")
 
 
 if __name__ == "__main__":
     populate_starter_audio_library()
+    print("Available audio files:", get_available_audio_files())

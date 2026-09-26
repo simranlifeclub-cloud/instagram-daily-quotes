@@ -145,7 +145,7 @@ def mix_voice_and_music(voice_path, music_path, output_mixed_audio, duration=12.
     filtergraph = (
         f"[0:a]volume=1.35,afade=t=in:st=0:d=0.3[v];"
         f"[1:a]volume=0.32,afade=t=in:st=0:d=1.0,afade=t=out:st={duration-1.8}:d=1.8[m];"
-        f"[v][m]amix=inputs=2:duration=first:dropout_transition=2,volume=1.15"
+        f"[v][m]amix=inputs=2:duration=longest:dropout_transition=2,volume=1.15"
     )
 
     cmd = [
