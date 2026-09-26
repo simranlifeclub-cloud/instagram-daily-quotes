@@ -6,7 +6,8 @@
     7,
     5,
     8,
-    12
+    12,
+    11
   ],
   "used_backgrounds": [
     "starry_night.jpg",
@@ -15,10 +16,12 @@
     "emerald_waterfall.jpg",
     "desert_dunes.jpg",
     "minimalist_arch.jpg",
-    "golden_hour_trail.jpg"
+    "golden_hour_trail.jpg",
+    "twilight_leaf_silhouette.jpg"
   ],
   "used_audio": [
-    "arcade_synthwave.mp3"
+    "arcade_synthwave.mp3",
+    "winter_celestial.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -27,15 +30,17 @@
     "EMERALD_MINT",
     "DESERT_TERRACOTTA",
     "FROSTED_SILVER",
-    "GOLDEN_LUXURY"
+    "GOLDEN_LUXURY",
+    "ROYAL_AMETHYST"
   ],
-  "last_posted_date": "2026-09-26 12:28:54 UTC",
+  "last_posted_date": "2026-09-26 12:51:04 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
     "VOICEOVER",
     "SHORT_VIDEO",
     "TEXT_POSTER",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
