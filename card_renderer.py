@@ -388,6 +388,123 @@ def render_quote_card(quote_data, output_path, bg_image_path=None, theme_name=No
     return output_path, theme["id"]
 
 
+def render_quote_card_overlay(quote_data, output_path, theme_name=None):
+    """
+    Renders an elegant, semi-transparent glassmorphic quote card on a transparent 1080x1920 canvas
+    for direct high-framerate overlay onto motion video backgrounds in FFmpeg.
+    """
+    target_w, target_h = 1080, 1920
+    theme = get_theme_for_background(None, theme_name)
+    
+    # 1. Start with full transparency
+    im = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+    
+    # 2. Atmospheric darkening in the center zone to ensure crisp legibility over moving video
+    darken = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+    d_draw = ImageDraw.Draw(darken)
+    for y in range(target_h):
+        dist_from_center = abs(y - 1000) / 1000.0
+        alpha = int(35 + 45 * (1.0 - dist_from_center))
+        d_draw.line([(0, y), (target_w, y)], fill=(8, 10, 14, min(95, alpha)))
+    im = Image.alpha_composite(im, darken)
+    draw = ImageDraw.Draw(im)
+
+    # 3. Load Typography
+    tag_font = get_font("Georgia-Bold.ttf", 24)
+    quote_mark_font = get_font("Georgia-Bold.ttf", 120)
+    main_quote_font = get_font("Georgia-Bold.ttf", 48)
+    sub_quote_font = get_font("Georgia-Italic.ttf", 36)
+    footer_font = get_font("Georgia-Bold.ttf", 26)
+    safe_font = get_font("Georgia-Bold.ttf", 23)
+
+    hero_lines = quote_data.get("hero_lines", ["Words to live by."])
+    subtext = quote_data.get("subtext", "")
+    
+    words = subtext.split()
+    sub_lines = []
+    curr_line = ""
+    for w in words:
+        test_line = curr_line + (" " if curr_line else "") + w
+        bbox = draw.textbbox((0, 0), test_line, font=sub_quote_font)
+        if (bbox[2] - bbox[0]) > 800:
+            if curr_line:
+                sub_lines.append(curr_line)
+            curr_line = w
+        else:
+            curr_line = test_line
+    if curr_line:
+        sub_lines.append(curr_line)
+
+    content_height = 140 + (len(hero_lines) * 72) + 70 + (len(sub_lines) * 54) + 110
+    card_h = max(740, min(840, content_height))
+    card_y0 = (target_h - card_h) // 2 + 30
+    card_y1 = card_y0 + card_h
+    card_x0, card_x1 = 70, 1010
+    
+    # 4. Glass Card Frame
+    card_overlay = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+    card_draw = ImageDraw.Draw(card_overlay)
+    card_draw.rounded_rectangle(
+        [card_x0, card_y0, card_x1, card_y1],
+        radius=44,
+        fill=theme["card_fill"],
+        outline=theme["card_outline"],
+        width=2
+    )
+    im = Image.alpha_composite(im, card_overlay)
+    draw = ImageDraw.Draw(im)
+
+    # 5. Badge Pill
+    category_text = quote_data.get("category", "DAILY MINDSET • INNER RESILIENCE")
+    pill_t_bbox = draw.textbbox((0, 0), category_text, font=tag_font)
+    pill_w = (pill_t_bbox[2] - pill_t_bbox[0]) + 56
+    pill_h = 44
+    pill_x0 = (target_w - pill_w) // 2
+    pill_y0 = card_y0 + 38
+    
+    pill_overlay = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+    p_draw = ImageDraw.Draw(pill_overlay)
+    p_draw.rounded_rectangle(
+        [pill_x0, pill_y0, pill_x0 + pill_w, pill_y0 + pill_h],
+        radius=22,
+        fill=theme["pill_fill"],
+        outline=theme["pill_outline"],
+        width=2
+    )
+    im = Image.alpha_composite(im, pill_overlay)
+    draw = ImageDraw.Draw(im)
+    
+    draw.text((target_w // 2, pill_y0 + 22), category_text, font=tag_font, fill=theme["pill_text"], anchor="mm")
+    draw.text((target_w // 2, card_y0 + 135), "“", font=quote_mark_font, fill=theme["quote_mark"], anchor="mm")
+
+    curr_y = card_y0 + 220
+    for line in hero_lines:
+        draw.text((target_w // 2 + 2, curr_y + 2), line, font=main_quote_font, fill=(0, 0, 0, 200), anchor="mm")
+        draw.text((target_w // 2, curr_y), line, font=main_quote_font, fill=theme["hero_text"], anchor="mm")
+        curr_y += 72
+
+    curr_y += 14
+    sep_len = 160
+    draw.line([(target_w // 2 - sep_len // 2, curr_y), (target_w // 2 + sep_len // 2, curr_y)], fill=theme["separator"], width=2)
+    curr_y += 45
+
+    for line in sub_lines:
+        draw.text((target_w // 2 + 1, curr_y + 1), line, font=sub_quote_font, fill=(0, 0, 0, 180), anchor="mm")
+        draw.text((target_w // 2, curr_y), line, font=sub_quote_font, fill=theme["subtext"], anchor="mm")
+        curr_y += 54
+
+    footer_text = quote_data.get("footer", "— SAVE & SHARE IF YOU NEEDED THIS —")
+    draw.text((target_w // 2, card_y1 - 42), footer_text, font=footer_font, fill=theme["footer"], anchor="mm")
+
+    top_safe_text = get_safe_zone_text(quote_data)
+    draw.text((target_w // 2, 160), top_safe_text, font=safe_font, fill=theme["safe_accent"], anchor="mm")
+    draw.text((target_w // 2, 1780), "✦ Simran Life Club ✦", font=safe_font, fill=(255, 255, 255, 180), anchor="mm")
+
+    os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+    im.save(output_path, "PNG")
+    return output_path, theme["id"]
+
+
 if __name__ == "__main__":
     sample_quote = {
         "slot": "morning",

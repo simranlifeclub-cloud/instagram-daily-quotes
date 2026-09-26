@@ -9,6 +9,7 @@ from datetime import datetime, timezone, timedelta
 
 from background_manager import select_dynamic_background, get_available_backgrounds
 from audio_manager import select_dynamic_audio, populate_starter_audio_library
+from video_manager import select_dynamic_video
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 QUOTES_FILE = os.path.join(BASE_DIR, "quotes_database.json")
@@ -28,8 +29,11 @@ def load_history():
     default_state = {
         "posted_ids": [],
         "used_backgrounds": [],
+        "used_videos": [],
         "used_audio": [],
         "used_themes": [],
+        "used_formats": [],
+        "used_voices": [],
         "last_posted_date": None
     }
     if os.path.exists(HISTORY_FILE):
@@ -155,12 +159,15 @@ def get_authenticated_client(username, password):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Instagram Daily Reel & Post Publisher")
+    parser = argparse.ArgumentParser(description="Instagram Multi-Format Reel Publisher")
     parser.add_argument("--dry-run", action="store_true", help="Render video/image without uploading")
     parser.add_argument("--no-jitter", action="store_true", help="Disable human posting time jitter")
+    parser.add_argument("--format", type=str, choices=["VOICEOVER", "SHORT_VIDEO", "TEXT_POSTER"], default=None, help="Force specific reel format")
     parser.add_argument("--bg", type=str, default=None, help="Force specific background image filename")
+    parser.add_argument("--video", type=str, default=None, help="Force specific background video filename")
     parser.add_argument("--theme", type=str, default=None, help="Force specific visual theme")
     parser.add_argument("--audio", type=str, default=None, help="Force specific audio filename")
+    parser.add_argument("--voice", type=str, default=None, help="Force specific voice id")
     args = parser.parse_args()
 
     # Pre-populate starter audio files if needed
@@ -202,8 +209,11 @@ def main():
             quote,
             media_path,
             duration=12,
+            reel_format=args.format,
             bg_image_path=args.bg,
+            bg_video_path=args.video,
             audio_path=args.audio,
+            voice_id=args.voice,
             theme_name=args.theme,
             history=history
         )
@@ -216,8 +226,10 @@ def main():
             quote, media_path, bg_image_path=bg_path, theme_name=args.theme
         )
         meta = {
+            "format": "PHOTO_FALLBACK",
             "background": bg_name,
             "theme": applied_theme,
+            "voice": None,
             "audio": "N/A (Photo Mode)",
             "audio_id": None,
             "motion": "Static Photo"
@@ -227,10 +239,11 @@ def main():
     if args.dry_run:
         print("\n[DRY RUN MODE]")
         print("Media file:    ", media_path)
-        print("Format:        ", "Instagram REEL (MP4 Video)" if is_video else "Instagram PHOTO (JPEG)")
+        print("Format:        ", meta.get("format", "Instagram Reel"))
         print("Time Slot:     ", quote.get("slot"))
         print("Background:    ", meta.get("background"))
         print("Visual Theme:  ", meta.get("theme"))
+        print("Voiceover:     ", meta.get("voice") or "None (Music Only)")
         print("Soundtrack:    ", meta.get("audio"))
         print("Camera Motion: ", meta.get("motion"))
         print("Thumbnail:     ", thumb_path)
@@ -257,18 +270,24 @@ def main():
         media = cl.photo_upload(path=media_path, caption=caption)
         print(f"\n🎉 [SUCCESS] Post is LIVE on Instagram! Media PK: {media.pk}")
 
-    # Track History with zero consecutive repetition
+    # Track History across all dimensions
     history["posted_ids"].append(quote["id"])
+    if meta.get("format"):
+        history["used_formats"].append(meta["format"])
+    if meta.get("voice"):
+        history["used_voices"].append(meta["voice"])
     if meta.get("background"):
         history["used_backgrounds"].append(meta["background"])
     if meta.get("audio_id"):
         history["used_audio"].append(meta["audio_id"])
+    elif meta.get("audio"):
+        history["used_audio"].append(meta["audio"])
     if meta.get("theme"):
         history["used_themes"].append(meta["theme"])
 
     history["last_posted_date"] = time.strftime("%Y-%m-%d %H:%M:%S UTC")
     save_history(history)
-    print(f"[INFO] Recorded quote #{quote['id']}, background '{meta.get('background')}', and music '{meta.get('audio')}' in history!")
+    print(f"[INFO] Recorded quote #{quote['id']} [{meta.get('format')}] in history!")
 
 
 if __name__ == "__main__":
