@@ -12,7 +12,8 @@
     18,
     17,
     9,
-    20
+    20,
+    21
   ],
   "used_backgrounds": [
     "starry_night.jpg",
@@ -27,7 +28,8 @@
     "snowy_mountain_peak.jpg",
     "misty_mountain_ridge.jpg",
     "misty_forest.jpg",
-    "city_twilight.jpg"
+    "city_twilight.jpg",
+    "sunset_clouds_beach.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -36,7 +38,8 @@
     "melodic_piano_rondo.mp3",
     "boombap_groove.mp3",
     "duru_tresillo_chill.mp3",
-    "stoic_mindset.mp3"
+    "stoic_mindset.mp3",
+    "lofi_chillhop.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -51,9 +54,10 @@
     "CYAN_HORIZON",
     "EMERALD_MINT",
     "EMERALD_MINT",
+    "SUNSET_EMBER",
     "SUNSET_EMBER"
   ],
-  "last_posted_date": "2026-09-27 12:50:45 UTC",
+  "last_posted_date": "2026-09-27 16:13:21 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -66,10 +70,12 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "PURE_CINEMATIC",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
-    "Jenny (Uplifting, Clear, Confident)"
+    "Jenny (Uplifting, Clear, Confident)",
+    "Ryan (British, Sophisticated, Cinematic Wisdom)"
   ]
 }
