@@ -16,26 +16,11 @@
     21,
     3,
     1,
-    19
+    19,
+    13
   ],
   "used_backgrounds": [
-    "starry_night.jpg",
-    "serene_sunrise.jpg",
-    "ocean_waves.jpg",
-    "emerald_waterfall.jpg",
-    "desert_dunes.jpg",
-    "minimalist_arch.jpg",
-    "golden_hour_trail.jpg",
-    "twilight_leaf_silhouette.jpg",
-    "cozy_rainy_window.jpg",
-    "snowy_mountain_peak.jpg",
-    "misty_mountain_ridge.jpg",
-    "misty_forest.jpg",
-    "city_twilight.jpg",
-    "sunset_clouds_beach.jpg",
-    "shimmering_ocean.jpg",
-    "golden_mountain.jpg",
-    "tropical_green_foliage.jpg"
+    "ocean_waves.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -48,7 +33,8 @@
     "lofi_chillhop.mp3",
     "cinematic_satie_piano.mp3",
     "melodic_piano_rondo.mp3",
-    "boombap_groove.mp3"
+    "boombap_groove.mp3",
+    "stoic_mindset.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -67,9 +53,10 @@
     "SUNSET_EMBER",
     "CYAN_HORIZON",
     "GOLDEN_LUXURY",
-    "EMERALD_MINT"
+    "EMERALD_MINT",
+    "CYAN_HORIZON"
   ],
-  "last_posted_date": "2026-09-28 08:08:57 UTC",
+  "last_posted_date": "2026-09-28 12:52:00 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -86,7 +73,8 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "PURE_CINEMATIC"
+    "PURE_CINEMATIC",
+    "SHORT_VIDEO"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
