@@ -14,7 +14,8 @@
     9,
     20,
     21,
-    3
+    3,
+    1
   ],
   "used_backgrounds": [
     "starry_night.jpg",
@@ -31,7 +32,8 @@
     "misty_forest.jpg",
     "city_twilight.jpg",
     "sunset_clouds_beach.jpg",
-    "shimmering_ocean.jpg"
+    "shimmering_ocean.jpg",
+    "golden_mountain.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -42,7 +44,8 @@
     "duru_tresillo_chill.mp3",
     "stoic_mindset.mp3",
     "lofi_chillhop.mp3",
-    "cinematic_satie_piano.mp3"
+    "cinematic_satie_piano.mp3",
+    "melodic_piano_rondo.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -59,9 +62,10 @@
     "EMERALD_MINT",
     "SUNSET_EMBER",
     "SUNSET_EMBER",
-    "CYAN_HORIZON"
+    "CYAN_HORIZON",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-09-28 01:44:12 UTC",
+  "last_posted_date": "2026-09-28 05:12:29 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -76,6 +80,7 @@
     "PURE_CINEMATIC",
     "SHORT_VIDEO",
     "VOICEOVER",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
