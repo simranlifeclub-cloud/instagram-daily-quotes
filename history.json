@@ -1,6 +1,7 @@
 {
   "posted_ids": [
-    11
+    11,
+    16
   ],
   "used_backgrounds": [
     "ocean_waves.jpg",
@@ -8,7 +9,8 @@
     "golden_mountain.jpg",
     "misty_mountain_ridge.jpg",
     "misty_forest.jpg",
-    "sunset_clouds_beach.jpg"
+    "sunset_clouds_beach.jpg",
+    "city_twilight.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -27,7 +29,8 @@
     "cinematic_satie_piano.mp3",
     "lofi_chillhop.mp3",
     "cinematic_satie_piano.mp3",
-    "boombap_groove.mp3"
+    "boombap_groove.mp3",
+    "cinematic_satie_piano.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -52,9 +55,10 @@
     "GOLDEN_LUXURY",
     "EMERALD_MINT",
     "EMERALD_MINT",
+    "SUNSET_EMBER",
     "SUNSET_EMBER"
   ],
-  "last_posted_date": "2026-09-29 12:57:27 UTC",
+  "last_posted_date": "2026-09-29 16:14:51 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -77,12 +81,14 @@
     "SHORT_VIDEO",
     "PURE_CINEMATIC",
     "SHORT_VIDEO",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
     "Jenny (Uplifting, Clear, Confident)",
     "Ryan (British, Sophisticated, Cinematic Wisdom)",
-    "Guy (Passionate, Energetic, Direct)"
+    "Guy (Passionate, Energetic, Direct)",
+    "Ryan (British, Sophisticated, Cinematic Wisdom)"
   ]
 }
