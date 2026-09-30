@@ -33,15 +33,15 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install FFmpeg (For 9:16 Video Reel Encoding)
+      - name: Install FFmpeg & Font Rendering Libraries
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get install -y ffmpeg libraqm0 libharfbuzz0b
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade "instagrapi[video]>=3.0.2" moviepy pillow numpy scipy requests edge-tts
+          pip install --upgrade "instagrapi[video]>=3.0.2" moviepy pillow numpy scipy requests edge-tts uharfbuzz freetype-py
 
       - name: Generate & Publish Reel to Instagram
         env:

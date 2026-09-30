@@ -3,6 +3,7 @@ import sys
 import subprocess
 import random
 import shutil
+import math
 
 from card_renderer import render_quote_card, render_quote_card_overlay, get_theme_for_background
 from background_manager import select_dynamic_background, get_available_backgrounds
@@ -54,6 +55,23 @@ MOTION_PRESETS = [
 ]
 
 REEL_FORMATS = ["SHORT_VIDEO", "PURE_CINEMATIC", "VOICEOVER"]
+
+
+def get_audio_duration_seconds(audio_file):
+    """Inspects audio file duration in seconds using ffprobe."""
+    try:
+        cmd = [
+            "ffprobe", "-v", "error",
+            "-show_entries", "format=duration",
+            "-of", "default=noprint_wrappers=1:nokey=1",
+            audio_file
+        ]
+        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if res.returncode == 0 and res.stdout.strip():
+            return float(res.stdout.strip())
+    except Exception:
+        pass
+    return 0.0
 
 
 def select_dynamic_reel_format(history, slot=None):
@@ -134,10 +152,21 @@ def build_mp4_reel(
         voice_temp = os.path.join(temp_dir, f"voice_{quote_data['id']}.mp3")
         voice_res, voice_name = synthesize_quote_speech(quote_data, voice_temp, voice_id=voice_id)
         if voice_res and os.path.exists(voice_res):
+            # Inspect speech length so bigger quotes are never abruptly cut off
+            voice_dur = get_audio_duration_seconds(voice_res)
+            if voice_dur > 0:
+                duration = max(duration, int(math.ceil(voice_dur + 2.5)))
             mixed_audio = os.path.join(temp_dir, f"mixed_audio_{quote_data['id']}.wav")
             final_audio_path = mix_voice_and_music(voice_res, audio_path, mixed_audio, duration=duration)
         else:
             reel_format = "SHORT_VIDEO"
+    else:
+        # For bigger quotes without voiceover, provide viewers comfortable reading time
+        all_words = (quote_data.get("quote_text") or " ".join(quote_data.get("hero_lines", []))).split()
+        if len(all_words) > 30:
+            duration = max(duration, 15)
+        elif len(all_words) > 18:
+            duration = max(duration, 13)
 
     # 5. Render Cover Card Thumbnail
     card_img = os.path.join(temp_dir, f"card_{quote_data['id']}.jpg")

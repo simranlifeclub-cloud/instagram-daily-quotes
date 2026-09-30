@@ -71,25 +71,38 @@ def get_current_ist_slot():
         return "night"
 
 
-def select_dynamic_quote(quotes, history):
+def select_dynamic_quote(quotes, history, quote_id=None, lang=None):
+    if quote_id is not None:
+        matching = [q for q in quotes if q["id"] == quote_id]
+        if matching:
+            print(f"[INFO] Selected forced quote #{quote_id} [{matching[0].get('language', 'en')}].")
+            return matching[0]
+        print(f"[WARN] Quote ID #{quote_id} not found, falling back to dynamic rotation.")
+
+    filtered_quotes = quotes
+    if lang is not None:
+        filtered = [q for q in quotes if q.get("language", "en") == lang]
+        if filtered:
+            filtered_quotes = filtered
+
     posted_ids = set(history.get("posted_ids", []))
     current_slot = get_current_ist_slot()
     
-    slot_available = [q for q in quotes if q.get("slot") == current_slot and q["id"] not in posted_ids]
+    slot_available = [q for q in filtered_quotes if q.get("slot") == current_slot and q["id"] not in posted_ids]
     if slot_available:
         selected = random.choice(slot_available)
-        print(f"[INFO] Selected '{current_slot}' slot quote #{selected['id']}.")
+        print(f"[INFO] Selected '{current_slot}' slot quote #{selected['id']} [{selected.get('language', 'en')}].")
         return selected
 
-    general_available = [q for q in quotes if q["id"] not in posted_ids]
+    general_available = [q for q in filtered_quotes if q["id"] not in posted_ids]
     if general_available:
         selected = random.choice(general_available)
-        print(f"[INFO] Slot exhausted. Selected general unposted quote #{selected['id']}.")
+        print(f"[INFO] Slot exhausted. Selected unposted quote #{selected['id']} [{selected.get('language', 'en')}].")
         return selected
 
     print("[INFO] Full library of quotes has been published! Resetting rotation cycle.")
     history["posted_ids"] = []
-    return random.choice(quotes)
+    return random.choice(filtered_quotes)
 
 
 def get_authenticated_client(username, password):
@@ -168,6 +181,8 @@ def main():
     parser.add_argument("--theme", type=str, default=None, help="Force specific visual theme")
     parser.add_argument("--audio", type=str, default=None, help="Force specific audio filename")
     parser.add_argument("--voice", type=str, default=None, help="Force specific voice id")
+    parser.add_argument("--quote-id", type=int, default=None, help="Force specific quote ID")
+    parser.add_argument("--lang", type=str, choices=["en", "hi"], default=None, help="Filter quotes by language (en or hi)")
     args = parser.parse_args()
 
     # Pre-populate starter audio files if needed
@@ -189,7 +204,7 @@ def main():
 
     quotes = load_quotes()
     history = load_history()
-    quote = select_dynamic_quote(quotes, history)
+    quote = select_dynamic_quote(quotes, history, quote_id=args.quote_id, lang=args.lang)
 
     print("\n=======================================================")
     print(f" Daily Motivational Reel: #{quote['id']} [{quote.get('slot', 'general').upper()}]")

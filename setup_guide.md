@@ -7,7 +7,10 @@ This system automatically publishes **5 unique, high-retention Instagram Reels e
 1. 🎙️ **VOICEOVER REELS (Spoken Audio + Music)**:
    - Studio-grade AI motivational narrator recites the quote with inspiring cadence and dramatic pauses.
    - Background lo-fi/ambient music is automatically ducked underneath and swells at the end.
-   - Uses Microsoft Edge Neural Voices (`en-US-ChristopherNeural`, `en-US-GuyNeural`, `en-GB-RyanNeural`, `en-US-EricNeural`, `en-US-JennyNeural`).
+   - Automatically supports English & Hindi voices:
+     - English: (`en-US-ChristopherNeural`, `en-US-GuyNeural`, `en-GB-RyanNeural`, `en-US-EricNeural`, `en-US-JennyNeural`).
+     - Hindi: (`hi-IN-MadhurNeural` - deep & grounded motivational male, `hi-IN-SwaraNeural` - serene & clear inspiring female).
+   - Audio duration dynamically scales for bigger quotes so speech is never cut off.
 
 2. 🎬 **SHORT VIDEO REELS (Full Motion Video Backgrounds)**:
    - Full motion 9:16 vertical video background (flowing water, moving clouds, ocean waves, city time-lapse).
@@ -71,9 +74,26 @@ assets/audio/
 ---
 
 ### GitHub Actions Deployment
-
+ 
 All daily reels are generated in the cloud using GitHub Actions.
 To test manually anytime:
 1. Open your repository on GitHub.
 2. Go to the **Actions** tab → **Auto Instagram Reels Daily Publisher (5 Reels/Day)**.
 3. Click **Run workflow**.
+
+---
+
+### Local Testing & Custom Triggers
+
+Test reel and cover generation locally or with dry-run mode:
+```bash
+# Test a specific bigger quote (English)
+python post_with_instagrapi.py --dry-run --quote-id 23
+
+# Test a specific Hindi quote with Devanagari text
+python post_with_instagrapi.py --dry-run --quote-id 32
+
+# Force Hindi or English rotation
+python post_with_instagrapi.py --dry-run --lang hi
+python post_with_instagrapi.py --dry-run --lang en
+```

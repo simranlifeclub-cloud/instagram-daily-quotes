@@ -6,7 +6,7 @@ import random
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 5 High-Quality Neural Voices for Motivational Narration
+# 5 High-Quality Neural Voices for Motivational Narration (English)
 MOTIVATIONAL_VOICES = [
     {
         "id": "en-US-ChristopherNeural",
@@ -40,23 +40,64 @@ MOTIVATIONAL_VOICES = [
     }
 ]
 
+# High-Quality Neural Voices for Hindi Quotes (Male & Female)
+HINDI_MOTIVATIONAL_VOICES = [
+    {
+        "id": "hi-IN-MadhurNeural",
+        "name": "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
+        "rate": "-3%",
+        "pitch": "-2Hz"
+    },
+    {
+        "id": "hi-IN-SwaraNeural",
+        "name": "Swara (Hindi - Clear, Inspiring, Serene)",
+        "rate": "-2%",
+        "pitch": "+0Hz"
+    }
+]
+
+
+def is_hindi_text(text):
+    """Returns True if text contains characters in Devanagari Unicode range."""
+    if not text:
+        return False
+    return any('\u0900' <= ch <= '\u097f' for ch in text)
+
+
+def is_hindi_quote(quote_data):
+    """Detects if quote is in Hindi from language metadata or Devanagari characters."""
+    if quote_data.get("language") in ("hi", "hindi"):
+        return True
+    all_text = " ".join(quote_data.get("hero_lines", [])) + " " + quote_data.get("subtext", "") + " " + quote_data.get("category", "")
+    return is_hindi_text(all_text)
+
 
 def format_speech_text(quote_data):
     """
     Formats the quote text with natural pauses and cadence for motivational delivery.
+    Handles both English and Hindi cadence and punctuation.
     """
     hero_lines = quote_data.get("hero_lines", [])
     subtext = quote_data.get("subtext", "")
-    
-    hero_text = " ... ".join(hero_lines)
-    if not hero_text.endswith("."):
-        hero_text += "."
-        
-    if subtext:
-        full_text = f"{hero_text} ... {subtext}"
+    is_hi = is_hindi_quote(quote_data)
+
+    if is_hi:
+        hero_text = " ... ".join(hero_lines)
+        if not (hero_text.endswith("।") or hero_text.endswith(".")):
+            hero_text += "।"
+        if subtext:
+            full_text = f"{hero_text} ... {subtext}"
+        else:
+            full_text = hero_text
     else:
-        full_text = hero_text
-        
+        hero_text = " ... ".join(hero_lines)
+        if not hero_text.endswith("."):
+            hero_text += "."
+        if subtext:
+            full_text = f"{hero_text} ... {subtext}"
+        else:
+            full_text = hero_text
+
     return full_text
 
 
@@ -76,17 +117,20 @@ def synthesize_quote_speech(quote_data, output_mp3, voice_id=None):
     """
     Generates studio-quality neural voice narration for the motivational quote.
     Uses edge-tts if available, or falls back to system TTS on macOS.
+    Routes Hindi quotes to authentic Hindi neural voices.
     Returns: (output_mp3, voice_name) or (None, None) if unavailable.
     """
     os.makedirs(os.path.dirname(os.path.abspath(output_mp3)), exist_ok=True)
     text = format_speech_text(quote_data)
-    
+    is_hi = is_hindi_quote(quote_data)
+    voice_pool = HINDI_MOTIVATIONAL_VOICES if is_hi else MOTIVATIONAL_VOICES
+
     # 1. Pick Voice
     if voice_id:
-        matching = [v for v in MOTIVATIONAL_VOICES if v["id"] == voice_id]
-        voice_config = matching[0] if matching else MOTIVATIONAL_VOICES[0]
+        matching = [v for v in voice_pool if v["id"] == voice_id]
+        voice_config = matching[0] if matching else voice_pool[0]
     else:
-        voice_config = random.choice(MOTIVATIONAL_VOICES)
+        voice_config = random.choice(voice_pool)
 
     # 2. Try Edge TTS (Neural Voices - Cloud / Linux)
     try:
@@ -104,7 +148,8 @@ def synthesize_quote_speech(quote_data, output_mp3, voice_id=None):
     if sys.platform == "darwin":
         try:
             aiff_temp = output_mp3.replace(".mp3", ".aiff")
-            cmd = ["say", "-v", "Daniel", "-o", aiff_temp, text]
+            voice_name = "Lekha" if is_hi else "Daniel"
+            cmd = ["say", "-v", voice_name, "-o", aiff_temp, text]
             subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             # Convert to mp3/wav with ffmpeg
             if os.path.exists(aiff_temp):
@@ -113,7 +158,7 @@ def synthesize_quote_speech(quote_data, output_mp3, voice_id=None):
                 if os.path.exists(aiff_temp):
                     os.remove(aiff_temp)
                 if os.path.exists(output_mp3):
-                    return output_mp3, "macOS Daniel Voice"
+                    return output_mp3, f"macOS {voice_name} Voice"
         except Exception:
             pass
 

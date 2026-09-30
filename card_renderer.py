@@ -5,6 +5,17 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# Complex script shaping (HarfBuzz + FreeType) for flawless Hindi/Devanagari rendering
+try:
+    import freetype as ft
+    import uharfbuzz as hb
+    HAS_HARFBUZZ = True
+except ImportError:
+    HAS_HARFBUZZ = False
+
+_HB_FACES = {}
+_FT_FACES = {}
+
 # 8 Curated Color & Mood Themes
 THEMES = {
     "GOLDEN_LUXURY": {
@@ -122,6 +133,115 @@ def get_font(font_name, size):
     return ImageFont.load_default()
 
 
+def _get_hb_ft(font_filename, size):
+    """Initializes and caches HarfBuzz font and FreeType face for high-performance shaping."""
+    font_path = os.path.join(BASE_DIR, "assets", "fonts", font_filename)
+    if not os.path.exists(font_path):
+        return None, None, 0
+    if font_filename not in _HB_FACES:
+        with open(font_path, "rb") as f:
+            data = f.read()
+        hb_face = hb.Face(data)
+        _HB_FACES[font_filename] = hb_face
+    hb_face = _HB_FACES[font_filename]
+    hb_font = hb.Font(hb_face)
+
+    cache_key = (font_filename, size)
+    if cache_key not in _FT_FACES:
+        ft_face = ft.Face(font_path)
+        ft_face.set_char_size(size * 64)
+        _FT_FACES[cache_key] = ft_face
+    ft_face = _FT_FACES[cache_key]
+
+    scale = size / hb_face.upem
+    return hb_font, ft_face, scale
+
+
+def is_hindi_text(text):
+    """Returns True if text contains characters in Devanagari Unicode range."""
+    if not text:
+        return False
+    return any('\u0900' <= ch <= '\u097f' for ch in text)
+
+
+def is_hindi_quote(quote_data):
+    """Detects if quote is in Hindi from language metadata or Devanagari characters."""
+    if quote_data.get("language") in ("hi", "hindi"):
+        return True
+    all_text = " ".join(quote_data.get("hero_lines", [])) + " " + quote_data.get("subtext", "") + " " + quote_data.get("category", "")
+    return is_hindi_text(all_text)
+
+
+def measure_line_width(text, font_filename, size, fallback_font, draw):
+    """Accurately measures text width in pixels using HarfBuzz if Hindi, else Pillow."""
+    if HAS_HARFBUZZ and is_hindi_text(text):
+        hb_font, _, scale = _get_hb_ft(font_filename, size)
+        if hb_font:
+            buf = hb.Buffer()
+            buf.add_str(text)
+            buf.guess_segment_properties()
+            hb.shape(hb_font, buf)
+            return sum(pos.x_advance for pos in buf.glyph_positions) * scale
+    bbox = draw.textbbox((0, 0), text, font=fallback_font)
+    return bbox[2] - bbox[0]
+
+
+def render_line(canvas, text, font_filename, size, cx, cy, fill_rgba, anchor="ma"):
+    """
+    Renders a line of text centered horizontally at cx, top-aligned at cy.
+    Uses HarfBuzz complex script shaping + FreeType rasterization for Hindi text
+    (preserving matras, halants, and conjuncts). Uses Pillow for English.
+    """
+    draw = ImageDraw.Draw(canvas)
+    if HAS_HARFBUZZ and is_hindi_text(text):
+        hb_font, ft_face, scale = _get_hb_ft(font_filename, size)
+        if hb_font and ft_face:
+            buf = hb.Buffer()
+            buf.add_str(text)
+            buf.guess_segment_properties()
+            hb.shape(hb_font, buf)
+
+            infos = buf.glyph_infos
+            positions = buf.glyph_positions
+
+            ascender = int(ft_face.size.ascender / 64)
+            descender = int(ft_face.size.descender / 64)
+            line_height = ascender - descender
+            total_advance = sum(pos.x_advance for pos in positions) * scale
+            pad = 20
+            img_w = max(1, int(total_advance + pad * 2))
+            img_h = max(1, int(line_height + pad * 2))
+
+            line_img = Image.new("RGBA", (img_w, img_h), (0, 0, 0, 0))
+            pen_x = pad
+            pen_y = pad + ascender
+            for info, pos in zip(infos, positions):
+                gid = info.codepoint
+                ft_face.load_glyph(gid, ft.FT_LOAD_RENDER)
+                slot = ft_face.glyph
+                bitmap = slot.bitmap
+
+                x = int(pen_x + (pos.x_offset * scale) + slot.bitmap_left)
+                y = int(pen_y - (pos.y_offset * scale) - slot.bitmap_top)
+
+                if bitmap.width > 0 and bitmap.rows > 0:
+                    glyph_im = Image.frombytes("L", (bitmap.width, bitmap.rows), bytes(bitmap.buffer))
+                    color_im = Image.new("RGBA", (bitmap.width, bitmap.rows), fill_rgba)
+                    color_im.putalpha(glyph_im)
+                    line_img.alpha_composite(color_im, (x, y))
+
+                pen_x += pos.x_advance * scale
+
+            dest_x = int(cx - total_advance // 2 - pad)
+            dest_y = int(cy - pad)
+            canvas.alpha_composite(line_img, (dest_x, dest_y))
+            return
+
+    # Fallback to Pillow
+    font = get_font(font_filename, size)
+    draw.text((cx, cy), text, font=font, fill=fill_rgba, anchor=anchor)
+
+
 def get_theme_for_background(bg_filename=None, preferred_theme=None):
     """Resolves visual theme from preference or background filename."""
     if preferred_theme and preferred_theme in THEMES:
@@ -164,11 +284,13 @@ def create_procedural_background(width=1080, height=1920, theme_id="GOLDEN_LUXUR
     return im
 
 
-def extract_and_wrap_quote(quote_data, font, draw, max_width=720):
+def extract_and_wrap_quote(quote_data, font_filename, font_size, draw, max_width=740):
     """
-    Extracts the quote text and wraps it gracefully into 3-4 natural, poetic lines.
-    Matches the exact minimalist aesthetic shown in viral nature reels.
+    Extracts the quote text and wraps it gracefully into natural, poetic lines.
+    Handles both English and Hindi text with proper boundary wrapping.
     """
+    fallback_font = get_font(font_filename, font_size)
+
     # Prefer explicit quote_text, otherwise combine hero_lines
     if "quote_text" in quote_data and quote_data["quote_text"]:
         raw_text = quote_data["quote_text"].strip()
@@ -182,8 +304,7 @@ def extract_and_wrap_quote(quote_data, font, draw, max_width=720):
     current_line = []
     for word in words:
         test_line = " ".join(current_line + [word])
-        bbox = draw.textbbox((0, 0), test_line, font=font)
-        w = bbox[2] - bbox[0]
+        w = measure_line_width(test_line, font_filename, font_size, fallback_font, draw)
         if w <= max_width:
             current_line.append(word)
         else:
@@ -201,7 +322,11 @@ def render_minimalist_quote(quote_data, base_image, theme=None, is_overlay_only=
     Renders pure, elegant, minimalist white typography directly on top of the
     cinematic scene with multi-layer soft text shadows and atmospheric diffusion.
     
-    Zero clunky cards, zero borders, zero boxes — 100% authentic aesthetic reel style.
+    Supports:
+    - Bigger quotes: dynamic scaling, balanced line spacing, expanded atmospheric band.
+    - Hindi quotes: HarfBuzz complex script shaping with Noto Sans Devanagari.
+    - English quotes: Timeless Georgia serif typography.
+    - Subtle @simranlifeclub watermark at bottom.
     """
     target_w, target_h = 1080, 1920
     
@@ -209,26 +334,52 @@ def render_minimalist_quote(quote_data, base_image, theme=None, is_overlay_only=
         theme = THEMES["GOLDEN_LUXURY"]
         
     tint_r, tint_g, tint_b = theme.get("vignette_tint", (10, 12, 18))
+    is_hi = is_hindi_quote(quote_data)
 
-    # 1. Typography configuration
-    # Georgia gives the timeless, literary editorial feel seen on aesthetic reels
-    font_size = 54
-    quote_font = get_font("Georgia.ttf", font_size)
+    # 1. Typography Configuration & Font Selection
+    if is_hi:
+        font_filename = "NotoSansDevanagari-Bold.ttf"
+    else:
+        font_filename = "Georgia.ttf"
+
     watermark_font = get_font("Georgia.ttf", 20)
 
-    # Initial probe to determine line heights and layout
+    # Estimate text volume for ideal proportional scaling
+    raw_text = quote_data.get("quote_text") or " ".join(quote_data.get("hero_lines", []))
+    word_count = len(raw_text.split())
+    char_count = len(raw_text)
+
+    if word_count > 30 or char_count > 170:
+        font_size = 40
+        max_width = 820
+    elif word_count > 18 or char_count > 100:
+        font_size = 46
+        max_width = 780
+    else:
+        font_size = 54
+        max_width = 740
+
     temp_draw = ImageDraw.Draw(base_image)
-    lines = extract_and_wrap_quote(quote_data, quote_font, temp_draw, max_width=720)
+    lines = extract_and_wrap_quote(quote_data, font_filename, font_size, temp_draw, max_width=max_width)
 
-    # If lines are long, adjust font size slightly for ideal proportion
-    if len(lines) > 4:
-        font_size = 48
-        quote_font = get_font("Georgia.ttf", font_size)
-        lines = extract_and_wrap_quote(quote_data, quote_font, temp_draw, max_width=740)
+    # If line count is high, scale down one step to keep golden-ratio proportions
+    if len(lines) > 5 and font_size > 38:
+        font_size = 38
+        max_width = 820
+        lines = extract_and_wrap_quote(quote_data, font_filename, font_size, temp_draw, max_width=max_width)
+    elif len(lines) > 4 and font_size > 44:
+        font_size = 44
+        max_width = 780
+        lines = extract_and_wrap_quote(quote_data, font_filename, font_size, temp_draw, max_width=max_width)
 
-    line_spacing = 24
-    bbox_list = [temp_draw.textbbox((0, 0), l, font=quote_font) for l in lines]
-    line_heights = [b[3] - b[1] for b in bbox_list]
+    fallback_font = get_font(font_filename, font_size)
+    line_spacing = max(18, int(font_size * 0.44))
+
+    # Calculate line heights
+    line_heights = []
+    for l in lines:
+        bbox = temp_draw.textbbox((0, 0), l, font=fallback_font)
+        line_heights.append(max(font_size, bbox[3] - bbox[1]))
     total_text_h = sum(line_heights) + (len(lines) - 1) * line_spacing
 
     # Golden ratio center: slightly above vertical middle (y=890) to stay safely above
@@ -240,26 +391,21 @@ def render_minimalist_quote(quote_data, base_image, theme=None, is_overlay_only=
     v_draw = ImageDraw.Draw(vignette)
     
     center_y = start_y + (total_text_h // 2)
-    band_height = max(380, total_text_h + 200)
+    band_height = max(420, total_text_h + 260)
     y_min = max(0, center_y - band_height // 2)
     y_max = min(target_h, center_y + band_height // 2)
 
     for y in range(y_min, y_max):
         dist = abs(y - center_y) / (band_height / 2.0)
         if dist < 1.0:
-            # Soft cosine curve for perfectly invisible blend
             curve = (math.cos(dist * math.pi) + 1.0) / 2.0
-            alpha = int(curve * 60) # gentle 0-60 alpha
+            alpha = int(curve * 65) # gentle 0-65 alpha
             v_draw.line([(0, y), (target_w, y)], fill=(tint_r, tint_g, tint_b, alpha))
 
     base_image = Image.alpha_composite(base_image, vignette)
 
     # 3. Multi-Offset Diffused Soft Shadow Layer
-    # Creates organic depth without looking like hard stroke/outline
     shadow = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-    s_draw = ImageDraw.Draw(shadow)
-
-    # Multi-directional diffused shadow offsets
     shadow_offsets = [
         (0, 2, 70),
         (0, -2, 40),
@@ -274,11 +420,14 @@ def render_minimalist_quote(quote_data, base_image, theme=None, is_overlay_only=
     for ox, oy, alpha in shadow_offsets:
         curr_y = start_y + oy
         for i, line in enumerate(lines):
-            s_draw.text(
-                (target_w // 2 + ox, curr_y),
+            render_line(
+                shadow,
                 line,
-                font=quote_font,
-                fill=(0, 0, 0, alpha),
+                font_filename,
+                font_size,
+                target_w // 2 + ox,
+                curr_y,
+                (0, 0, 0, alpha),
                 anchor="ma"
             )
             curr_y += line_heights[i] + line_spacing
@@ -287,23 +436,23 @@ def render_minimalist_quote(quote_data, base_image, theme=None, is_overlay_only=
 
     # 4. Primary Crisp White Typography Layer
     text_layer = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
-    t_draw = ImageDraw.Draw(text_layer)
-
     curr_y = start_y
     for i, line in enumerate(lines):
-        t_draw.text(
-            (target_w // 2, curr_y),
+        render_line(
+            text_layer,
             line,
-            font=quote_font,
-            fill=(255, 255, 255, 255),
+            font_filename,
+            font_size,
+            target_w // 2,
+            curr_y,
+            (255, 255, 255, 255),
             anchor="ma"
         )
         curr_y += line_heights[i] + line_spacing
 
     # 5. Subtle, Refined Branding at Bottom
-    # Clean, delicate, letterspaced watermark that adds trust without distraction
     watermark_text = "@simranlifeclub"
-    w_bbox = t_draw.textbbox((0, 0), watermark_text, font=watermark_font)
+    t_draw = ImageDraw.Draw(text_layer)
     t_draw.text(
         (target_w // 2, 1720),
         watermark_text,
