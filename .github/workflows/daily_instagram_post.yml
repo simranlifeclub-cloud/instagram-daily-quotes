@@ -58,4 +58,5 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add -A history.json session.json output/ assets/
           git commit -m "Auto-post reel to Instagram [skip ci]" || echo "No changes to commit"
+          git pull --rebase origin main
           git push
