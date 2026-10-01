@@ -8,7 +8,8 @@
     28,
     43,
     44,
-    4
+    4,
+    6
   ],
   "used_backgrounds": [
     "ocean_waves.jpg",
@@ -23,7 +24,8 @@
     "desert_dunes.jpg",
     "twilight_leaf_silhouette.jpg",
     "starry_night.jpg",
-    "golden_hour_trail.jpg"
+    "golden_hour_trail.jpg",
+    "minimalist_arch.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -49,7 +51,8 @@
     "lofi_chillhop.mp3",
     "winter_celestial.mp3",
     "cinematic_satie_piano.mp3",
-    "melodic_piano_rondo.mp3"
+    "melodic_piano_rondo.mp3",
+    "cinematic_satie_piano.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -81,9 +84,10 @@
     "DESERT_TERRACOTTA",
     "ROYAL_AMETHYST",
     "ROYAL_AMETHYST",
-    "GOLDEN_LUXURY"
+    "GOLDEN_LUXURY",
+    "FROSTED_SILVER"
   ],
-  "last_posted_date": "2026-10-01 01:48:09 UTC",
+  "last_posted_date": "2026-10-01 05:12:34 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -113,6 +117,7 @@
     "PURE_CINEMATIC",
     "SHORT_VIDEO",
     "VOICEOVER",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
