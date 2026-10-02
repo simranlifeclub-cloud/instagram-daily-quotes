@@ -76,32 +76,24 @@ def get_audio_duration_seconds(audio_file):
 
 def select_dynamic_reel_format(history, slot=None):
     """
-    Selects the next reel format matching the aesthetic reels grid:
-    1. SHORT_VIDEO (70%): Aesthetic nature/lifestyle video loop + minimalist white centered quote
-    2. PURE_CINEMATIC (15%): Pure scenic visual mood reel + ambient music (no text)
-    3. VOICEOVER (15%): Aesthetic motion video + spoken wisdom + ducked music
+    Selects high-retention reel formats optimized for follower growth:
+    1. SHORT_VIDEO (75%): Viral loop format (6-8s motion video loop + centered quote text)
+    2. VOICEOVER (25%): Spoken wisdom narration + ducked music + centered quote text
     """
-    slot_map = {
-        "morning": "SHORT_VIDEO",
-        "midday": "SHORT_VIDEO",
-        "afternoon": "PURE_CINEMATIC",
-        "evening": "SHORT_VIDEO",
-        "night": "VOICEOVER"
-    }
-    preferred = slot_map.get(slot, "SHORT_VIDEO")
     used_formats = history.get("used_formats", [])
-    
-    # Don't repeat non-standard formats consecutively
-    if used_formats and used_formats[-1] in ("PURE_CINEMATIC", "VOICEOVER"):
-        return "SHORT_VIDEO"
+    recent_3 = used_formats[-3:] if len(used_formats) >= 3 else used_formats
+    if "VOICEOVER" not in recent_3 and len(recent_3) >= 3:
+        return "VOICEOVER"
 
-    return preferred or "SHORT_VIDEO"
+    if random.random() < 0.25 and (not used_formats or used_formats[-1] != "VOICEOVER"):
+        return "VOICEOVER"
+    return "SHORT_VIDEO"
 
 
 def build_mp4_reel(
     quote_data,
     output_mp4,
-    duration=12,
+    duration=7,
     reel_format=None,
     bg_image_path=None,
     bg_video_path=None,
@@ -113,7 +105,6 @@ def build_mp4_reel(
     """
     Builds an Instagram Reel matching the aesthetic nature & lifestyle grid:
     - SHORT_VIDEO (Aesthetic motion video loop + clean white centered quote)
-    - PURE_CINEMATIC (Pure scenic landscape B-roll + ambient soundtrack)
     - VOICEOVER (Aesthetic footage + spoken voice narration + ducked music)
     """
     if history is None:
@@ -152,21 +143,26 @@ def build_mp4_reel(
         voice_temp = os.path.join(temp_dir, f"voice_{quote_data['id']}.mp3")
         voice_res, voice_name = synthesize_quote_speech(quote_data, voice_temp, voice_id=voice_id)
         if voice_res and os.path.exists(voice_res):
-            # Inspect speech length so bigger quotes are never abruptly cut off
             voice_dur = get_audio_duration_seconds(voice_res)
             if voice_dur > 0:
-                duration = max(duration, int(math.ceil(voice_dur + 2.5)))
+                # Keep audio tight: only 0.8s padding to eliminate dead air and maximize completion rate
+                duration = int(math.ceil(voice_dur + 0.8))
             mixed_audio = os.path.join(temp_dir, f"mixed_audio_{quote_data['id']}.wav")
             final_audio_path = mix_voice_and_music(voice_res, audio_path, mixed_audio, duration=duration)
         else:
             reel_format = "SHORT_VIDEO"
-    else:
-        # For bigger quotes without voiceover, provide viewers comfortable reading time
+
+    if reel_format != "VOICEOVER":
+        # High-Retention 6-8s Viral Loop:
+        # Viewers take 4-6s to read the quote. A 7s video naturally loops into a 2nd view,
+        # delivering >100% watch-time percentage which signals Instagram to push the reel to non-followers!
         all_words = (quote_data.get("quote_text") or " ".join(quote_data.get("hero_lines", []))).split()
-        if len(all_words) > 30:
-            duration = max(duration, 15)
-        elif len(all_words) > 18:
-            duration = max(duration, 13)
+        if len(all_words) > 28:
+            duration = 8.5
+        elif len(all_words) > 16:
+            duration = 7.5
+        else:
+            duration = 6.5
 
     # 5. Render Cover Card Thumbnail
     card_img = os.path.join(temp_dir, f"card_{quote_data['id']}.jpg")
@@ -205,7 +201,7 @@ def build_mp4_reel(
             "-filter_complex", "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920[bg];[bg][1:v]overlay=0:0[v]",
             "-map", "[v]",
             "-map", "2:a",
-            "-af", f"afade=t=in:st=0:d=1.2,afade=t=out:st={duration-1.8}:d=1.8",
+            "-af", f"afade=t=in:st=0:d=0.3,afade=t=out:st={max(0.1, duration-0.8):.2f}:d=0.8",
             "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p",
             "-c:a", "aac", "-b:a", "192k",
             "-t", str(duration),
@@ -224,7 +220,7 @@ def build_mp4_reel(
             "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
             "-map", "0:v",
             "-map", "1:a",
-            "-af", f"afade=t=in:st=0:d=1.2,afade=t=out:st={duration-1.8}:d=1.8",
+            "-af", f"afade=t=in:st=0:d=0.3,afade=t=out:st={max(0.1, duration-0.8):.2f}:d=0.8",
             "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p",
             "-c:a", "aac", "-b:a", "192k",
             "-t", str(duration),
@@ -239,7 +235,7 @@ def build_mp4_reel(
         motion = random.choice(MOTION_PRESETS)
         motion_name = motion["name"]
         vf_filter = f"scale=1080:1920,{motion['expr'](total_frames)}"
-        af_filter = f"afade=t=in:st=0:d=1.0,afade=t=out:st={duration-1.8}:d=1.8"
+        af_filter = f"afade=t=in:st=0:d=0.3,afade=t=out:st={max(0.1, duration-0.8):.2f}:d=0.8"
 
         cmd = [
             "ffmpeg", "-y",

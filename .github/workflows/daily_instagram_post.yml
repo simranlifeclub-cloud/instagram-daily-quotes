@@ -1,20 +1,23 @@
-name: Auto Instagram Reels Daily Publisher (5 Reels/Day)
+name: Auto Instagram Reels Daily Publisher (2 Reels/Day - Growth Optimized)
 
 on:
   schedule:
-    # 5 Daily Schedules in Indian Standard Time (IST) [UTC = IST - 5:30]
-    # Reel 1: 07:00 AM IST (01:30 UTC) - Morning Mindset & Ambition
-    - cron: '30 1 * * *'
-    # Reel 2: 10:30 AM IST (05:00 UTC) - Focus & Work Ethic
-    - cron: '0 5 * * *'
-    # Reel 3: 01:30 PM IST (08:00 UTC) - Afternoon Resilience & Grit
-    - cron: '0 8 * * *'
-    # Reel 4: 06:00 PM IST (12:30 UTC) - Evening Discipline & Growth
-    - cron: '30 12 * * *'
-    # Reel 5: 09:30 PM IST (16:00 UTC) - Night Peace & Self-Belief
-    - cron: '0 16 * * *'
+    # 2 Daily High-Impact Schedules in Indian Standard Time (IST) [UTC = IST - 5:30]
+    # Morning Prime: 07:30 AM IST (02:00 UTC) - Morning Mindset & Ambition
+    - cron: '0 2 * * *'
+    # Evening Peak: 07:30 PM IST (14:00 UTC) - Evening Reflection & Discipline
+    - cron: '0 14 * * *'
 
-  workflow_dispatch: # Allows manual 1-click test trigger anytime from GitHub UI
+  workflow_dispatch:
+    inputs:
+      reel_type:
+        description: 'Choose Reel to publish'
+        required: true
+        default: 'reality_check'
+        type: choice
+        options:
+          - 'reality_check'
+          - 'daily'
 
 permissions:
   contents: write
@@ -49,8 +52,14 @@ jobs:
           IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
           IG_SESSIONID: ${{ secrets.IG_SESSIONID }}
           IG_SESSION_DATA: ${{ secrets.IG_SESSION_DATA }}
+          REEL_TYPE: ${{ github.event.inputs.reel_type }}
         run: |
-          python post_with_instagrapi.py
+          if [ "$REEL_TYPE" = "reality_check" ]; then
+            echo "[INFO] Publishing dedicated multi-scene narrative reel: The Reality Check & Reset..."
+            python post_with_instagrapi.py --storyboard reality_check
+          else
+            python post_with_instagrapi.py
+          fi
 
       - name: Save Session & Update Posting History
         run: |

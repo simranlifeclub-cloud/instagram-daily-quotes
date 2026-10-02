@@ -27,13 +27,12 @@ This system automatically publishes **5 unique, high-retention Instagram Reels e
 
 ### Daily Schedule & Format Rotation (Indian Standard Time - IST)
 
-| Slot | Time (IST) | Schedule (UTC) | Content Focus | Format | Theme / Atmosphere |
+To prevent self-cannibalization of views and give each Reel 12 hours of runway to trigger non-follower recommendations, posting is tuned to the 2 peak golden hours:
+
+| Slot | Time (IST) | Schedule (UTC) | Content Focus | Format | Retention Strategy |
 |---|---|---|---|---|---|
-| **Reel 1** | **07:00 AM** | 01:30 UTC | Morning Mindset & Ambition | 🎙️ **VOICEOVER** | Golden Mountain Sunrise, Misty Forest |
-| **Reel 2** | **10:30 AM** | 05:00 UTC | Relentless Focus & Work Ethic | 🎬 **SHORT VIDEO** | Motion Video / Ocean Waves, Modern Architecture |
-| **Reel 3** | **01:30 PM** | 08:00 UTC | Resilience & Overcoming Doubts | 🖼️ **TEXT POSTER** | Sahara Desert Dunes, Emerald Waterfall |
-| **Reel 4** | **06:00 PM** | 12:30 UTC | Evening Discipline & Reflection | 🎙️ **VOICEOVER** | Twilight City Skyline, Coastal Golden Dusk |
-| **Reel 5** | **09:30 PM** | 16:00 UTC | Night Peace & Self-Belief | 🎬 **SHORT VIDEO** | Motion Video / Starry Milky Way Lake |
+| **Reel 1 (Morning)** | **07:30 AM** | 02:00 UTC | Morning Mindset & Purpose | 🎬 **SHORT VIDEO** / 🎙️ **VOICEOVER** | 6–8s viral loop for 100%+ watch time |
+| **Reel 2 (Evening)** | **07:30 PM** | 14:00 UTC | Evening Reflection & Inner Peace | 🎬 **SHORT VIDEO** / 🎙️ **VOICEOVER** | Spoken wisdom & calm lo-fi aesthetic |
 
 ---
 
@@ -78,7 +77,7 @@ assets/audio/
 All daily reels are generated in the cloud using GitHub Actions.
 To test manually anytime:
 1. Open your repository on GitHub.
-2. Go to the **Actions** tab → **Auto Instagram Reels Daily Publisher (5 Reels/Day)**.
+2. Go to the **Actions** tab → **Auto Instagram Reels Daily Publisher (2 Reels/Day - Growth Optimized)**.
 3. Click **Run workflow**.
 
 ---
@@ -87,13 +86,46 @@ To test manually anytime:
 
 Test reel and cover generation locally or with dry-run mode:
 ```bash
-# Test a specific bigger quote (English)
+# Test a specific quote
 python post_with_instagrapi.py --dry-run --quote-id 23
 
-# Test a specific Hindi quote with Devanagari text
+# Test Hindi quote rendering
 python post_with_instagrapi.py --dry-run --quote-id 32
 
 # Force Hindi or English rotation
 python post_with_instagrapi.py --dry-run --lang hi
 python post_with_instagrapi.py --dry-run --lang en
 ```
+
+---
+
+### 🚀 Instagram Algorithm & Follower Conversion Blueprint
+
+To turn Reel views into loyal followers, the algorithm relies on specific viewer behaviors:
+
+#### 1. The 6–8s "Viral Loop" Mechanism
+* **The Math:** Viewers take approximately 4–6 seconds to read a 15–20 word inspirational quote. 
+* By keeping the video length at **6.5–8.0 seconds**, the reel naturally loops into a second view while the viewer is still absorbing the message.
+* This results in an **Average Percentage Watched of >100%**, which triggers Instagram's recommendation engine to push the Reel to non-followers.
+
+#### 2. Saves & DM Shares are King
+* Instagram weighs **Saves** and **DM Shares** up to 5x higher than likes or comments for distribution.
+* Every automated caption now ends with clear algorithmic prompts:
+  * *"📌 Save this reminder for when you need quiet strength."*
+  * *"↗️ Send this to someone who needs to hear it today."*
+  * *"Follow @simranlifeclub for daily wisdom, clarity & peace."*
+
+#### 3. Branding in the "Safe Zone"
+* Instagram Reels place account handles, captions, audio tickers, and action buttons in the bottom 250px (`y=1650` to `1920`).
+* Our `@simranlifeclub` branding is placed at `y=1580`, ensuring it is 100% visible and un-obscured on all phone screens.
+
+#### 4. The Native Trending Audio Trick
+* Reels with "Original Audio" often get lower default reach than Reels tagged with an Instagram Trending sound (arrow ↗️ icon).
+* **Pro-Tip:** If a reel starts picking up traction, open it in the Instagram mobile app, tap **Edit** or use the audio replacer to select a trending ambient track with volume set to 3–5%. The Reel will immediately appear under the trending audio hashtag page!
+
+#### 5. Profile Optimization (Convert Visitors into Followers)
+When someone taps on your profile from a viral reel, you have 3 seconds to convert them:
+* **Bio Line 1 (Niche Promise):** Daily mental resets, inner peace & quiet strength.
+* **Bio Line 2 (Audience):** For thinkers, builders & seekers of clarity.
+* **Bio Line 3 (CTA):** Follow @simranlifeclub to elevate your daily mindset.
+* **Pinned Posts:** Pin your top 3 highest-quality, most inspiring reels to the top of your grid.

@@ -59,16 +59,12 @@ def get_current_ist_slot():
     now_ist = datetime.now(ist_tz)
     hour = now_ist.hour
     
-    if 5 <= hour < 10:
+    # Morning window (03:00 to 14:00 IST)
+    if 3 <= hour < 14:
         return "morning"
-    elif 10 <= hour < 13:
-        return "midday"
-    elif 13 <= hour < 17:
-        return "afternoon"
-    elif 17 <= hour < 21:
-        return "evening"
+    # Evening window (14:00 to 03:00 IST)
     else:
-        return "night"
+        return "evening"
 
 
 def select_dynamic_quote(quotes, history, quote_id=None, lang=None):
@@ -87,22 +83,55 @@ def select_dynamic_quote(quotes, history, quote_id=None, lang=None):
 
     posted_ids = set(history.get("posted_ids", []))
     current_slot = get_current_ist_slot()
+
+    # Map current schedule to compatible categories
+    if current_slot == "morning":
+        preferred_slots = ["morning", "midday"]
+    else:
+        preferred_slots = ["evening", "afternoon", "night"]
     
-    slot_available = [q for q in filtered_quotes if q.get("slot") == current_slot and q["id"] not in posted_ids]
+    slot_available = [q for q in filtered_quotes if q.get("slot") in preferred_slots and q["id"] not in posted_ids]
     if slot_available:
         selected = random.choice(slot_available)
-        print(f"[INFO] Selected '{current_slot}' slot quote #{selected['id']} [{selected.get('language', 'en')}].")
+        print(f"[INFO] Selected '{selected.get('slot')}' quote #{selected['id']} [{selected.get('language', 'en')}].")
         return selected
 
     general_available = [q for q in filtered_quotes if q["id"] not in posted_ids]
     if general_available:
         selected = random.choice(general_available)
-        print(f"[INFO] Slot exhausted. Selected unposted quote #{selected['id']} [{selected.get('language', 'en')}].")
+        print(f"[INFO] Preferred slots exhausted. Selected unposted quote #{selected['id']} [{selected.get('language', 'en')}].")
         return selected
 
     print("[INFO] Full library of quotes has been published! Resetting rotation cycle.")
     history["posted_ids"] = []
     return random.choice(filtered_quotes)
+
+
+def format_growth_optimized_caption(quote):
+    """
+    Formats captions engineered for the Instagram recommendation algorithm:
+    - Retains the core inspirational text.
+    - Appends high-conversion CTAs for Saves & DM Shares (Instagram's #1 & #2 ranking signals).
+    - Focuses on targeted, high-intent discovery hashtags.
+    """
+    raw_caption = quote.get("caption", "")
+    if "\n.\n." in raw_caption:
+        body = raw_caption.split("\n.\n.")[0].strip()
+    elif "\n#" in raw_caption:
+        body = raw_caption.split("\n#")[0].strip()
+    else:
+        body = raw_caption.strip()
+
+    growth_cta = (
+        "\n\n"
+        "📌 Save this reminder for when you need quiet strength.\n"
+        "↗️ Send this to someone who needs to hear it today.\n\n"
+        "Follow @simranlifeclub for daily wisdom, clarity & peace. 🌿\n"
+        ".\n"
+        ".\n"
+        "#simranlifeclub #innerpeace #mindsetshift #selfgrowthjourney #quietstrength #perspective #mentalclarity #stoicmindset #dailywisdom"
+    )
+    return body + growth_cta
 
 
 def get_authenticated_client(username, password):
@@ -183,6 +212,7 @@ def main():
     parser.add_argument("--voice", type=str, default=None, help="Force specific voice id")
     parser.add_argument("--quote-id", type=int, default=None, help="Force specific quote ID")
     parser.add_argument("--lang", type=str, choices=["en", "hi"], default=None, help="Filter quotes by language (en or hi)")
+    parser.add_argument("--storyboard", type=str, choices=["reality_check"], default=None, help="Publish a dedicated multi-scene narrative reel")
     args = parser.parse_args()
 
     # Pre-populate starter audio files if needed
@@ -202,39 +232,56 @@ def main():
     else:
         print("[INFO] Manual run or test detected: publishing immediately without delay!")
 
-    quotes = load_quotes()
     history = load_history()
-    quote = select_dynamic_quote(quotes, history, quote_id=args.quote_id, lang=args.lang)
+    is_storyboard = args.storyboard or os.getenv("STORYBOARD_REEL")
 
-    print("\n=======================================================")
-    print(f" Daily Motivational Reel: #{quote['id']} [{quote.get('slot', 'general').upper()}]")
-    print(f" Category: {quote['category']}")
-    print("=======================================================")
-
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    caption = quote["caption"]
-
-    has_ffmpeg = shutil.which("ffmpeg") is not None
-    thumb_path = None
-    
-    if has_ffmpeg:
-        from video_reel_generator import build_mp4_reel
-        media_path = os.path.join(OUTPUT_DIR, f"daily_reel_{quote['id']}.mp4")
-        media_path, thumb_path, meta = build_mp4_reel(
-            quote,
-            media_path,
-            duration=12,
-            reel_format=args.format,
-            bg_image_path=args.bg,
-            bg_video_path=args.video,
-            audio_path=args.audio,
-            voice_id=args.voice,
-            theme_name=args.theme,
-            history=history
-        )
+    if is_storyboard == "reality_check":
+        from reality_check_reel_builder import build_reality_check_reel
+        media_path = os.path.join(OUTPUT_DIR, "reality_check_reset_reel.mp4")
+        media_path, thumb_path, caption = build_reality_check_reel(output_mp4=media_path)
         is_video = True
+        meta = {
+            "format": "STORYBOARD_MULTI_SCENE",
+            "title": "The Reality Check & Reset",
+            "voice": "en-US-EricNeural",
+            "audio": "Ambient Piano & Lo-Fi",
+            "duration": 30.0,
+            "motion": "Ken Burns Camera Tracking"
+        }
+        quote = {"id": "reality_check_reset", "slot": "special"}
     else:
-        from card_renderer import render_quote_card
+        quotes = load_quotes()
+        quote = select_dynamic_quote(quotes, history, quote_id=args.quote_id, lang=args.lang)
+
+        print("\n=======================================================")
+        print(f" Daily Motivational Reel: #{quote['id']} [{quote.get('slot', 'general').upper()}]")
+        print(f" Category: {quote.get('category', 'MOTIVATION')}")
+        print("=======================================================")
+
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+        caption = format_growth_optimized_caption(quote)
+
+        has_ffmpeg = shutil.which("ffmpeg") is not None
+        thumb_path = None
+        
+        if has_ffmpeg:
+            from video_reel_generator import build_mp4_reel
+            media_path = os.path.join(OUTPUT_DIR, f"daily_reel_{quote['id']}.mp4")
+            media_path, thumb_path, meta = build_mp4_reel(
+                quote,
+                media_path,
+                duration=7,
+                reel_format=args.format,
+                bg_image_path=args.bg,
+                bg_video_path=args.video,
+                audio_path=args.audio,
+                voice_id=args.voice,
+                theme_name=args.theme,
+                history=history
+            )
+            is_video = True
+        else:
+            from card_renderer import render_quote_card
         bg_path, bg_name = select_dynamic_background(history, slot=quote.get("slot"))
         media_path = os.path.join(OUTPUT_DIR, f"daily_post_{quote['id']}.jpg")
         media_path, applied_theme = render_quote_card(

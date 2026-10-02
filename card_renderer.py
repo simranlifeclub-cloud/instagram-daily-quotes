@@ -432,8 +432,6 @@ def render_minimalist_quote(quote_data, base_image, theme=None, is_overlay_only=
             )
             curr_y += line_heights[i] + line_spacing
 
-    base_image = Image.alpha_composite(base_image, shadow)
-
     # 4. Primary Crisp White Typography Layer
     text_layer = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
     curr_y = start_y
@@ -450,17 +448,26 @@ def render_minimalist_quote(quote_data, base_image, theme=None, is_overlay_only=
         )
         curr_y += line_heights[i] + line_spacing
 
-    # 5. Subtle, Refined Branding at Bottom
+    # 5. Subtle, Refined Branding in Instagram Safe Zone (avoiding bottom UI occlusion)
     watermark_text = "@simranlifeclub"
-    t_draw = ImageDraw.Draw(text_layer)
-    t_draw.text(
-        (target_w // 2, 1720),
+    s_draw = ImageDraw.Draw(shadow)
+    s_draw.text(
+        (target_w // 2, 1582),
         watermark_text,
         font=watermark_font,
-        fill=(255, 255, 255, 140),
+        fill=(0, 0, 0, 160),
+        anchor="ma"
+    )
+    t_draw = ImageDraw.Draw(text_layer)
+    t_draw.text(
+        (target_w // 2, 1580),
+        watermark_text,
+        font=watermark_font,
+        fill=(255, 255, 255, 175),
         anchor="ma"
     )
 
+    base_image = Image.alpha_composite(base_image, shadow)
     base_image = Image.alpha_composite(base_image, text_layer)
     return base_image
 
