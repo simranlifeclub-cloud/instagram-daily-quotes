@@ -15,7 +15,8 @@
     14,
     32,
     37,
-    38
+    38,
+    "reality_check_reset"
   ],
   "used_backgrounds": [
     "shimmering_ocean.jpg",
@@ -53,7 +54,8 @@
     "cinematic_satie_piano.mp3",
     "melodic_piano_rondo.mp3",
     "winter_celestial.mp3",
-    "lofi_chillhop.mp3"
+    "lofi_chillhop.mp3",
+    "Ambient Piano & Lo-Fi"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -94,7 +96,7 @@
     "FROSTED_SILVER",
     "FROSTED_SILVER"
   ],
-  "last_posted_date": "2026-10-02 08:09:16 UTC",
+  "last_posted_date": "2026-10-02 10:15:35 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -131,7 +133,8 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "PURE_CINEMATIC"
+    "PURE_CINEMATIC",
+    "STORYBOARD_MULTI_SCENE"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -140,6 +143,7 @@
     "Guy (Passionate, Energetic, Direct)",
     "Ryan (British, Sophisticated, Cinematic Wisdom)",
     "Swara (Hindi - Clear, Inspiring, Serene)",
-    "Eric (Warm, Inspiring, Grounded)"
+    "Eric (Warm, Inspiring, Grounded)",
+    "en-US-EricNeural"
   ]
 }

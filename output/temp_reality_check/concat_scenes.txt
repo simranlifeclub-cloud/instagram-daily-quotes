@@ -1,0 +1,4 @@
+file '/home/runner/work/instagram-daily-quotes/instagram-daily-quotes/output/temp_reality_check/scene_1_clip.mp4'
+file '/home/runner/work/instagram-daily-quotes/instagram-daily-quotes/output/temp_reality_check/scene_2_clip.mp4'
+file '/home/runner/work/instagram-daily-quotes/instagram-daily-quotes/output/temp_reality_check/scene_3_clip.mp4'
+file '/home/runner/work/instagram-daily-quotes/instagram-daily-quotes/output/temp_reality_check/scene_4_clip.mp4'
