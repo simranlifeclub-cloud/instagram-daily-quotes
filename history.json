@@ -13,10 +13,12 @@
     19,
     29,
     14,
-    32
+    32,
+    37
   ],
   "used_backgrounds": [
-    "shimmering_ocean.jpg"
+    "shimmering_ocean.jpg",
+    "minimalist_arch.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -47,7 +49,8 @@
     "lofi_chillhop.mp3",
     "arcade_synthwave.mp3",
     "cinematic_satie_piano.mp3",
-    "melodic_piano_rondo.mp3"
+    "melodic_piano_rondo.mp3",
+    "winter_celestial.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -84,9 +87,10 @@
     "EMERALD_MINT",
     "GOLDEN_LUXURY",
     "CYAN_HORIZON",
-    "CYAN_HORIZON"
+    "CYAN_HORIZON",
+    "FROSTED_SILVER"
   ],
-  "last_posted_date": "2026-10-02 01:42:54 UTC",
+  "last_posted_date": "2026-10-02 05:08:32 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -121,6 +125,7 @@
     "PURE_CINEMATIC",
     "SHORT_VIDEO",
     "VOICEOVER",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
