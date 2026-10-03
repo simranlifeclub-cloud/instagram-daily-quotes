@@ -282,21 +282,21 @@ def main():
             is_video = True
         else:
             from card_renderer import render_quote_card
-        bg_path, bg_name = select_dynamic_background(history, slot=quote.get("slot"))
-        media_path = os.path.join(OUTPUT_DIR, f"daily_post_{quote['id']}.jpg")
-        media_path, applied_theme = render_quote_card(
-            quote, media_path, bg_image_path=bg_path, theme_name=args.theme
-        )
-        meta = {
-            "format": "PHOTO_FALLBACK",
-            "background": bg_name,
-            "theme": applied_theme,
-            "voice": None,
-            "audio": "N/A (Photo Mode)",
-            "audio_id": None,
-            "motion": "Static Photo"
-        }
-        is_video = False
+            bg_path, bg_name = select_dynamic_background(history, slot=quote.get("slot"))
+            media_path = os.path.join(OUTPUT_DIR, f"daily_post_{quote['id']}.jpg")
+            media_path, applied_theme = render_quote_card(
+                quote, media_path, bg_image_path=bg_path, theme_name=args.theme
+            )
+            meta = {
+                "format": "PHOTO_FALLBACK",
+                "background": bg_name,
+                "theme": applied_theme,
+                "voice": None,
+                "audio": "N/A (Photo Mode)",
+                "audio_id": None,
+                "motion": "Static Photo"
+            }
+            is_video = False
 
     if args.dry_run:
         print("\n[DRY RUN MODE]")
