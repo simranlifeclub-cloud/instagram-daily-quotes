@@ -20,7 +20,8 @@
     46,
     "reality_check_reset",
     26,
-    35
+    35,
+    "reality_check_reset"
   ],
   "used_backgrounds": [
     "shimmering_ocean.jpg",
@@ -66,7 +67,8 @@
     "melodic_piano_rondo.mp3",
     "Ambient Piano & Lo-Fi",
     "boombap_groove.mp3",
-    "arcade_synthwave.mp3"
+    "arcade_synthwave.mp3",
+    "Ambient Piano & Lo-Fi"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -110,7 +112,7 @@
     "EMERALD_MINT",
     "EMERALD_MINT"
   ],
-  "last_posted_date": "2026-10-04 04:13:57 UTC",
+  "last_posted_date": "2026-10-04 11:32:07 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -152,7 +154,8 @@
     "VOICEOVER",
     "STORYBOARD_MULTI_SCENE",
     "SHORT_VIDEO",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "STORYBOARD_MULTI_SCENE"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -164,6 +167,7 @@
     "Eric (Warm, Inspiring, Grounded)",
     "en-US-EricNeural",
     "Swara (Hindi - Clear, Inspiring, Serene)",
+    "en-US-EricNeural",
     "en-US-EricNeural"
   ],
   "youtube_shorts_ids": []
