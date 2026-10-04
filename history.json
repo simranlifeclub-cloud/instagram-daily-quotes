@@ -24,7 +24,8 @@
     "reality_check_reset",
     27,
     63,
-    41
+    41,
+    85
   ],
   "used_backgrounds": [
     "shimmering_ocean.jpg",
@@ -35,7 +36,8 @@
     "emerald_waterfall.jpg",
     "golden_hour_trail.jpg",
     "golden_mountain.jpg",
-    "sunset_clouds_beach.jpg"
+    "sunset_clouds_beach.jpg",
+    "twilight_leaf_silhouette.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -77,7 +79,8 @@
     "Ambient Piano & Lo-Fi",
     "lofi_chillhop.mp3",
     "winter_celestial.mp3",
-    "soft_ambient_serenade.wav"
+    "soft_ambient_serenade.wav",
+    "cinematic_satie_piano.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -122,9 +125,10 @@
     "EMERALD_MINT",
     "GOLDEN_LUXURY",
     "GOLDEN_LUXURY",
-    "SUNSET_EMBER"
+    "SUNSET_EMBER",
+    "ROYAL_AMETHYST"
   ],
-  "last_posted_date": "2026-10-04 12:42:34 UTC",
+  "last_posted_date": "2026-10-04 20:53:23 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -170,6 +174,7 @@
     "STORYBOARD_MULTI_SCENE",
     "VOICEOVER",
     "SHORT_VIDEO",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
@@ -189,6 +194,7 @@
   "youtube_shorts_ids": [
     "1PMvoR-s1ag",
     "-rGj73bS73E",
-    "fTQPRHKCMWY"
+    "fTQPRHKCMWY",
+    "WnYNYXGgva8"
   ]
 }
