@@ -17,7 +17,8 @@
     37,
     38,
     "reality_check_reset",
-    46
+    46,
+    "reality_check_reset"
   ],
   "used_backgrounds": [
     "shimmering_ocean.jpg",
@@ -58,7 +59,8 @@
     "winter_celestial.mp3",
     "lofi_chillhop.mp3",
     "Ambient Piano & Lo-Fi",
-    "melodic_piano_rondo.mp3"
+    "melodic_piano_rondo.mp3",
+    "Ambient Piano & Lo-Fi"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -100,7 +102,7 @@
     "FROSTED_SILVER",
     "SUNSET_EMBER"
   ],
-  "last_posted_date": "2026-10-03 18:32:55 UTC",
+  "last_posted_date": "2026-10-04 03:31:37 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -139,7 +141,8 @@
     "SHORT_VIDEO",
     "PURE_CINEMATIC",
     "STORYBOARD_MULTI_SCENE",
-    "VOICEOVER"
+    "VOICEOVER",
+    "STORYBOARD_MULTI_SCENE"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -150,6 +153,7 @@
     "Swara (Hindi - Clear, Inspiring, Serene)",
     "Eric (Warm, Inspiring, Grounded)",
     "en-US-EricNeural",
-    "Swara (Hindi - Clear, Inspiring, Serene)"
+    "Swara (Hindi - Clear, Inspiring, Serene)",
+    "en-US-EricNeural"
   ]
 }
