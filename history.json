@@ -21,7 +21,8 @@
     "reality_check_reset",
     26,
     35,
-    "reality_check_reset"
+    "reality_check_reset",
+    27
   ],
   "used_backgrounds": [
     "shimmering_ocean.jpg",
@@ -29,7 +30,8 @@
     "cozy_rainy_window.jpg",
     "city_twilight.jpg",
     "misty_mountain_ridge.jpg",
-    "emerald_waterfall.jpg"
+    "emerald_waterfall.jpg",
+    "golden_hour_trail.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -68,7 +70,8 @@
     "Ambient Piano & Lo-Fi",
     "boombap_groove.mp3",
     "arcade_synthwave.mp3",
-    "Ambient Piano & Lo-Fi"
+    "Ambient Piano & Lo-Fi",
+    "lofi_chillhop.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -110,9 +113,10 @@
     "FROSTED_SILVER",
     "SUNSET_EMBER",
     "EMERALD_MINT",
-    "EMERALD_MINT"
+    "EMERALD_MINT",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-10-04 11:32:07 UTC",
+  "last_posted_date": "2026-10-04 12:01:46 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -155,7 +159,8 @@
     "STORYBOARD_MULTI_SCENE",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "STORYBOARD_MULTI_SCENE"
+    "STORYBOARD_MULTI_SCENE",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -168,7 +173,10 @@
     "en-US-EricNeural",
     "Swara (Hindi - Clear, Inspiring, Serene)",
     "en-US-EricNeural",
-    "en-US-EricNeural"
+    "en-US-EricNeural",
+    "Jenny (Uplifting, Clear, Confident)"
   ],
-  "youtube_shorts_ids": []
+  "youtube_shorts_ids": [
+    "1PMvoR-s1ag"
+  ]
 }
