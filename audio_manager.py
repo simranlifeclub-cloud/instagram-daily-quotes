@@ -8,55 +8,49 @@ import wave
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 AUDIO_DIR = os.path.join(BASE_DIR, "assets", "audio")
 
-# 8 Distinct Royalty-Free CC0 / Public Domain Music Tracks Catalog
+# Strictly Calm & Relaxing Royalty-Free CC0 / Public Domain Music Tracks Catalog
 AUDIO_CATALOG = {
-    "lofi_chillhop.mp3": {
-        "title": "Warm Rhodes & Lo-Fi Chillhop",
-        "genre": "Lo-Fi Beats",
-        "slots": ["evening", "afternoon"],
-        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-roomscene-lofi.mp3"
-    },
-    "boombap_groove.mp3": {
-        "title": "Energetic 90s Boom-Bap Hip Hop",
-        "genre": "Hip Hop / Motivation",
-        "slots": ["morning", "midday"],
-        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/korobeiniki-boombap-loop.mp3"
-    },
     "cinematic_satie_piano.mp3": {
         "title": "Gymnopédie Serene Grand Piano",
-        "genre": "Cinematic Piano",
-        "slots": ["night", "morning"],
+        "genre": "Peaceful Piano",
+        "mood": "Calm & Reflective",
+        "slots": ["morning", "midday", "afternoon", "evening", "night"],
         "url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Gymnopedie_No._2_%28ISRC_USUAN1100786%29.mp3"
     },
-    "melodic_piano_rondo.mp3": {
-        "title": "Uplifting Melodic Acoustic Rondo",
-        "genre": "Acoustic Melody",
-        "slots": ["morning", "midday"],
-        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-rondo.mp3"
-    },
-    "arcade_synthwave.mp3": {
-        "title": "Retro Ambient Synthwave Vibe",
-        "genre": "Synthwave / Cyber",
-        "slots": ["midday", "evening"],
-        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-arcade-vibe.mp3"
-    },
     "winter_celestial.mp3": {
-        "title": "Celestial Chimes & Ambient Bells",
-        "genre": "Ambient / Meditation",
-        "slots": ["night", "evening"],
+        "title": "Celestial Chimes & Ambient Peace",
+        "genre": "Calm Ambient",
+        "mood": "Relaxing & Ethereal",
+        "slots": ["morning", "midday", "afternoon", "evening", "night"],
         "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-winter-arcade.mp3"
     },
     "stoic_mindset.mp3": {
-        "title": "Stoic Cello & Deep Cinematic Pad",
-        "genre": "Deep Wisdom",
-        "slots": ["afternoon", "evening"],
+        "title": "Stoic Cello & Deep Peaceful Strings",
+        "genre": "Deep Meditation",
+        "mood": "Deep Wisdom & Stillness",
+        "slots": ["morning", "midday", "afternoon", "evening", "night"],
         "url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Stoic_Morning_%28ISRC_USUAN1100061%29.mp3"
     },
-    "duru_tresillo_chill.mp3": {
-        "title": "Dorian Tresillo Deep Flow",
-        "genre": "Deep Focus",
-        "slots": ["midday", "afternoon"],
-        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-ai-ep2-music.mp3"
+    "lofi_chillhop.mp3": {
+        "title": "Warm Rhodes & Soothing Lo-Fi",
+        "genre": "Relaxing Lo-Fi",
+        "mood": "Gentle & Calming",
+        "slots": ["morning", "midday", "afternoon", "evening", "night"],
+        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-roomscene-lofi.mp3"
+    },
+    "melodic_piano_rondo.mp3": {
+        "title": "Gentle Acoustic Piano Reflections",
+        "genre": "Calm Acoustic",
+        "mood": "Uplifting & Serene",
+        "slots": ["morning", "midday", "afternoon", "evening", "night"],
+        "url": "https://raw.githubusercontent.com/uncle-sheepsky/duru-ai-cc0-bgm/main/mp3/duru-rondo.mp3"
+    },
+    "soft_ambient_serenade.wav": {
+        "title": "Soft Ambient Meditation Serenade",
+        "genre": "Zen Meditation",
+        "mood": "Pure Relaxation & Inner Peace",
+        "slots": ["morning", "midday", "afternoon", "evening", "night"],
+        "url": ""
     }
 }
 
@@ -370,10 +364,12 @@ def select_dynamic_audio(history, quote_slot=None, output_temp_wav=None):
     if history is None:
         history = {}
 
-    audio_files = get_available_audio_files()
+    raw_files = get_available_audio_files()
+    audio_files = [f for f in raw_files if f in AUDIO_CATALOG]
     if not audio_files:
         populate_starter_audio_library()
-        audio_files = get_available_audio_files()
+        raw_files = get_available_audio_files()
+        audio_files = [f for f in raw_files if f in AUDIO_CATALOG] or raw_files
 
     # Mode A: User / Starter library has real audio files in assets/audio/
     if audio_files:

@@ -179,18 +179,18 @@ def mix_voice_and_music(voice_path, music_path, output_mixed_audio, duration=12.
         # Only music
         cmd = [
             "ffmpeg", "-y", "-i", music_path,
-            "-af", f"afade=t=in:st=0:d=1.2,afade=t=out:st={duration-1.8}:d=1.8,volume=0.9",
+            "-af", f"afade=t=in:st=0:d=1.5,afade=t=out:st={duration-2.0}:d=2.0,volume=0.70",
             "-t", str(duration),
             output_mixed_audio
         ]
         subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         return output_mixed_audio
 
-    # Smart Audio Ducking Filtergraph in FFmpeg
+    # Smart Audio Ducking Filtergraph in FFmpeg: Gentle & soothing background music
     filtergraph = (
         f"[0:a]volume=1.35,afade=t=in:st=0:d=0.3[v];"
-        f"[1:a]volume=0.32,afade=t=in:st=0:d=1.0,afade=t=out:st={duration-1.8}:d=1.8[m];"
-        f"[v][m]amix=inputs=2:duration=longest:dropout_transition=2,volume=1.15"
+        f"[1:a]volume=0.25,afade=t=in:st=0:d=1.2,afade=t=out:st={duration-2.0}:d=2.0[m];"
+        f"[v][m]amix=inputs=2:duration=longest:dropout_transition=2,volume=1.12"
     )
 
     cmd = [
