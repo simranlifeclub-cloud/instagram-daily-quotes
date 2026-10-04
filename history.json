@@ -19,14 +19,16 @@
     "reality_check_reset",
     46,
     "reality_check_reset",
-    26
+    26,
+    35
   ],
   "used_backgrounds": [
     "shimmering_ocean.jpg",
     "minimalist_arch.jpg",
     "cozy_rainy_window.jpg",
     "city_twilight.jpg",
-    "misty_mountain_ridge.jpg"
+    "misty_mountain_ridge.jpg",
+    "emerald_waterfall.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -63,7 +65,8 @@
     "Ambient Piano & Lo-Fi",
     "melodic_piano_rondo.mp3",
     "Ambient Piano & Lo-Fi",
-    "boombap_groove.mp3"
+    "boombap_groove.mp3",
+    "arcade_synthwave.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -104,9 +107,10 @@
     "FROSTED_SILVER",
     "FROSTED_SILVER",
     "SUNSET_EMBER",
+    "EMERALD_MINT",
     "EMERALD_MINT"
   ],
-  "last_posted_date": "2026-10-04 03:35:01 UTC",
+  "last_posted_date": "2026-10-04 04:13:57 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -147,6 +151,7 @@
     "STORYBOARD_MULTI_SCENE",
     "VOICEOVER",
     "STORYBOARD_MULTI_SCENE",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
@@ -160,5 +165,6 @@
     "en-US-EricNeural",
     "Swara (Hindi - Clear, Inspiring, Serene)",
     "en-US-EricNeural"
-  ]
+  ],
+  "youtube_shorts_ids": []
 }
