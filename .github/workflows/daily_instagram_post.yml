@@ -1,4 +1,4 @@
-name: Auto Instagram Reels Daily Publisher (2 Reels/Day - Growth Optimized)
+name: Auto Daily Reels & YouTube Shorts Publisher (Growth Optimized)
 
 on:
   schedule:
@@ -11,13 +11,22 @@ on:
   workflow_dispatch:
     inputs:
       reel_type:
-        description: 'Choose Reel to publish'
+        description: 'Choose Video Content to publish'
         required: true
         default: 'reality_check'
         type: choice
         options:
           - 'reality_check'
           - 'daily'
+      target_platform:
+        description: 'Destination Platforms'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - 'instagram_only'
+          - 'youtube_only'
 
 permissions:
   contents: write
@@ -44,28 +53,40 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade "instagrapi[video]>=3.0.2" moviepy pillow numpy scipy requests edge-tts uharfbuzz freetype-py
+          pip install --upgrade "instagrapi[video]>=3.0.2" moviepy pillow numpy scipy requests edge-tts uharfbuzz freetype-py google-api-python-client google-auth-oauthlib google-auth-httplib2
 
-      - name: Generate & Publish Reel to Instagram
+      - name: Generate & Publish to Instagram Reels & YouTube Shorts
         env:
           IG_USERNAME: ${{ secrets.IG_USERNAME }}
           IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
           IG_SESSIONID: ${{ secrets.IG_SESSIONID }}
           IG_SESSION_DATA: ${{ secrets.IG_SESSION_DATA }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          YOUTUBE_PRIVACY_STATUS: ${{ vars.YOUTUBE_PRIVACY_STATUS || 'public' }}
           REEL_TYPE: ${{ github.event.inputs.reel_type }}
+          TARGET_PLATFORM: ${{ github.event.inputs.target_platform || 'all' }}
         run: |
+          EXTRA_FLAGS=""
+          if [ "$TARGET_PLATFORM" = "instagram_only" ]; then
+            EXTRA_FLAGS="--no-youtube"
+          elif [ "$TARGET_PLATFORM" = "youtube_only" ]; then
+            EXTRA_FLAGS="--youtube-only"
+          fi
+
           if [ "$REEL_TYPE" = "reality_check" ]; then
-            echo "[INFO] Publishing dedicated multi-scene narrative reel: The Reality Check & Reset..."
-            python post_with_instagrapi.py --storyboard reality_check
+            echo "[INFO] Publishing dedicated multi-scene narrative reel & short: The Reality Check & Reset..."
+            python post_with_instagrapi.py --storyboard reality_check $EXTRA_FLAGS
           else
-            python post_with_instagrapi.py
+            python post_with_instagrapi.py $EXTRA_FLAGS
           fi
 
       - name: Save Session & Update Posting History
         run: |
-          git config --global user.name "Instagram Reels Bot"
+          git config --global user.name "Instagram & YouTube Bot"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add -A history.json session.json output/ assets/
-          git commit -m "Auto-post reel to Instagram [skip ci]" || echo "No changes to commit"
+          git commit -m "Auto-post reel & short to Instagram/YouTube [skip ci]" || echo "No changes to commit"
           git pull --rebase origin main
           git push

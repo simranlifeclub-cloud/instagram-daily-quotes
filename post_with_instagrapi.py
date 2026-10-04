@@ -34,6 +34,7 @@ def load_history():
         "used_themes": [],
         "used_formats": [],
         "used_voices": [],
+        "youtube_shorts_ids": [],
         "last_posted_date": None
     }
     if os.path.exists(HISTORY_FILE):
@@ -213,6 +214,8 @@ def main():
     parser.add_argument("--quote-id", type=int, default=None, help="Force specific quote ID")
     parser.add_argument("--lang", type=str, choices=["en", "hi"], default=None, help="Filter quotes by language (en or hi)")
     parser.add_argument("--storyboard", type=str, choices=["reality_check"], default=None, help="Publish a dedicated multi-scene narrative reel")
+    parser.add_argument("--no-youtube", action="store_true", help="Skip YouTube Shorts publication")
+    parser.add_argument("--youtube-only", action="store_true", help="Publish only to YouTube Shorts (skip Instagram)")
     args = parser.parse_args()
 
     # Pre-populate starter audio files if needed
@@ -312,6 +315,23 @@ def main():
         print("\nCaption preview:\n", caption)
         return
 
+    if getattr(args, "youtube_only", False):
+        if not is_video:
+            print("[WARN] Photo mode fallback active. YouTube Shorts requires video. Skipping.")
+            return
+        from youtube_uploader import maybe_upload_to_youtube_shorts
+        yt_id = maybe_upload_to_youtube_shorts(
+            video_path=media_path,
+            quote=quote,
+            caption=caption,
+            meta=meta
+        )
+        if yt_id:
+            history.setdefault("youtube_shorts_ids", []).append(yt_id)
+            history["last_posted_date"] = time.strftime("%Y-%m-%d %H:%M:%S UTC")
+            save_history(history)
+        return
+
     if not sessionid and (not username or not password):
         print("\n[ERROR] Missing Instagram credentials!")
         print("Please set IG_USERNAME & IG_PASSWORD (or IG_SESSIONID) in GitHub Secrets.")
@@ -327,6 +347,21 @@ def main():
             thumbnail=thumb_path
         )
         print(f"\n🎉 [SUCCESS] REEL is LIVE on Instagram! Reel PK: {media.pk}")
+
+        # Automatically publish as YouTube Short as well
+        if not getattr(args, "no_youtube", False):
+            try:
+                from youtube_uploader import maybe_upload_to_youtube_shorts
+                yt_id = maybe_upload_to_youtube_shorts(
+                    video_path=media_path,
+                    quote=quote,
+                    caption=caption,
+                    meta=meta
+                )
+                if yt_id:
+                    history.setdefault("youtube_shorts_ids", []).append(yt_id)
+            except Exception as yt_err:
+                print(f"[WARN] YouTube Shorts upload error: {yt_err}")
     else:
         print(f"[INFO] Uploading Photo to Instagram Feed...")
         media = cl.photo_upload(path=media_path, caption=caption)
