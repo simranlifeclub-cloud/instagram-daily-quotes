@@ -59,61 +59,69 @@ def get_current_ist_slot():
     ist_tz = timezone(timedelta(hours=5, minutes=30))
     now_ist = datetime.now(ist_tz)
     hour = now_ist.hour
-    
-    # Morning window (03:00 to 14:00 IST)
-    if 3 <= hour < 14:
+    minute = now_ist.minute
+    current_time = hour + minute / 60.0
+
+    # 5 Daily Slot Windows in IST
+    # 1. Morning (05:00 - 09:30 IST) -> Motivation, Purpose & Self-Worth
+    if 5.0 <= current_time < 9.5:
         return "morning"
-    # Evening window (14:00 to 03:00 IST)
-    else:
+    # 2. Midday (09:30 - 12:30 IST) -> Work-Life Balance & Stress Management
+    elif 9.5 <= current_time < 12.5:
+        return "midday"
+    # 3. Afternoon (12:30 - 16:30 IST) -> Overthinking, Anxiety Relief & Mindful Pause
+    elif 12.5 <= current_time < 16.5:
+        return "afternoon"
+    # 4. Evening (16:30 - 20:30 IST) -> Relationships, Healthy Boundaries & Self-Love
+    elif 16.5 <= current_time < 20.5:
         return "evening"
+    # 5. Night (20:30 - 05:00 IST) -> Depression Relief, Emotional Healing & Deep Peace
+    else:
+        return "night"
 
 
 def select_dynamic_quote(quotes, history, quote_id=None, lang=None):
     if quote_id is not None:
         matching = [q for q in quotes if q["id"] == quote_id]
         if matching:
-            print(f"[INFO] Selected forced quote #{quote_id} [{matching[0].get('language', 'en')}].")
+            print(f"[INFO] Selected forced quote #{quote_id} [{matching[0].get('language', 'hi')}].")
             return matching[0]
         print(f"[WARN] Quote ID #{quote_id} not found, falling back to dynamic rotation.")
 
-    filtered_quotes = quotes
-    if lang is not None:
-        filtered = [q for q in quotes if q.get("language", "en") == lang]
-        if filtered:
-            filtered_quotes = filtered
+    # Prioritize Hindi ("hi") by default for the daily wellness and motivation quotes
+    target_lang = lang or os.environ.get("PREFERRED_LANG", "hi")
+    filtered_quotes = [q for q in quotes if q.get("language", "hi") == target_lang]
+    if not filtered_quotes:
+        filtered_quotes = quotes
 
     posted_ids = set(history.get("posted_ids", []))
     current_slot = get_current_ist_slot()
 
-    # Map current schedule to compatible categories
-    if current_slot == "morning":
-        preferred_slots = ["morning", "midday"]
-    else:
-        preferred_slots = ["evening", "afternoon", "night"]
-    
-    slot_available = [q for q in filtered_quotes if q.get("slot") in preferred_slots and q["id"] not in posted_ids]
+    # Slot matching for current time of day
+    slot_available = [q for q in filtered_quotes if q.get("slot") == current_slot and q["id"] not in posted_ids]
     if slot_available:
         selected = random.choice(slot_available)
-        print(f"[INFO] Selected '{selected.get('slot')}' quote #{selected['id']} [{selected.get('language', 'en')}].")
+        print(f"[INFO] Selected slot-matched '{current_slot}' quote #{selected['id']} [{selected.get('category')}].")
         return selected
 
+    # Fallback to any unposted quote in the target language
     general_available = [q for q in filtered_quotes if q["id"] not in posted_ids]
     if general_available:
         selected = random.choice(general_available)
-        print(f"[INFO] Preferred slots exhausted. Selected unposted quote #{selected['id']} [{selected.get('language', 'en')}].")
+        print(f"[INFO] Slot '{current_slot}' exhausted. Selected unposted quote #{selected['id']} [{selected.get('category')}].")
         return selected
 
-    print("[INFO] Full library of quotes has been published! Resetting rotation cycle.")
+    print(f"[INFO] Full library of {target_lang.upper()} quotes has been published! Resetting rotation cycle.")
     history["posted_ids"] = []
     return random.choice(filtered_quotes)
 
 
 def format_growth_optimized_caption(quote):
     """
-    Formats captions engineered for the Instagram recommendation algorithm:
+    Formats captions engineered for the Instagram & YouTube algorithms:
     - Retains the core inspirational text.
-    - Appends high-conversion CTAs for Saves & DM Shares (Instagram's #1 & #2 ranking signals).
-    - Focuses on targeted, high-intent discovery hashtags.
+    - Appends high-conversion CTAs for Saves & DM Shares.
+    - Adds targeted, high-intent discovery hashtags.
     """
     raw_caption = quote.get("caption", "")
     if "\n.\n." in raw_caption:
@@ -123,15 +131,28 @@ def format_growth_optimized_caption(quote):
     else:
         body = raw_caption.strip()
 
-    growth_cta = (
-        "\n\n"
-        "📌 Save this reminder for when you need quiet strength.\n"
-        "↗️ Send this to someone who needs to hear it today.\n\n"
-        "Follow @simranlifeclub for daily wisdom, clarity & peace. 🌿\n"
-        ".\n"
-        ".\n"
-        "#simranlifeclub #innerpeace #mindsetshift #selfgrowthjourney #quietstrength #perspective #mentalclarity #stoicmindset #dailywisdom"
-    )
+    is_hi = quote.get("language") == "hi"
+
+    if is_hi:
+        growth_cta = (
+            "\n\n"
+            "📌 इसे सहेजें (Save) और जब भी मन अशांत या थका हुआ लगे, दोबारा पढ़ें।\n"
+            "↗️ किसी ऐसे प्रियजन के साथ साझा करें जिसे आज इसकी सबसे ज़्यादा ज़रूरत है।\n\n"
+            "दैनिक मानसिक शांति, आत्म-सम्मान, वर्क-लाइफ बैलेंस और सकारात्मक सोच के लिए जुड़ें: @simranlifeclub 🌿\n"
+            ".\n"
+            ".\n"
+            "#simranlifeclub #hindiquotes #suvichar #mentalhealthindia #anmolvachan #innerpeace #selflovehindi #worklifebalance #overthinking #reelsindia #shorts #youtubeshorts"
+        )
+    else:
+        growth_cta = (
+            "\n\n"
+            "📌 Save this reminder for when you need quiet strength.\n"
+            "↗️ Send this to someone who needs to hear it today.\n\n"
+            "Follow @simranlifeclub for daily wisdom, clarity & peace. 🌿\n"
+            ".\n"
+            ".\n"
+            "#simranlifeclub #innerpeace #mindsetshift #selfgrowthjourney #quietstrength #perspective #mentalclarity #stoicmindset #dailywisdom #shorts"
+        )
     return body + growth_cta
 
 

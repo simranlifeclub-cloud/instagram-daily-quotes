@@ -1,23 +1,29 @@
-name: Auto Daily Reels & YouTube Shorts Publisher (Growth Optimized)
+name: Auto Daily Reels & YouTube Shorts Publisher (5 Hindi Posts/Day)
 
 on:
   schedule:
-    # 2 Daily High-Impact Schedules in Indian Standard Time (IST) [UTC = IST - 5:30]
-    # Morning Prime: 07:30 AM IST (02:00 UTC) - Morning Mindset & Ambition
-    - cron: '0 2 * * *'
-    # Evening Peak: 07:30 PM IST (14:00 UTC) - Evening Reflection & Discipline
-    - cron: '0 14 * * *'
+    # 5 Daily High-Impact Schedules in Indian Standard Time (IST) [UTC = IST - 5:30]
+    # Post 1: 07:00 AM IST (01:30 UTC) - Morning Motivation & Self-Worth
+    - cron: '30 1 * * *'
+    # Post 2: 10:30 AM IST (05:00 UTC) - Work-Life Balance & Stress Management
+    - cron: '0 5 * * *'
+    # Post 3: 01:30 PM IST (08:00 UTC) - Overthinking & Midday Anxiety Relief
+    - cron: '0 8 * * *'
+    # Post 4: 06:00 PM IST (12:30 UTC) - Relationships, Healthy Boundaries & Self-Love
+    - cron: '30 12 * * *'
+    # Post 5: 09:30 PM IST (16:00 UTC) - Depression Relief, Emotional Healing & Night Peace
+    - cron: '0 16 * * *'
 
   workflow_dispatch:
     inputs:
       reel_type:
         description: 'Choose Video Content to publish'
         required: true
-        default: 'reality_check'
+        default: 'daily'
         type: choice
         options:
-          - 'reality_check'
           - 'daily'
+          - 'reality_check'
       target_platform:
         description: 'Destination Platforms'
         required: true
@@ -27,6 +33,14 @@ on:
           - 'all'
           - 'instagram_only'
           - 'youtube_only'
+      language:
+        description: 'Quote Language'
+        required: true
+        default: 'hi'
+        type: choice
+        options:
+          - 'hi'
+          - 'en'
 
 permissions:
   contents: write
@@ -65,8 +79,9 @@ jobs:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
           YOUTUBE_PRIVACY_STATUS: ${{ vars.YOUTUBE_PRIVACY_STATUS || 'public' }}
-          REEL_TYPE: ${{ github.event.inputs.reel_type }}
+          REEL_TYPE: ${{ github.event.inputs.reel_type || 'daily' }}
           TARGET_PLATFORM: ${{ github.event.inputs.target_platform || 'all' }}
+          SELECTED_LANG: ${{ github.event.inputs.language || 'hi' }}
         run: |
           EXTRA_FLAGS=""
           if [ "$TARGET_PLATFORM" = "instagram_only" ]; then
@@ -79,14 +94,16 @@ jobs:
             echo "[INFO] Publishing dedicated multi-scene narrative reel & short: The Reality Check & Reset..."
             python post_with_instagrapi.py --storyboard reality_check $EXTRA_FLAGS
           else
-            python post_with_instagrapi.py $EXTRA_FLAGS
+            echo "[INFO] Publishing daily wellness reel in language: $SELECTED_LANG..."
+            python post_with_instagrapi.py --lang "$SELECTED_LANG" $EXTRA_FLAGS
           fi
 
       - name: Save Session & Update Posting History
         run: |
           git config --global user.name "Instagram & YouTube Bot"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A history.json session.json output/ assets/
+          git add history.json session.json
           git commit -m "Auto-post reel & short to Instagram/YouTube [skip ci]" || echo "No changes to commit"
           git pull --rebase origin main
           git push
+
