@@ -25,7 +25,8 @@
     27,
     63,
     41,
-    85
+    85,
+    77
   ],
   "used_backgrounds": [
     "shimmering_ocean.jpg",
@@ -37,7 +38,8 @@
     "golden_hour_trail.jpg",
     "golden_mountain.jpg",
     "sunset_clouds_beach.jpg",
-    "twilight_leaf_silhouette.jpg"
+    "twilight_leaf_silhouette.jpg",
+    "ocean_waves.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -80,7 +82,8 @@
     "lofi_chillhop.mp3",
     "winter_celestial.mp3",
     "soft_ambient_serenade.wav",
-    "cinematic_satie_piano.mp3"
+    "cinematic_satie_piano.mp3",
+    "stoic_mindset.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -126,9 +129,10 @@
     "GOLDEN_LUXURY",
     "GOLDEN_LUXURY",
     "SUNSET_EMBER",
-    "ROYAL_AMETHYST"
+    "ROYAL_AMETHYST",
+    "CYAN_HORIZON"
   ],
-  "last_posted_date": "2026-10-04 20:53:23 UTC",
+  "last_posted_date": "2026-10-05 05:27:48 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -175,7 +179,8 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -189,12 +194,14 @@
     "Swara (Hindi - Clear, Inspiring, Serene)",
     "en-US-EricNeural",
     "en-US-EricNeural",
-    "Jenny (Uplifting, Clear, Confident)"
+    "Jenny (Uplifting, Clear, Confident)",
+    "Madhur (Hindi - Warm, Deep, Grounded Motivational)"
   ],
   "youtube_shorts_ids": [
     "1PMvoR-s1ag",
     "-rGj73bS73E",
     "fTQPRHKCMWY",
-    "WnYNYXGgva8"
+    "WnYNYXGgva8",
+    "ebdhSkfjFDQ"
   ]
 }
