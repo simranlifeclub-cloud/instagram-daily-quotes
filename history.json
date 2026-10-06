@@ -31,7 +31,8 @@
     83,
     70,
     49,
-    72
+    72,
+    58
   ],
   "used_backgrounds": [
     "shimmering_ocean.jpg",
@@ -49,7 +50,8 @@
     "starry_night.jpg",
     "serene_sunrise.jpg",
     "tropical_green_foliage.jpg",
-    "desert_dunes.jpg"
+    "desert_dunes.jpg",
+    "snowy_mountain_peak.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -98,7 +100,8 @@
     "lofi_chillhop.mp3",
     "winter_celestial.mp3",
     "cinematic_satie_piano.mp3",
-    "soft_ambient_serenade.wav"
+    "soft_ambient_serenade.wav",
+    "melodic_piano_rondo.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -150,9 +153,10 @@
     "ROYAL_AMETHYST",
     "GOLDEN_LUXURY",
     "EMERALD_MINT",
-    "DESERT_TERRACOTTA"
+    "DESERT_TERRACOTTA",
+    "CYAN_HORIZON"
   ],
-  "last_posted_date": "2026-10-06 12:52:29 UTC",
+  "last_posted_date": "2026-10-06 16:12:02 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -205,7 +209,8 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -221,6 +226,7 @@
     "en-US-EricNeural",
     "Jenny (Uplifting, Clear, Confident)",
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
+    "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)"
   ],
   "youtube_shorts_ids": [
@@ -233,6 +239,7 @@
     "icaClk5mk18",
     "pc6tgqyb1x8",
     "P9ktsnLXjS4",
-    "QnJ5gV_VKQM"
+    "QnJ5gV_VKQM",
+    "ah3mFjSP3p4"
   ]
 }
