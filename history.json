@@ -30,7 +30,8 @@
     73,
     83,
     70,
-    49
+    49,
+    72
   ],
   "used_backgrounds": [
     "shimmering_ocean.jpg",
@@ -47,7 +48,8 @@
     "misty_forest.jpg",
     "starry_night.jpg",
     "serene_sunrise.jpg",
-    "tropical_green_foliage.jpg"
+    "tropical_green_foliage.jpg",
+    "desert_dunes.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -95,7 +97,8 @@
     "soft_ambient_serenade.wav",
     "lofi_chillhop.mp3",
     "winter_celestial.mp3",
-    "cinematic_satie_piano.mp3"
+    "cinematic_satie_piano.mp3",
+    "soft_ambient_serenade.wav"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -146,9 +149,10 @@
     "EMERALD_MINT",
     "ROYAL_AMETHYST",
     "GOLDEN_LUXURY",
-    "EMERALD_MINT"
+    "EMERALD_MINT",
+    "DESERT_TERRACOTTA"
   ],
-  "last_posted_date": "2026-10-06 05:21:05 UTC",
+  "last_posted_date": "2026-10-06 12:52:29 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -200,6 +204,7 @@
     "SHORT_VIDEO",
     "VOICEOVER",
     "SHORT_VIDEO",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
@@ -227,6 +232,7 @@
     "gLg9tn84e5I",
     "icaClk5mk18",
     "pc6tgqyb1x8",
-    "P9ktsnLXjS4"
+    "P9ktsnLXjS4",
+    "QnJ5gV_VKQM"
   ]
 }
