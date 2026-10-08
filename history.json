@@ -37,14 +37,16 @@
     81,
     42,
     48,
-    80
+    80,
+    66
   ],
   "used_backgrounds": [
     "minimalist_arch.jpg",
     "cozy_rainy_window.jpg",
     "city_twilight.jpg",
     "tropical_green_foliage.jpg",
-    "misty_forest.jpg"
+    "misty_forest.jpg",
+    "twilight_leaf_silhouette.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -99,7 +101,8 @@
     "lofi_chillhop.mp3",
     "winter_celestial.mp3",
     "lofi_chillhop.mp3",
-    "stoic_mindset.mp3"
+    "stoic_mindset.mp3",
+    "winter_celestial.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -157,9 +160,10 @@
     "FROSTED_SILVER",
     "SUNSET_EMBER",
     "EMERALD_MINT",
-    "EMERALD_MINT"
+    "EMERALD_MINT",
+    "ROYAL_AMETHYST"
   ],
-  "last_posted_date": "2026-10-08 08:16:36 UTC",
+  "last_posted_date": "2026-10-08 12:57:26 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -218,7 +222,8 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "VOICEOVER"
+    "VOICEOVER",
+    "SHORT_VIDEO"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -255,6 +260,7 @@
     "bxkyQ-R_GkY",
     "J1IK3FkZp88",
     "x7S7uVHwflQ",
-    "LiM69Biy-mc"
+    "LiM69Biy-mc",
+    "fbMOD_XQgm0"
   ]
 }
