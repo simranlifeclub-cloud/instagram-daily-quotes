@@ -39,7 +39,8 @@
     48,
     80,
     66,
-    55
+    55,
+    51
   ],
   "used_backgrounds": [
     "minimalist_arch.jpg",
@@ -48,7 +49,8 @@
     "tropical_green_foliage.jpg",
     "misty_forest.jpg",
     "twilight_leaf_silhouette.jpg",
-    "sunset_clouds_beach.jpg"
+    "sunset_clouds_beach.jpg",
+    "golden_hour_trail.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -105,7 +107,8 @@
     "lofi_chillhop.mp3",
     "stoic_mindset.mp3",
     "winter_celestial.mp3",
-    "cinematic_satie_piano.mp3"
+    "cinematic_satie_piano.mp3",
+    "lofi_chillhop.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -165,9 +168,10 @@
     "EMERALD_MINT",
     "EMERALD_MINT",
     "ROYAL_AMETHYST",
-    "SUNSET_EMBER"
+    "SUNSET_EMBER",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-10-08 16:14:24 UTC",
+  "last_posted_date": "2026-10-09 01:45:21 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -228,7 +232,8 @@
     "SHORT_VIDEO",
     "VOICEOVER",
     "SHORT_VIDEO",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -247,7 +252,8 @@
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
-    "Madhur (Hindi - Warm, Deep, Grounded Motivational)"
+    "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
+    "Swara (Hindi - Clear, Inspiring, Serene)"
   ],
   "youtube_shorts_ids": [
     "1PMvoR-s1ag",
@@ -267,6 +273,7 @@
     "x7S7uVHwflQ",
     "LiM69Biy-mc",
     "fbMOD_XQgm0",
-    "7qE0Ahgm-yI"
+    "7qE0Ahgm-yI",
+    "zbjuo_Uj7Q4"
   ]
 }
