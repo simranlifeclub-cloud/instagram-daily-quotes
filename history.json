@@ -41,7 +41,8 @@
     66,
     55,
     51,
-    75
+    75,
+    79
   ],
   "used_backgrounds": [
     "minimalist_arch.jpg",
@@ -52,7 +53,8 @@
     "twilight_leaf_silhouette.jpg",
     "sunset_clouds_beach.jpg",
     "golden_hour_trail.jpg",
-    "shimmering_ocean.jpg"
+    "shimmering_ocean.jpg",
+    "desert_dunes.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -111,7 +113,8 @@
     "winter_celestial.mp3",
     "cinematic_satie_piano.mp3",
     "lofi_chillhop.mp3",
-    "winter_celestial.mp3"
+    "winter_celestial.mp3",
+    "lofi_chillhop.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -173,9 +176,10 @@
     "ROYAL_AMETHYST",
     "SUNSET_EMBER",
     "GOLDEN_LUXURY",
-    "CYAN_HORIZON"
+    "CYAN_HORIZON",
+    "DESERT_TERRACOTTA"
   ],
-  "last_posted_date": "2026-10-09 05:20:40 UTC",
+  "last_posted_date": "2026-10-09 08:21:33 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -238,6 +242,7 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "VOICEOVER",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
@@ -280,6 +285,7 @@
     "fbMOD_XQgm0",
     "7qE0Ahgm-yI",
     "zbjuo_Uj7Q4",
-    "mqpYgmU3p-k"
+    "mqpYgmU3p-k",
+    "dr5-ZKclxbI"
   ]
 }
