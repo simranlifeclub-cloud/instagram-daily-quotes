@@ -45,7 +45,8 @@
     79,
     69,
     59,
-    71
+    71,
+    86
   ],
   "used_backgrounds": [
     "minimalist_arch.jpg",
@@ -60,7 +61,8 @@
     "desert_dunes.jpg",
     "snowy_mountain_peak.jpg",
     "misty_mountain_ridge.jpg",
-    "golden_mountain.jpg"
+    "golden_mountain.jpg",
+    "starry_night.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -123,7 +125,8 @@
     "lofi_chillhop.mp3",
     "winter_celestial.mp3",
     "stoic_mindset.mp3",
-    "cinematic_satie_piano.mp3"
+    "cinematic_satie_piano.mp3",
+    "melodic_piano_rondo.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -189,9 +192,10 @@
     "DESERT_TERRACOTTA",
     "CYAN_HORIZON",
     "EMERALD_MINT",
-    "GOLDEN_LUXURY"
+    "GOLDEN_LUXURY",
+    "ROYAL_AMETHYST"
   ],
-  "last_posted_date": "2026-10-10 12:51:22 UTC",
+  "last_posted_date": "2026-10-10 16:10:28 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -258,7 +262,8 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "VOICEOVER",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -279,7 +284,8 @@
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
     "Swara (Hindi - Clear, Inspiring, Serene)",
-    "Swara (Hindi - Clear, Inspiring, Serene)"
+    "Swara (Hindi - Clear, Inspiring, Serene)",
+    "Madhur (Hindi - Warm, Deep, Grounded Motivational)"
   ],
   "youtube_shorts_ids": [
     "1PMvoR-s1ag",
@@ -305,6 +311,7 @@
     "dr5-ZKclxbI",
     "iDqLYQznXCY",
     "nea6hehRXxw",
-    "MKoZ0IXDTk8"
+    "MKoZ0IXDTk8",
+    "vs1HZ1EN53c"
   ]
 }
