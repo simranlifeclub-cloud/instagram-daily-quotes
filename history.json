@@ -44,7 +44,8 @@
     75,
     79,
     69,
-    59
+    59,
+    71
   ],
   "used_backgrounds": [
     "minimalist_arch.jpg",
@@ -58,7 +59,8 @@
     "shimmering_ocean.jpg",
     "desert_dunes.jpg",
     "snowy_mountain_peak.jpg",
-    "misty_mountain_ridge.jpg"
+    "misty_mountain_ridge.jpg",
+    "golden_mountain.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -120,7 +122,8 @@
     "winter_celestial.mp3",
     "lofi_chillhop.mp3",
     "winter_celestial.mp3",
-    "stoic_mindset.mp3"
+    "stoic_mindset.mp3",
+    "cinematic_satie_piano.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -185,9 +188,10 @@
     "CYAN_HORIZON",
     "DESERT_TERRACOTTA",
     "CYAN_HORIZON",
-    "EMERALD_MINT"
+    "EMERALD_MINT",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-10-10 08:17:35 UTC",
+  "last_posted_date": "2026-10-10 12:51:22 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -253,7 +257,8 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "VOICEOVER"
+    "VOICEOVER",
+    "SHORT_VIDEO"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -299,6 +304,7 @@
     "mqpYgmU3p-k",
     "dr5-ZKclxbI",
     "iDqLYQznXCY",
-    "nea6hehRXxw"
+    "nea6hehRXxw",
+    "MKoZ0IXDTk8"
   ]
 }
