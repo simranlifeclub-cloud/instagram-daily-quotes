@@ -47,7 +47,8 @@
     59,
     71,
     86,
-    54
+    54,
+    78
   ],
   "used_backgrounds": [
     "minimalist_arch.jpg",
@@ -64,7 +65,8 @@
     "misty_mountain_ridge.jpg",
     "golden_mountain.jpg",
     "starry_night.jpg",
-    "serene_sunrise.jpg"
+    "serene_sunrise.jpg",
+    "emerald_waterfall.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -129,7 +131,8 @@
     "stoic_mindset.mp3",
     "cinematic_satie_piano.mp3",
     "melodic_piano_rondo.mp3",
-    "stoic_mindset.mp3"
+    "stoic_mindset.mp3",
+    "winter_celestial.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -197,9 +200,10 @@
     "EMERALD_MINT",
     "GOLDEN_LUXURY",
     "ROYAL_AMETHYST",
-    "GOLDEN_LUXURY"
+    "GOLDEN_LUXURY",
+    "EMERALD_MINT"
   ],
-  "last_posted_date": "2026-10-11 01:46:52 UTC",
+  "last_posted_date": "2026-10-11 05:24:52 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -268,6 +272,7 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "VOICEOVER",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
@@ -318,6 +323,7 @@
     "nea6hehRXxw",
     "MKoZ0IXDTk8",
     "vs1HZ1EN53c",
-    "tBg0wFBu_ZY"
+    "tBg0wFBu_ZY",
+    "erzTj6PIyl4"
   ]
 }
