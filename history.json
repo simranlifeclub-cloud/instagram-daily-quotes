@@ -51,11 +51,13 @@
     78,
     40,
     65,
-    84
+    84,
+    52
   ],
   "used_backgrounds": [
     "desert_dunes.jpg",
-    "starry_night.jpg"
+    "starry_night.jpg",
+    "serene_sunrise.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -124,7 +126,8 @@
     "winter_celestial.mp3",
     "cinematic_satie_piano.mp3",
     "soft_ambient_serenade.wav",
-    "stoic_mindset.mp3"
+    "stoic_mindset.mp3",
+    "winter_celestial.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -196,9 +199,10 @@
     "EMERALD_MINT",
     "CYAN_HORIZON",
     "DESERT_TERRACOTTA",
-    "ROYAL_AMETHYST"
+    "ROYAL_AMETHYST",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-10-11 16:10:52 UTC",
+  "last_posted_date": "2026-10-12 01:46:30 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -271,6 +275,7 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "VOICEOVER",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
