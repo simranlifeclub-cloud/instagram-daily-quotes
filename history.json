@@ -54,14 +54,16 @@
     84,
     52,
     62,
-    57
+    57,
+    68
   ],
   "used_backgrounds": [
     "desert_dunes.jpg",
     "starry_night.jpg",
     "serene_sunrise.jpg",
     "cozy_rainy_window.jpg",
-    "sunset_clouds_beach.jpg"
+    "sunset_clouds_beach.jpg",
+    "golden_mountain.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -133,7 +135,8 @@
     "stoic_mindset.mp3",
     "winter_celestial.mp3",
     "melodic_piano_rondo.mp3",
-    "lofi_chillhop.mp3"
+    "lofi_chillhop.mp3",
+    "soft_ambient_serenade.wav"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -208,9 +211,10 @@
     "ROYAL_AMETHYST",
     "GOLDEN_LUXURY",
     "FROSTED_SILVER",
-    "SUNSET_EMBER"
+    "SUNSET_EMBER",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-10-12 16:13:59 UTC",
+  "last_posted_date": "2026-10-13 01:53:34 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -283,6 +287,7 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "VOICEOVER",
+    "SHORT_VIDEO",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
