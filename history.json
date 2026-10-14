@@ -56,7 +56,8 @@
     62,
     57,
     68,
-    33
+    33,
+    60
   ],
   "used_backgrounds": [
     "desert_dunes.jpg",
@@ -65,7 +66,8 @@
     "cozy_rainy_window.jpg",
     "sunset_clouds_beach.jpg",
     "golden_mountain.jpg",
-    "snowy_mountain_peak.jpg"
+    "snowy_mountain_peak.jpg",
+    "golden_hour_trail.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -139,7 +141,8 @@
     "melodic_piano_rondo.mp3",
     "lofi_chillhop.mp3",
     "soft_ambient_serenade.wav",
-    "stoic_mindset.mp3"
+    "stoic_mindset.mp3",
+    "winter_celestial.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -216,9 +219,10 @@
     "FROSTED_SILVER",
     "SUNSET_EMBER",
     "GOLDEN_LUXURY",
-    "CYAN_HORIZON"
+    "CYAN_HORIZON",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-10-14 02:01:08 UTC",
+  "last_posted_date": "2026-10-14 14:32:07 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -296,7 +300,8 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "VOICEOVER"
+    "VOICEOVER",
+    "SHORT_VIDEO"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
