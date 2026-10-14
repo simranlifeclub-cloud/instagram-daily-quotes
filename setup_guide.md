@@ -1,6 +1,6 @@
 # Complete Step-by-Step Setup Guide: Daily Instagram Reels Auto-Poster
 
-This system automatically publishes **5 unique, high-retention Instagram Reels every day** using **GitHub Actions + FFmpeg + Instagrapi / Meta Graph API**.
+This system automatically publishes **2 unique, high-retention Instagram Reels every day** using **GitHub Actions + FFmpeg + Instagrapi / Meta Graph API**.
 
 ### 3 High-Retention Reel Formats Published Automatically:
 
