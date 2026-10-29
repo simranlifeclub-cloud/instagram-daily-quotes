@@ -203,6 +203,13 @@ def upload_video_to_youtube(video_path: str,
             else:
                 raise e
         except Exception as e:
+            err_msg = str(e)
+            if "invalid_grant" in err_msg or "RefreshError" in type(e).__name__:
+                raise RuntimeError(
+                    "YouTube OAuth token is invalid or expired ('invalid_grant'). "
+                    "Run 'python3 get_youtube_token.py' to generate a fresh YOUTUBE_REFRESH_TOKEN "
+                    "and ensure your Google Cloud OAuth consent screen is set to 'In production'."
+                ) from e
             error = f"Retriable network exception: {e}"
 
         if error:
