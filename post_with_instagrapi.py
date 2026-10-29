@@ -331,41 +331,51 @@ def main():
         print("\nCaption preview:\n", caption)
         return
 
-    if getattr(args, "youtube_only", False):
+    instagram_success = False
+    youtube_success = False
+    instagram_error = None
+    youtube_error = None
+
+    should_post_instagram = not getattr(args, "youtube_only", False)
+    should_post_youtube = not getattr(args, "no_youtube", False)
+
+    # 1. ATTEMPT INSTAGRAM UPLOAD
+    if should_post_instagram:
+        print("\n" + "=" * 55)
+        print("📸 [DESTINATION: INSTAGRAM]")
+        print("=" * 55)
+        if not sessionid and (not username or not password):
+            instagram_error = "Missing Instagram credentials (set IG_USERNAME & IG_PASSWORD, or IG_SESSIONID in GitHub Secrets)."
+            print(f"[WARN] {instagram_error}")
+        else:
+            try:
+                cl = get_authenticated_client(username, password)
+                if is_video:
+                    print("[INFO] Uploading MP4 Reel to Instagram with custom cover thumbnail...")
+                    media = cl.clip_upload(
+                        path=media_path,
+                        caption=caption,
+                        thumbnail=thumb_path
+                    )
+                    print(f"\n🎉 [SUCCESS] REEL is LIVE on Instagram! Reel PK: {media.pk}")
+                else:
+                    print("[INFO] Uploading Photo to Instagram Feed...")
+                    media = cl.photo_upload(path=media_path, caption=caption)
+                    print(f"\n🎉 [SUCCESS] Post is LIVE on Instagram! Media PK: {media.pk}")
+                instagram_success = True
+            except Exception as ig_err:
+                instagram_error = str(ig_err)
+                print(f"\n[ERROR] Instagram upload failed: {ig_err}")
+                print("[TIP] If this is a login rate-limit (429) or checkpoint/challenge, refresh 'IG_SESSIONID' in GitHub Secrets.\n")
+
+    # 2. ATTEMPT YOUTUBE SHORTS UPLOAD
+    if should_post_youtube:
+        print("\n" + "=" * 55)
+        print("🎬 [DESTINATION: YOUTUBE SHORTS]")
+        print("=" * 55)
         if not is_video:
-            print("[WARN] Photo mode fallback active. YouTube Shorts requires video. Skipping.")
-            return
-        from youtube_uploader import maybe_upload_to_youtube_shorts
-        yt_id = maybe_upload_to_youtube_shorts(
-            video_path=media_path,
-            quote=quote,
-            caption=caption,
-            meta=meta
-        )
-        if yt_id:
-            history.setdefault("youtube_shorts_ids", []).append(yt_id)
-            history["last_posted_date"] = time.strftime("%Y-%m-%d %H:%M:%S UTC")
-            save_history(history)
-        return
-
-    if not sessionid and (not username or not password):
-        print("\n[ERROR] Missing Instagram credentials!")
-        print("Please set IG_USERNAME & IG_PASSWORD (or IG_SESSIONID) in GitHub Secrets.")
-        sys.exit(1)
-
-    cl = get_authenticated_client(username, password)
-
-    if is_video:
-        print(f"[INFO] Uploading MP4 Reel to Instagram with custom cover thumbnail...")
-        media = cl.clip_upload(
-            path=media_path,
-            caption=caption,
-            thumbnail=thumb_path
-        )
-        print(f"\n🎉 [SUCCESS] REEL is LIVE on Instagram! Reel PK: {media.pk}")
-
-        # Automatically publish as YouTube Short as well
-        if not getattr(args, "no_youtube", False):
+            print("[WARN] Photo mode fallback active. YouTube Shorts requires video. Skipping YouTube.")
+        else:
             try:
                 from youtube_uploader import maybe_upload_to_youtube_shorts
                 yt_id = maybe_upload_to_youtube_shorts(
@@ -376,31 +386,47 @@ def main():
                 )
                 if yt_id:
                     history.setdefault("youtube_shorts_ids", []).append(yt_id)
+                    youtube_success = True
+                    print(f"\n🎉 [SUCCESS] SHORT is LIVE on YouTube! ID: {yt_id}")
+                else:
+                    youtube_error = "YouTube upload returned no ID (check YOUTUBE_CLIENT_ID / SECRET / REFRESH_TOKEN in GitHub Secrets)."
             except Exception as yt_err:
-                print(f"[WARN] YouTube Shorts upload error: {yt_err}")
+                youtube_error = str(yt_err)
+                print(f"\n[ERROR] YouTube Shorts upload failed: {yt_err}")
+
+    # 3. RECORD HISTORY IF AT LEAST ONE DESTINATION SUCCEEDED
+    if instagram_success or youtube_success:
+        history["posted_ids"].append(quote["id"])
+        if meta.get("format"):
+            history["used_formats"].append(meta["format"])
+        if meta.get("voice"):
+            history["used_voices"].append(meta["voice"])
+        if meta.get("background"):
+            history["used_backgrounds"].append(meta["background"])
+        if meta.get("audio_id"):
+            history["used_audio"].append(meta["audio_id"])
+        elif meta.get("audio"):
+            history["used_audio"].append(meta["audio"])
+        if meta.get("theme"):
+            history["used_themes"].append(meta["theme"])
+
+        history["last_posted_date"] = time.strftime("%Y-%m-%d %H:%M:%S UTC")
+        save_history(history)
+        print("\n" + "=" * 55)
+        print(f"[SUMMARY] Quote #{quote['id']} [{meta.get('format')}] published!")
+        print(f"  • Instagram: {'✅ LIVE' if instagram_success else '❌ FAILED'}")
+        print(f"  • YouTube:   {'✅ LIVE' if youtube_success else '❌ FAILED / SKIPPED'}")
+        print("=" * 55 + "\n")
     else:
-        print(f"[INFO] Uploading Photo to Instagram Feed...")
-        media = cl.photo_upload(path=media_path, caption=caption)
-        print(f"\n🎉 [SUCCESS] Post is LIVE on Instagram! Media PK: {media.pk}")
-
-    # Track History across all dimensions
-    history["posted_ids"].append(quote["id"])
-    if meta.get("format"):
-        history["used_formats"].append(meta["format"])
-    if meta.get("voice"):
-        history["used_voices"].append(meta["voice"])
-    if meta.get("background"):
-        history["used_backgrounds"].append(meta["background"])
-    if meta.get("audio_id"):
-        history["used_audio"].append(meta["audio_id"])
-    elif meta.get("audio"):
-        history["used_audio"].append(meta["audio"])
-    if meta.get("theme"):
-        history["used_themes"].append(meta["theme"])
-
-    history["last_posted_date"] = time.strftime("%Y-%m-%d %H:%M:%S UTC")
-    save_history(history)
-    print(f"[INFO] Recorded quote #{quote['id']} [{meta.get('format')}] in history!")
+        # Both targeted destinations failed
+        print("\n" + "=" * 60)
+        print("[CRITICAL] Publishing failed on all requested destinations!")
+        if instagram_error:
+            print(f"  • Instagram Error: {instagram_error}")
+        if youtube_error:
+            print(f"  • YouTube Error:   {youtube_error}")
+        print("=" * 60 + "\n")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
