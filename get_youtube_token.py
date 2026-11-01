@@ -154,21 +154,22 @@ def main():
     client_id = os.getenv("YOUTUBE_CLIENT_ID")
     client_secret = os.getenv("YOUTUBE_CLIENT_SECRET")
 
-    # 1. Check if client_secrets.json exists (from Downloads or root)
-    download_secrets = os.path.expanduser("~/Downloads")
-    for f in os.listdir(download_secrets) if os.path.exists(download_secrets) else []:
-        if f.startswith("client_secret_") and f.endswith(".json"):
-            src = os.path.join(download_secrets, f)
-            print(f"[INFO] Found '{f}' in ~/Downloads! Loading credentials...")
-            try:
-                with open(src, "r") as sf:
-                    cdata = json.load(sf)
-                key = "installed" if "installed" in cdata else "web"
-                client_id = cdata[key]["client_id"]
-                client_secret = cdata[key]["client_secret"]
-                break
-            except Exception:
-                pass
+    # 1. Check if client_secrets.json exists (from Downloads or root) if not already in env
+    if not client_id or not client_secret:
+        download_secrets = os.path.expanduser("~/Downloads")
+        for f in os.listdir(download_secrets) if os.path.exists(download_secrets) else []:
+            if f.startswith("client_secret_") and f.endswith(".json"):
+                src = os.path.join(download_secrets, f)
+                print(f"[INFO] Found '{f}' in ~/Downloads! Loading credentials...")
+                try:
+                    with open(src, "r") as sf:
+                        cdata = json.load(sf)
+                    key = "installed" if "installed" in cdata else "web"
+                    client_id = cdata[key]["client_id"]
+                    client_secret = cdata[key]["client_secret"]
+                    break
+                except Exception:
+                    pass
 
     if (not client_id or not client_secret) and os.path.exists("client_secrets.json"):
         try:
