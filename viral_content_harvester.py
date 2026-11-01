@@ -129,13 +129,53 @@ def list_niche_pillars():
     print("\n" + "=" * 65 + "\n")
 
 
+def print_database_status():
+    history_file = os.path.join(BASE_DIR, "history.json")
+    quotes = load_quotes_database()
+    history = {}
+    if os.path.exists(history_file):
+        with open(history_file, "r", encoding="utf-8") as f:
+            try:
+                history = json.load(f)
+            except Exception:
+                history = {}
+    
+    posted_ids = set(history.get("posted_ids", []))
+    unposted = [q for q in quotes if q.get("id") not in posted_ids]
+    
+    hi_unposted = [q for q in unposted if q.get("language", "hi") == "hi"]
+    en_unposted = [q for q in unposted if q.get("language") == "en"]
+    
+    print("\n" + "=" * 65)
+    print("📊 SIMRAN LIFE CLUB — CONTENT PIPELINE STATUS")
+    print("=" * 65)
+    print(f"Total Quotes in Library : {len(quotes)}")
+    print(f"Total Published Posts   : {len(posted_ids)}")
+    print(f"Remaining in Queue      : {len(unposted)} ({len(hi_unposted)} Hindi, {len(en_unposted)} English)")
+    print(f"YouTube Shorts Uploaded : {len(history.get('youtube_shorts_ids', []))}")
+    print(f"Last Published Timestamp: {history.get('last_posted_date', 'N/A')}")
+    
+    print("\n🔥 UPCOMING VIRAL QUOTES READY IN QUEUE:")
+    recent_remastered = [q for q in unposted if isinstance(q.get("id"), int) and q["id"] >= 87]
+    for q in recent_remastered[:6]:
+        lang = q.get("language", "hi").upper()
+        print(f"  • #{q['id']} [{lang}] [{q.get('slot')}] {q.get('category')}")
+        print(f"    Hook: \"{' '.join(q.get('hero_lines', []))}\"")
+    print("=" * 65 + "\n")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Viral Content Harvester & Remastering CLI")
     parser.add_argument("--list-pillars", action="store_true", help="List content pillars and viral hook frameworks")
+    parser.add_argument("--status", action="store_true", help="Display current content library and queue status")
     args = parser.parse_args()
 
     if args.list_pillars:
         list_niche_pillars()
+    elif args.status:
+        print_database_status()
     else:
+        print_database_status()
         list_niche_pillars()
-        print("Use add_remastered_quote() or run with --list-pillars to inspect frameworks.")
+        print("💡 Run with --status or --list-pillars, or use add_remastered_quote() to append new scripts.")
+
