@@ -62,7 +62,8 @@
     8,
     12,
     87,
-    101
+    101,
+    10
   ],
   "used_backgrounds": [
     "desert_dunes.jpg",
@@ -77,7 +78,8 @@
     "misty_mountain_ridge.jpg",
     "twilight_leaf_silhouette.jpg",
     "city_twilight.jpg",
-    "shimmering_ocean.jpg"
+    "shimmering_ocean.jpg",
+    "misty_forest.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -157,7 +159,8 @@
     "stoic_mindset.mp3",
     "soft_ambient_serenade.wav",
     "winter_celestial.mp3",
-    "melodic_piano_rondo.mp3"
+    "melodic_piano_rondo.mp3",
+    "lofi_chillhop.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -240,9 +243,10 @@
     "EMERALD_MINT",
     "ROYAL_AMETHYST",
     "SUNSET_EMBER",
-    "CYAN_HORIZON"
+    "CYAN_HORIZON",
+    "EMERALD_MINT"
   ],
-  "last_posted_date": "2026-11-01 18:48:03 UTC",
+  "last_posted_date": "2026-11-02 08:46:03 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -326,7 +330,8 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -351,7 +356,8 @@
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
     "Swara (Hindi - Clear, Inspiring, Serene)",
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
-    "Ryan (British, Sophisticated, Cinematic Wisdom)"
+    "Ryan (British, Sophisticated, Cinematic Wisdom)",
+    "Guy (Passionate, Energetic, Direct)"
   ],
   "youtube_shorts_ids": [
     "1PMvoR-s1ag",
@@ -385,6 +391,7 @@
     "Gb3BhZ1RR_M",
     "ajiKu5WB1Pw",
     "lujvKT0XRqU",
-    "MnMZr_ObdNE"
+    "MnMZr_ObdNE",
+    "kR2tuxJXW3w"
   ]
 }
