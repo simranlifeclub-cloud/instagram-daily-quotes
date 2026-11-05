@@ -68,11 +68,13 @@
     20,
     74,
     92,
-    9
+    9,
+    45
   ],
   "used_backgrounds": [
     "minimalist_arch.jpg",
-    "desert_dunes.jpg"
+    "desert_dunes.jpg",
+    "starry_night.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -158,7 +160,8 @@
     "winter_celestial.mp3",
     "soft_ambient_serenade.wav",
     "lofi_chillhop.mp3",
-    "melodic_piano_rondo.mp3"
+    "melodic_piano_rondo.mp3",
+    "stoic_mindset.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -247,9 +250,10 @@
     "EMERALD_MINT",
     "FROSTED_SILVER",
     "FROSTED_SILVER",
-    "DESERT_TERRACOTTA"
+    "DESERT_TERRACOTTA",
+    "ROYAL_AMETHYST"
   ],
-  "last_posted_date": "2026-11-04 20:44:56 UTC",
+  "last_posted_date": "2026-11-05 08:54:23 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -339,6 +343,7 @@
     "SHORT_VIDEO",
     "VOICEOVER",
     "SHORT_VIDEO",
+    "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
   "used_voices": [
@@ -406,6 +411,7 @@
     "Fnk-3828I6g",
     "3-30SzZWXJM",
     "2OkP1F1sCv8",
-    "vB2WR5q6O6Q"
+    "vB2WR5q6O6Q",
+    "Pnh5ubRA49k"
   ]
 }
