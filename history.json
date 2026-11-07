@@ -73,7 +73,8 @@
     21,
     56,
     64,
-    99
+    99,
+    13
   ],
   "used_backgrounds": [
     "minimalist_arch.jpg",
@@ -82,7 +83,8 @@
     "cozy_rainy_window.jpg",
     "city_twilight.jpg",
     "golden_hour_trail.jpg",
-    "shimmering_ocean.jpg"
+    "shimmering_ocean.jpg",
+    "golden_mountain.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -173,7 +175,8 @@
     "cinematic_satie_piano.mp3",
     "winter_celestial.mp3",
     "soft_ambient_serenade.wav",
-    "lofi_chillhop.mp3"
+    "lofi_chillhop.mp3",
+    "cinematic_satie_piano.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -267,9 +270,10 @@
     "FROSTED_SILVER",
     "SUNSET_EMBER",
     "GOLDEN_LUXURY",
-    "CYAN_HORIZON"
+    "CYAN_HORIZON",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-11-07 08:10:39 UTC",
+  "last_posted_date": "2026-11-07 18:34:22 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -364,7 +368,8 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "VOICEOVER",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -393,7 +398,8 @@
     "Guy (Passionate, Energetic, Direct)",
     "Swara (Hindi - Clear, Inspiring, Serene)",
     "Christopher (Deep, Commanding, Classic Motivational)",
-    "Madhur (Hindi - Warm, Deep, Grounded Motivational)"
+    "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
+    "Eric (Warm, Inspiring, Grounded)"
   ],
   "youtube_shorts_ids": [
     "1PMvoR-s1ag",
@@ -438,6 +444,7 @@
     "ZuYKv5kZnow",
     "Z64losauwPA",
     "SeOsZDi-s8E",
-    "3qWO9q3th3k"
+    "3qWO9q3th3k",
+    "n01MXklekHI"
   ]
 }
