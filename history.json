@@ -79,7 +79,8 @@
     61,
     5,
     89,
-    17
+    17,
+    93
   ],
   "used_backgrounds": [
     "minimalist_arch.jpg",
@@ -94,7 +95,8 @@
     "misty_forest.jpg",
     "misty_mountain_ridge.jpg",
     "sunset_clouds_beach.jpg",
-    "emerald_waterfall.jpg"
+    "emerald_waterfall.jpg",
+    "twilight_leaf_silhouette.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -191,7 +193,8 @@
     "soft_ambient_serenade.wav",
     "winter_celestial.mp3",
     "cinematic_satie_piano.mp3",
-    "soft_ambient_serenade.wav"
+    "soft_ambient_serenade.wav",
+    "lofi_chillhop.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -291,9 +294,10 @@
     "EMERALD_MINT",
     "EMERALD_MINT",
     "SUNSET_EMBER",
-    "EMERALD_MINT"
+    "EMERALD_MINT",
+    "ROYAL_AMETHYST"
   ],
-  "last_posted_date": "2026-11-17 22:08:20 UTC",
+  "last_posted_date": "2026-11-18 09:38:12 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -394,7 +398,8 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "VOICEOVER",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -425,7 +430,8 @@
     "Christopher (Deep, Commanding, Classic Motivational)",
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
     "Eric (Warm, Inspiring, Grounded)",
-    "Swara (Hindi - Clear, Inspiring, Serene)"
+    "Swara (Hindi - Clear, Inspiring, Serene)",
+    "Madhur (Hindi - Warm, Deep, Grounded Motivational)"
   ],
   "youtube_shorts_ids": [
     "1PMvoR-s1ag",
