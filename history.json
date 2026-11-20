@@ -83,26 +83,11 @@
     93,
     97,
     95,
-    67
+    67,
+    82
   ],
   "used_backgrounds": [
-    "minimalist_arch.jpg",
-    "desert_dunes.jpg",
-    "starry_night.jpg",
-    "cozy_rainy_window.jpg",
-    "city_twilight.jpg",
-    "golden_hour_trail.jpg",
-    "shimmering_ocean.jpg",
-    "golden_mountain.jpg",
-    "tropical_green_foliage.jpg",
-    "misty_forest.jpg",
-    "misty_mountain_ridge.jpg",
-    "sunset_clouds_beach.jpg",
-    "emerald_waterfall.jpg",
-    "twilight_leaf_silhouette.jpg",
-    "snowy_mountain_peak.jpg",
-    "serene_sunrise.jpg",
-    "ocean_waves.jpg"
+    "misty_forest.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -203,7 +188,8 @@
     "lofi_chillhop.mp3",
     "melodic_piano_rondo.mp3",
     "winter_celestial.mp3",
-    "lofi_chillhop.mp3"
+    "lofi_chillhop.mp3",
+    "cinematic_satie_piano.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -307,9 +293,10 @@
     "ROYAL_AMETHYST",
     "CYAN_HORIZON",
     "GOLDEN_LUXURY",
-    "CYAN_HORIZON"
+    "CYAN_HORIZON",
+    "EMERALD_MINT"
   ],
-  "last_posted_date": "2026-11-19 22:03:10 UTC",
+  "last_posted_date": "2026-11-20 09:47:23 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -414,7 +401,8 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -446,7 +434,8 @@
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
     "Eric (Warm, Inspiring, Grounded)",
     "Swara (Hindi - Clear, Inspiring, Serene)",
-    "Madhur (Hindi - Warm, Deep, Grounded Motivational)"
+    "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
+    "Swara (Hindi - Clear, Inspiring, Serene)"
   ],
   "youtube_shorts_ids": [
     "1PMvoR-s1ag",
