@@ -88,14 +88,16 @@
     18,
     15,
     39,
-    47
+    47,
+    76
   ],
   "used_backgrounds": [
     "misty_forest.jpg",
     "shimmering_ocean.jpg",
     "sunset_clouds_beach.jpg",
     "misty_mountain_ridge.jpg",
-    "minimalist_arch.jpg"
+    "minimalist_arch.jpg",
+    "tropical_green_foliage.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -201,7 +203,8 @@
     "winter_celestial.mp3",
     "lofi_chillhop.mp3",
     "cinematic_satie_piano.mp3",
-    "winter_celestial.mp3"
+    "winter_celestial.mp3",
+    "soft_ambient_serenade.wav"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -310,9 +313,10 @@
     "CYAN_HORIZON",
     "SUNSET_EMBER",
     "EMERALD_MINT",
-    "FROSTED_SILVER"
+    "FROSTED_SILVER",
+    "EMERALD_MINT"
   ],
-  "last_posted_date": "2026-11-22 09:11:07 UTC",
+  "last_posted_date": "2026-11-22 20:39:46 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -422,7 +426,8 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "SHORT_VIDEO",
-    "VOICEOVER"
+    "VOICEOVER",
+    "SHORT_VIDEO"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
