@@ -89,7 +89,8 @@
     15,
     39,
     47,
-    76
+    76,
+    1
   ],
   "used_backgrounds": [
     "misty_forest.jpg",
@@ -97,7 +98,8 @@
     "sunset_clouds_beach.jpg",
     "misty_mountain_ridge.jpg",
     "minimalist_arch.jpg",
-    "tropical_green_foliage.jpg"
+    "tropical_green_foliage.jpg",
+    "golden_hour_trail.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -204,7 +206,8 @@
     "lofi_chillhop.mp3",
     "cinematic_satie_piano.mp3",
     "winter_celestial.mp3",
-    "soft_ambient_serenade.wav"
+    "soft_ambient_serenade.wav",
+    "cinematic_satie_piano.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -314,9 +317,10 @@
     "SUNSET_EMBER",
     "EMERALD_MINT",
     "FROSTED_SILVER",
-    "EMERALD_MINT"
+    "EMERALD_MINT",
+    "GOLDEN_LUXURY"
   ],
-  "last_posted_date": "2026-11-22 20:39:46 UTC",
+  "last_posted_date": "2026-11-23 10:20:04 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -427,7 +431,8 @@
     "SHORT_VIDEO",
     "SHORT_VIDEO",
     "VOICEOVER",
-    "SHORT_VIDEO"
+    "SHORT_VIDEO",
+    "VOICEOVER"
   ],
   "used_voices": [
     "Jenny (Uplifting, Clear, Confident)",
@@ -461,7 +466,8 @@
     "Swara (Hindi - Clear, Inspiring, Serene)",
     "Madhur (Hindi - Warm, Deep, Grounded Motivational)",
     "Swara (Hindi - Clear, Inspiring, Serene)",
-    "Swara (Hindi - Clear, Inspiring, Serene)"
+    "Swara (Hindi - Clear, Inspiring, Serene)",
+    "Ryan (British, Sophisticated, Cinematic Wisdom)"
   ],
   "youtube_shorts_ids": [
     "1PMvoR-s1ag",
