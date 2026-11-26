@@ -1,7 +1,8 @@
 {
   "posted_ids": [
     22,
-    35
+    35,
+    45
   ],
   "used_backgrounds": [
     "misty_forest.jpg",
@@ -14,7 +15,8 @@
     "serene_sunrise.jpg",
     "snowy_mountain_peak.jpg",
     "golden_mountain.jpg",
-    "ocean_waves.jpg"
+    "ocean_waves.jpg",
+    "starry_night.jpg"
   ],
   "used_audio": [
     "arcade_synthwave.mp3",
@@ -126,7 +128,8 @@
     "lofi_chillhop.mp3",
     "stoic_mindset.mp3",
     "cinematic_satie_piano.mp3",
-    "stoic_mindset.mp3"
+    "stoic_mindset.mp3",
+    "winter_celestial.mp3"
   ],
   "used_themes": [
     "ROYAL_AMETHYST",
@@ -241,9 +244,10 @@
     "GOLDEN_LUXURY",
     "CYAN_HORIZON",
     "GOLDEN_LUXURY",
-    "CYAN_HORIZON"
+    "CYAN_HORIZON",
+    "ROYAL_AMETHYST"
   ],
-  "last_posted_date": "2026-11-25 23:01:37 UTC",
+  "last_posted_date": "2026-11-26 10:19:32 UTC",
   "used_videos": [],
   "used_formats": [
     "SHORT_VIDEO",
@@ -358,6 +362,7 @@
     "VOICEOVER",
     "SHORT_VIDEO",
     "VOICEOVER",
+    "SHORT_VIDEO",
     "SHORT_VIDEO",
     "SHORT_VIDEO"
   ],
